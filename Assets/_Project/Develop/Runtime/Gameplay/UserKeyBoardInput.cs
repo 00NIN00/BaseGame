@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay
 {
     public class UserKeyBoardInput : IInput
     {
+        //public event Action<char> Writed;
         public string userInput => Input.inputString;
 
         public bool GetChar(out char c)

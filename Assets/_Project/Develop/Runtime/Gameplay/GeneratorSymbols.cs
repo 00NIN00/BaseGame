@@ -1,10 +1,14 @@
 using System.Collections.Generic;
-using UnityEngine;
+using System;
+
+using Random = UnityEngine.Random;
 
 namespace _Project.Develop.Runtime.Gameplay
 {
-    public class GeneratorLetters
+    public class GeneratorSymbols
     {
+        public event Action<IReadOnlyCollection<char>> LetterGenerated;
+        
         public IReadOnlyCollection<char> Generate(int count, params char[] chars)
         {
             Queue<char> queue = new Queue<char>();
@@ -13,6 +17,8 @@ namespace _Project.Develop.Runtime.Gameplay
             {
                 queue.Enqueue(chars[Random.Range(0, chars.Length)]);
             }
+            
+            LetterGenerated?.Invoke(queue);
             
             return queue;
         }

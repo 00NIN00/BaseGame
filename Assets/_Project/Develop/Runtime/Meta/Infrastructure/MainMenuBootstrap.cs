@@ -3,6 +3,7 @@ using _Project.Develop.Runtime.Utilities.SceneManagement;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Infrastructure;
 using System.Collections;
+using _Project.Develop.Runtime.Gameplay;
 using _Project.Develop.Runtime.Gameplay.Infrastructure;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
                 SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
                 ICoroutinesPerformer coroutinePerformer = _container.Resolve<ICoroutinesPerformer>();
 
-                coroutinePerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(2)));
+                coroutinePerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(new ListNumbers())));
             }
         }
     }
