@@ -5,6 +5,7 @@ using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Infrastructure;
 using _Project.Develop.Runtime.Gameplay;
 using System.Collections;
+using _Project.Develop.Runtime.Meta.Features.Wallet;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Meta.Infrastructure
@@ -12,6 +13,8 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
     public class MainMenuBootstrap : SceneBootstrap
     {
         private DIContainer _container;
+        
+        private WalletService _walletService;
 
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -24,6 +27,8 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         {
             Debug.Log("Initializing Menu Scene");
 
+            _walletService = _container.Resolve<WalletService>();
+            
             yield break;
         }
 
@@ -42,6 +47,23 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
                 LoadSceneGameplay(GameMode.Letters);
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                _walletService.Add(CurrencyType.Gold, 10);
+                Debug.Log("Gold Added current: " + _walletService.GetCurrency(CurrencyType.Gold).Value);
+            }
+            
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                if (_walletService.Enough(CurrencyType.Gold, 10) == false)
+                    return;
+                
+                _walletService.Spend(CurrencyType.Gold, 10);
+                Debug.Log("Gold Spent current: " + _walletService.GetCurrency(CurrencyType.Gold).Value);
+            }
+            
+            
         }
 
         private void LoadSceneGameplay(GameMode gameMode)
