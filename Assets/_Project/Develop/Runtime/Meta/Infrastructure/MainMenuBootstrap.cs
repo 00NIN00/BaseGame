@@ -5,7 +5,10 @@ using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Infrastructure;
 using _Project.Develop.Runtime.Gameplay;
 using System.Collections;
+using System.Collections.Generic;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
+using _Project.Develop.Runtime.Utilities.DataManagement;
+using _Project.Develop.Runtime.Utilities.DataManagement.Serializers;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Meta.Infrastructure
@@ -13,8 +16,12 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
     public class MainMenuBootstrap : SceneBootstrap
     {
         private DIContainer _container;
-        
+
         private WalletService _walletService;
+
+        private PlayerData _playerData;
+        private IDataSerializer _serializer;
+        private string _serializedPlayerData;
 
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -28,6 +35,16 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             Debug.Log("Initializing Menu Scene");
 
             _walletService = _container.Resolve<WalletService>();
+
+            _playerData = new PlayerData();
+
+            _playerData.WalletData = new Dictionary<CurrencyType, int>()
+            {
+                { CurrencyType.Gold, 10 },
+                { CurrencyType.Diamond, 150 }
+            };
+
+            _serializer = new JsonSerializer();
             
             yield break;
         }
@@ -36,7 +53,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         public override void Run()
         {
             Debug.Log("Start Menu Scene");
-            
+
             Debug.Log($"2 - {GameMode.Letters}, 1 - {GameMode.Numbers}");
         }
 
@@ -53,17 +70,30 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
                 _walletService.Add(CurrencyType.Gold, 10);
                 Debug.Log("Gold Added current: " + _walletService.GetCurrency(CurrencyType.Gold).Value);
             }
-            
+
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 if (_walletService.Enough(CurrencyType.Gold, 10) == false)
                     return;
-                
+
                 _walletService.Spend(CurrencyType.Gold, 10);
                 Debug.Log("Gold Spent current: " + _walletService.GetCurrency(CurrencyType.Gold).Value);
             }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                _serializedPlayerData = _serializer.Serialize(_playerData);
+                Debug.Log("Player Data: " + _serializedPlayerData);
+            }
             
-            
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                PlayerData playerData = _serializer.Deserialize<PlayerData>(_serializedPlayerData);
+                
+                Debug.Log("Player Data: " + playerData.WalletData[CurrencyType.Gold]);
+                Debug.Log("Player Data: " + playerData.WalletData[CurrencyType.Diamond]);
+            }
+
         }
 
         private void LoadSceneGameplay(GameMode gameMode)
@@ -72,8 +102,9 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             ICoroutinesPerformer coroutinePerformer = _container.Resolve<ICoroutinesPerformer>();
 
             GameplayInputArgs args = new GameplayInputArgs(gameMode);
-            
+
             coroutinePerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, args));
         }
+        
     }
 }
