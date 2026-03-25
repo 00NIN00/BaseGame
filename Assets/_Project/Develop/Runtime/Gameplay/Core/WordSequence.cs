@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace _Project.Develop.Runtime.Gameplay
+namespace _Project.Develop.Runtime.Gameplay.Core
 {
     public class WordSequence
     {

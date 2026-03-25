@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Develop.Runtime.Gameplay.Input;
 
-namespace _Project.Develop.Runtime.Gameplay
+namespace _Project.Develop.Runtime.Gameplay.Core
 {
     public class TypingGameHandler
     {
          // public event Action<char> OnCorrectLetter;
-        public event Action LetterMismatched;//TODO:мб сделать кокой-нибудь класс gameRules который будет решать когда победа а когда поражение
+        public event Action LetterMismatched;
         public event Action LettersSequenceFinished;
         
         private IInput _input;

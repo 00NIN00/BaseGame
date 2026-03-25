@@ -4,11 +4,11 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 {
     public class GameplayInputArgs : IInputSceneArgs
     {
-        public GameplayInputArgs(IListSymbols listSymbols)
+        public GameplayInputArgs(GameMode gameMode)
         {
-            ListSymbols = listSymbols;
+            GameMode = gameMode;
         }
         
-        public IListSymbols ListSymbols { get; }
+        public GameMode GameMode { get; }
     }
 }

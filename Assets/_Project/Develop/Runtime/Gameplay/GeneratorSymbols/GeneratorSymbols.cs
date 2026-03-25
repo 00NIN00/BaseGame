@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using System;
-
+using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
-namespace _Project.Develop.Runtime.Gameplay
+namespace _Project.Develop.Runtime.Gameplay.GeneratorSymbols
 {
     public class GeneratorSymbols
     {

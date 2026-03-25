@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
+using _Project.Develop.Runtime.Gameplay.Input;
 using UnityEngine;
 
-namespace _Project.Develop.Runtime.Gameplay
+namespace _Project.Develop.Runtime.Gameplay.View
 {
     public class ViewTypingGameHandler : MonoBehaviour
     {
@@ -26,10 +26,15 @@ namespace _Project.Develop.Runtime.Gameplay
 
         public void DebugLetters(IEnumerable<char> letters)
         {
+            string synbols = "";
+            
             foreach (char letter in letters)
             {
-                DebugLetter(letter);
+                synbols += letter;
+                synbols += " ";
             }
+            
+            Debug.Log(synbols);
         }
 
         private void DebugLetter(char letter)

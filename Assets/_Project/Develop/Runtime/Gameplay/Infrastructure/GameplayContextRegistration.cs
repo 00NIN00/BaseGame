@@ -1,3 +1,4 @@
+using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using UnityEngine;
 
@@ -10,11 +11,11 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateGeneratorLetters);
             container.RegisterAsSingle<IInput>(CreateUserKeyBoardInput);
             
-            Debug.Log("Process registration service on scene Gameplay");
+            // Debug.Log("Process registration service on scene Gameplay");
         }
 
-        private static GeneratorSymbols CreateGeneratorLetters(DIContainer c)
-            => new GeneratorSymbols();
+        private static GeneratorSymbols.GeneratorSymbols CreateGeneratorLetters(DIContainer c)
+            => new GeneratorSymbols.GeneratorSymbols();
         
         private static UserKeyBoardInput CreateUserKeyBoardInput(DIContainer c)
             => new UserKeyBoardInput();
@@ -29,10 +30,5 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         }
         
         */
-        
-        private static ListNumbers CreateListNumbers(DIContainer c) 
-            => new ListNumbers();
-        private static ListLetters CreateListLetters(DIContainer c) 
-            => new ListLetters();
     }
 }
