@@ -1,13 +1,20 @@
+using System;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataRepository;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
 using System.Collections.Generic;
+using _Project.Develop.Runtime.Configs.Meta.Wallet;
+using _Project.Develop.Runtime.Utilities.ConfigsManagement;
+using UnityEngine;
 
 namespace _Project.Develop.Runtime.Utilities.DataManagement.DataProviders
 {
     public class PlayerDataProvider : DataProvider<PlayerData>
     {
-        public PlayerDataProvider(ISaveLoadService saveLoadService) : base(saveLoadService)
+        private readonly ConfigsProviderService _configsProviderService;
+        
+        public PlayerDataProvider(ISaveLoadService saveLoadService, ConfigsProviderService configsProviderService) : base(saveLoadService)
         {
+            _configsProviderService = configsProviderService;
         }
 
         protected override PlayerData GetOriginData()
@@ -22,8 +29,10 @@ namespace _Project.Develop.Runtime.Utilities.DataManagement.DataProviders
         {
             Dictionary<CurrencyType, int> walletData = new();
             
-            walletData.Add(CurrencyType.Gold, 100);
-            walletData.Add(CurrencyType.Diamond, 20);
+            ConfigStartWallet walletConfig = _configsProviderService.GetConfig<ConfigStartWallet>();
+            
+            foreach (CurrencyType currencyType in Enum.GetValues(typeof(CurrencyType)))
+                walletData.Add(currencyType, walletConfig.GetValueFor(currencyType));
             
             return walletData;
         }

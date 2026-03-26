@@ -28,8 +28,8 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateSceneSwitcherService);
             container.RegisterAsSingle<ILoadingScreen>(CreateLoadingScreen);
             container.RegisterAsSingle(CreateWalletService);
-            container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
             container.RegisterAsSingle(CreatePlayerDataProvider);
+            container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
         }
 
         private static SceneSwitcherService CreateSceneSwitcherService(DIContainer c)
@@ -96,6 +96,6 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
         }
 
         private static PlayerDataProvider CreatePlayerDataProvider(DIContainer c)
-            => new PlayerDataProvider(c.Resolve<ISaveLoadService>());
+            => new PlayerDataProvider(c.Resolve<ISaveLoadService>(), c.Resolve<ConfigsProviderService>());
     }
 }
