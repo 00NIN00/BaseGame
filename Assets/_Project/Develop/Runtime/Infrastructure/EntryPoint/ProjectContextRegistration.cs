@@ -27,7 +27,7 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateSceneLoaderService);
             container.RegisterAsSingle(CreateSceneSwitcherService);
             container.RegisterAsSingle<ILoadingScreen>(CreateLoadingScreen);
-            container.RegisterAsSingle(CreateWalletService);
+            container.RegisterAsSingle(CreateWalletService).NonLazy();
             container.RegisterAsSingle(CreatePlayerDataProvider);
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
         }
