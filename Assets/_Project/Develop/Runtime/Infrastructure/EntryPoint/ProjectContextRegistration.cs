@@ -80,7 +80,7 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             foreach (CurrencyType currencyType in Enum.GetValues(typeof(CurrencyType)))
                 currencies[currencyType] = new ReactiveVariable<int>();//can add a config to start with the values from the config
             
-            return new WalletService(currencies);
+            return new WalletService(currencies, c.Resolve<PlayerDataProvider>());
         }
 
         private static SaveLoadService CreateSaveLoadService(DIContainer c)
