@@ -31,8 +31,10 @@ namespace _Project.Develop.Runtime.Utilities.DataManagement.DataProviders
             
             ConfigStartWallet walletConfig = _configsProviderService.GetConfig<ConfigStartWallet>();
             
+            
             foreach (CurrencyType currencyType in Enum.GetValues(typeof(CurrencyType)))
-                walletData.Add(currencyType, walletConfig.GetValueFor(currencyType));
+                walletData[currencyType] = walletConfig.GetValueFor(currencyType); 
+                // walletData.(currencyType, walletConfig.GetValueFor(currencyType));
             
             return walletData;
         }
