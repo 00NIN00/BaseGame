@@ -5,9 +5,13 @@ using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
+using _Project.Develop.Runtime.Utilities.DataManagement.DataRepository;
+using _Project.Develop.Runtime.Utilities.DataManagement.KeysStorage;
+using _Project.Develop.Runtime.Utilities.DataManagement.Serializers;
 using _Project.Develop.Runtime.Utilities.LoadingScreen;
 using _Project.Develop.Runtime.Utilities.Reactive;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
@@ -23,6 +27,7 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateSceneSwitcherService);
             container.RegisterAsSingle<ILoadingScreen>(CreateLoadingScreen);
             container.RegisterAsSingle(CreateWalletService);
+            container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
         }
 
         private static SceneSwitcherService CreateSceneSwitcherService(DIContainer c)
@@ -74,6 +79,18 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
                 currencies[currencyType] = new ReactiveVariable<int>();//can add a config to start with the values from the config
             
             return new WalletService(currencies);
+        }
+
+        private static SaveLoadService CreateSaveLoadService(DIContainer c)
+        {
+            IDataSerializer dataSerializer = new JsonSerializer();
+            IDataKeysStorage dataKeysStorage = new MapDataKeysStorage();
+
+            string saveFolderPath = Application.isEditor? Application.dataPath : Application.persistentDataPath;
+            
+            IDataRepository dataRepository = new LocalDataRepository(saveFolderPath, "json");
+            
+            return new SaveLoadService(dataSerializer, dataKeysStorage, dataRepository);
         }
     }
 }
