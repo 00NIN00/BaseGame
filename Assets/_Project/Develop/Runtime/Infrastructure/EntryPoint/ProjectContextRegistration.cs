@@ -5,6 +5,7 @@ using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
+using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataRepository;
 using _Project.Develop.Runtime.Utilities.DataManagement.KeysStorage;
 using _Project.Develop.Runtime.Utilities.DataManagement.Serializers;
@@ -28,6 +29,7 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle<ILoadingScreen>(CreateLoadingScreen);
             container.RegisterAsSingle(CreateWalletService);
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
+            container.RegisterAsSingle(CreatePlayerDataProvider);
         }
 
         private static SceneSwitcherService CreateSceneSwitcherService(DIContainer c)
@@ -92,5 +94,8 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             
             return new SaveLoadService(dataSerializer, dataKeysStorage, dataRepository);
         }
+
+        private static PlayerDataProvider CreatePlayerDataProvider(DIContainer c)
+            => new PlayerDataProvider(c.Resolve<ISaveLoadService>());
     }
 }
