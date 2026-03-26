@@ -35,7 +35,7 @@ namespace _Project.Develop.Runtime.Utilities.DataManagement.DataProviders
             _readers.Add(reader);
         }
 
-        public IEnumerable Load()
+        public IEnumerator Load()
         {
             yield return _saveLoadService.Load<TData>(loadedData => _data = loadedData);
             
