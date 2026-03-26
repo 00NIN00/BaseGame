@@ -1,0 +1,38 @@
+using _Project.Develop.Runtime.Utilities.DataManagement.DataRepository;
+using System.Collections;
+using System;
+
+namespace _Project.Develop.Runtime.Utilities.DataManagement.DataProviders
+{
+    public abstract class DataProvider<TData> where TData : ISaveData
+    {
+        private readonly ISaveLoadService  _saveLoadService;
+
+        private TData _data;
+        
+        protected DataProvider(ISaveLoadService saveLoadService)
+        {
+            _saveLoadService = saveLoadService;
+        }
+
+        public IEnumerable Load()
+        {
+            yield return _saveLoadService.Load<TData>(loadedData => _data = loadedData);
+        }
+
+        public IEnumerator Save()
+        {
+            yield return _saveLoadService.Save(_data);
+        }
+        
+        public IEnumerator Exists(Action<bool> onExistsResult)
+        {
+            yield return _saveLoadService.Exists<TData>(result => onExistsResult?.Invoke(result));
+        }
+        
+        public void Reset()
+            => _data = GetOriginData();
+
+        protected abstract TData GetOriginData();
+    }
+}
