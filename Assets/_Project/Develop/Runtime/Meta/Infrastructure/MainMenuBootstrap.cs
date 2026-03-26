@@ -20,8 +20,6 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         private WalletService _walletService;
 
         private PlayerData _playerData;
-        private IDataSerializer _serializer;
-        private string _serializedPlayerData;
 
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -43,8 +41,6 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
                 { CurrencyType.Gold, 10 },
                 { CurrencyType.Diamond, 150 }
             };
-
-            _serializer = new JsonSerializer();
             
             yield break;
         }
@@ -82,16 +78,12 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
 
             if (Input.GetKeyDown(KeyCode.S))
             {
-                _serializedPlayerData = _serializer.Serialize(_playerData);
-                Debug.Log("Player Data: " + _serializedPlayerData);
+ 
             }
             
             if (Input.GetKeyDown(KeyCode.L))
             {
-                PlayerData playerData = _serializer.Deserialize<PlayerData>(_serializedPlayerData);
-                
-                Debug.Log("Player Data: " + playerData.WalletData[CurrencyType.Gold]);
-                Debug.Log("Player Data: " + playerData.WalletData[CurrencyType.Diamond]);
+  
             }
 
         }
