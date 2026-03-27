@@ -4,6 +4,7 @@ using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using _Project.Develop.Runtime.Infrastructure.DI;
+using _Project.Develop.Runtime.Meta.Features;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataRepository;
@@ -28,6 +29,7 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateSceneSwitcherService);
             container.RegisterAsSingle<ILoadingScreen>(CreateLoadingScreen);
             container.RegisterAsSingle(CreateWalletService).NonLazy();
+            container.RegisterAsSingle(CreateOutcomesCounterService).NonLazy();
             container.RegisterAsSingle(CreatePlayerDataProvider);
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
         }
@@ -95,6 +97,16 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             return new SaveLoadService(dataSerializer, dataKeysStorage, dataRepository);
         }
 
+        private static OutcomesCounterService CreateOutcomesCounterService(DIContainer c)
+        {
+            Dictionary<OutcomesType, int> outcomes = new();
+
+            foreach (OutcomesType currencyType in Enum.GetValues(typeof(OutcomesType)))
+                outcomes[currencyType] = 0;
+            
+            return new OutcomesCounterService(outcomes, c.Resolve<PlayerDataProvider>());
+        }
+        
         private static PlayerDataProvider CreatePlayerDataProvider(DIContainer c)
             => new PlayerDataProvider(c.Resolve<ISaveLoadService>(), c.Resolve<ConfigsProviderService>());
     }

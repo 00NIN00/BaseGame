@@ -3,6 +3,7 @@ using _Project.Develop.Runtime.Utilities.DataManagement.DataRepository;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
 using System.Collections.Generic;
 using _Project.Develop.Runtime.Configs.Meta.Wallet;
+using _Project.Develop.Runtime.Meta.Features;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using UnityEngine;
 
@@ -22,7 +23,18 @@ namespace _Project.Develop.Runtime.Utilities.DataManagement.DataProviders
             return new PlayerData()
             {
                 WalletData = InitWalletData(),
+                Counter = InitCounter(),
             };
+        }
+
+        private Dictionary<OutcomesType, int> InitCounter()
+        {
+            Dictionary<OutcomesType, int> counterData = new();
+
+            foreach (OutcomesType outcomesType in Enum.GetValues(typeof(OutcomesType)))
+                counterData[outcomesType] = 0; 
+            
+            return counterData;
         }
 
         private Dictionary<CurrencyType, int> InitWalletData()

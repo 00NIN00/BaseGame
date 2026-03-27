@@ -8,6 +8,7 @@ using _Project.Develop.Runtime.Gameplay.View;
 using System.Collections;
 using UnityEngine;
 using System;
+using _Project.Develop.Runtime.Meta.Features;
 
 namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 {
@@ -18,6 +19,7 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         
         private TypingGameHandler _gameHandler;
         private GameCycle _gameCycle;
+        private OutcomesCounterService _outcomesCounterService;
 
         [SerializeField] private ViewTypingGameHandler _viewTypingGameHandler;
 
@@ -39,12 +41,15 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 
             _gameCycle = new GameCycle(_container,  _gameHandler);
             
+            _outcomesCounterService = _container.Resolve<OutcomesCounterService>();
            _viewTypingGameHandler.Initialize(_container.Resolve<IInput>());
 
             _container.Resolve<GeneratorSymbols.GeneratorSymbols>().LetterGenerated += _viewTypingGameHandler.DebugLetters;
            _gameCycle.Wined += _viewTypingGameHandler.Win;
            _gameCycle.Defeated += _viewTypingGameHandler.Defeat;
            
+           _gameCycle.Wined += _outcomesCounterService.AddWinner; 
+           _gameCycle.Defeated += _outcomesCounterService.AddDefeated; 
             // Debug.Log("Initializing Gameplay Scene");
             
             yield break;
@@ -73,6 +78,8 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
             _container.Resolve<GeneratorSymbols.GeneratorSymbols>().LetterGenerated -= _viewTypingGameHandler.DebugLetters;
             _gameCycle.Wined -= _viewTypingGameHandler.Win;
             _gameCycle.Defeated -= _viewTypingGameHandler.Defeat;
+            _gameCycle.Wined -= _outcomesCounterService.AddWinner; 
+            _gameCycle.Defeated -= _outcomesCounterService.AddDefeated; 
         }
     }
 }
