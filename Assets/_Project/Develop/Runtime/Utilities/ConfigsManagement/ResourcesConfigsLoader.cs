@@ -18,6 +18,7 @@ namespace _Project.Develop.Runtime.Utilities.ConfigsManagement
             { typeof(ConfigGameMode), "ConfigGameMode" },
             { typeof(ConfigGeneratorSymbols),  "ConfigGeneratorSymbols" },
             { typeof(ConfigStartWallet), "Configs/Meta/Wallet/StartWalletConfig" },
+            {typeof(ConfigGameReward),  "Configs/Meta/ConfigGameReward" },
         };
         
         public ResourcesConfigsLoader(ResourcesAssetsLouder resourcesAssetsLouder)
