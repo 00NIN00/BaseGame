@@ -107,7 +107,7 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             foreach (OutcomesType currencyType in Enum.GetValues(typeof(OutcomesType)))
                 outcomes[currencyType] = 0;
             
-            return new OutcomesCounterService(outcomes, c.Resolve<PlayerDataProvider>());
+            return new OutcomesCounterService(outcomes, c.Resolve<PlayerDataProvider>(), c);
         }
         
         private static PlayerDataProvider CreatePlayerDataProvider(DIContainer c)

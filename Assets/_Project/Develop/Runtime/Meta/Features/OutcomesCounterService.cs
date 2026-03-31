@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
+using _Project.Develop.Runtime.Infrastructure.DI;
+using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.DataManagement;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using UnityEngine;
@@ -8,23 +11,32 @@ namespace _Project.Develop.Runtime.Meta.Features
     public class OutcomesCounterService : IDataReader<PlayerData>, IDataWriter<PlayerData>
     {
         private readonly Dictionary<OutcomesType, int> _counter;
+        private readonly DIContainer _container;
 
-        public OutcomesCounterService(Dictionary<OutcomesType, int> counter, PlayerDataProvider playerDataProvider)
+        public OutcomesCounterService(Dictionary<OutcomesType, int> counter, PlayerDataProvider playerDataProvider, DIContainer container)
         {
+           _container = container;
             _counter = new(counter);
             
             playerDataProvider.RegisterReader(this);
             playerDataProvider.RegisterWriter(this);
         }
+        
+        public IReadOnlyList<OutcomesType> AvailableOutcomes => _counter.Keys.ToList();
+        
+        public int GetCount(OutcomesType type) => _counter[type];
 
         public void AddWinner() 
             => AddOutcome(OutcomesType.Win);
         
         public void AddDefeated() 
             => AddOutcome(OutcomesType.Defeat);
-        
+
         private void AddOutcome(OutcomesType type)
-            => _counter[type]++;
+        {
+            _counter[type]++;
+            _container.Resolve<ICoroutinesPerformer>().StartPerform(_container.Resolve<PlayerDataProvider>().Save());
+        }
 
         public void ReadFrom(PlayerData data)
         {
