@@ -9,7 +9,7 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         public static void Process(DIContainer container, GameplayInputArgs args)
         {
             container.RegisterAsSingle(CreateGeneratorLetters);
-            container.RegisterAsSingle<IInput>(CreateUserKeyBoardInput);
+            
             
             // Debug.Log("Process registration service on scene Gameplay");
         }
@@ -17,8 +17,7 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         private static GeneratorSymbols.GeneratorSymbols CreateGeneratorLetters(DIContainer c)
             => new GeneratorSymbols.GeneratorSymbols();
         
-        private static UserKeyBoardInput CreateUserKeyBoardInput(DIContainer c)
-            => new UserKeyBoardInput();
+      
 
         /*
         

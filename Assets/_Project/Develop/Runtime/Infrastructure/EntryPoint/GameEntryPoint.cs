@@ -1,4 +1,5 @@
 using System.Collections;
+using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -56,6 +57,8 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             else
                 playerDataProvider.Reset();
 
+            container.Resolve<ICoroutinesPerformer>().StartPerform(container.Resolve<IInput>().Update());
+            
             yield return new WaitForSeconds(1f);
             
             Debug.Log("End initialization service");
