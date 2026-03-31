@@ -6,6 +6,9 @@ using _Project.Develop.Runtime.Infrastructure;
 using _Project.Develop.Runtime.Gameplay;
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Develop.Runtime.Gameplay.Input;
+using _Project.Develop.Runtime.Gameplay.View;
+using _Project.Develop.Runtime.Meta.Features;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
 using _Project.Develop.Runtime.Utilities.DataManagement;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
@@ -22,6 +25,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         private WalletService _walletService;
 
         private PlayerDataProvider _playerDataProvider;
+        private MainMenuInputHandler _inputHandler;
 
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -37,6 +41,8 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             _walletService = _container.Resolve<WalletService>();
 
             _playerDataProvider = _container.Resolve<PlayerDataProvider>();
+
+            _inputHandler = new MainMenuInputHandler(_container.Resolve<IInput>(), _container, new ViewStats(_walletService, _container.Resolve<OutcomesCounterService>()));
             
             yield break;
         }
