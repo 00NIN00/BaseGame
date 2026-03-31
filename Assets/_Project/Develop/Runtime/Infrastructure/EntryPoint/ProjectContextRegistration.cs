@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Project.Develop.Runtime.Configs.Meta;
 using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
@@ -32,6 +33,7 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateWalletService).NonLazy();
             container.RegisterAsSingle(CreateOutcomesCounterService).NonLazy();
             container.RegisterAsSingle(CreatePlayerDataProvider);
+            container.RegisterAsSingle(CreateResetProgressService);
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
             
             container.RegisterAsSingle<IInput>(CreateUserKeyBoardInput);
@@ -112,6 +114,11 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
         
         private static PlayerDataProvider CreatePlayerDataProvider(DIContainer c)
             => new PlayerDataProvider(c.Resolve<ISaveLoadService>(), c.Resolve<ConfigsProviderService>());
+
+        private static ResetProgressService CreateResetProgressService(DIContainer c)
+            => new ResetProgressService(c);
+        
+        
         private static UserKeyBoardInput CreateUserKeyBoardInput(DIContainer c)
             => new UserKeyBoardInput();
     }
