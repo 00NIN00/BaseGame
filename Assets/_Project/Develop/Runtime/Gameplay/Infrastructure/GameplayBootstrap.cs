@@ -3,11 +3,11 @@ using _Project.Develop.Runtime.Utilities.SceneManagement;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Infrastructure;
 using _Project.Develop.Runtime.Gameplay.Core;
-using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Gameplay.View;
 using System.Collections;
 using UnityEngine;
 using System;
+using _Project.Develop.Runtime.Gameplay.Input;
 
 namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 {
@@ -35,15 +35,14 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         
         public override IEnumerator Initialize()
         {
-            _gameHandler = new TypingGameHandler(_container.Resolve<IInput>());
+            _gameHandler = _container.Resolve<TypingGameHandler>();
 
-            _gameCycle = new GameCycle(_container,  _gameHandler);
-            
-           _viewTypingGameHandler.Initialize(_container.Resolve<IInput>());
+            _gameCycle = _container.Resolve<GameCycle>();
 
-            _container.Resolve<GeneratorSymbols.GeneratorSymbols>().LetterGenerated += _viewTypingGameHandler.DebugLetters;
-           _gameCycle.Wined += _viewTypingGameHandler.Win;
-           _gameCycle.Defeated += _viewTypingGameHandler.Defeat;
+            _initializationViewService = new InitializationViewService(_viewTypingGameHandler,
+                _container.Resolve<IInput>(),
+                _container.Resolve<GeneratorSymbols.GeneratorSymbols>(),
+                _container.Resolve<GameCycle>() );
            
             // Debug.Log("Initializing Gameplay Scene");
             
