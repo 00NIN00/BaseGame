@@ -19,6 +19,8 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         private TypingGameHandler _gameHandler;
         private GameCycle _gameCycle;
 
+        private InitializationViewService  _initializationViewService;
+        
         [SerializeField] private ViewTypingGameHandler _viewTypingGameHandler;
 
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
@@ -52,26 +54,13 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         public override void Run()
         {
             Debug.Log("Start Gameplay Scene");
-            
+            _initializationViewService.Initialize();   
             _gameCycle.Start(_inputArgs);
-        }
-        
-        private void Update()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.F))
-            {
-                SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
-                ICoroutinesPerformer coroutinePerformer = _container.Resolve<ICoroutinesPerformer>();
-
-                coroutinePerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu));
-            }
         }
 
         private void OnDestroy()
         {
-            _container.Resolve<GeneratorSymbols.GeneratorSymbols>().LetterGenerated -= _viewTypingGameHandler.DebugLetters;
-            _gameCycle.Wined -= _viewTypingGameHandler.Win;
-            _gameCycle.Defeated -= _viewTypingGameHandler.Defeat;
+            _initializationViewService.DeInitialize();
         }
     }
 }
