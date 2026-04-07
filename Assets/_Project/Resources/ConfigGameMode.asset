@@ -12,3 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba0d0c96351e4cd087cd31d3da696b6d, type: 3}
   m_Name: ConfigGameMode
   m_EditorClassIdentifier: 
+  _configs:
+  - <GameMode>k__BackingField: 0
+    <ConfigListSymbols>k__BackingField: {fileID: 11400000, guid: 8ac8d85cb23dde14baa9991dda6f8367,
+      type: 2}
+  - <GameMode>k__BackingField: 1
+    <ConfigListSymbols>k__BackingField: {fileID: 11400000, guid: b56edae42a3b6c64ba3b19646c6cc625,
+      type: 2}

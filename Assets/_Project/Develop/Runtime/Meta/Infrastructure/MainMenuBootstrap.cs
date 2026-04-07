@@ -1,12 +1,8 @@
-using System;
-using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Infrastructure;
 using System.Collections;
 using _Project.Develop.Runtime.Gameplay;
-using _Project.Develop.Runtime.Gameplay.Infrastructure;
-using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Meta.Infrastructure
@@ -15,6 +11,8 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
     {
         private DIContainer _container;
 
+        private SelectGameModeService _selectGameModeService;
+        
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
             _container = container;
@@ -26,6 +24,8 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         {
             Debug.Log("Initializing Menu Scene");
 
+            _selectGameModeService = _container.Resolve<SelectGameModeService>();
+            
             yield break;
         }
 
@@ -39,21 +39,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                LoadSceneGameplay(GameMode.Numbers);
-
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-                LoadSceneGameplay(GameMode.Letters);
-        }
-
-        private void LoadSceneGameplay(GameMode gameMode)
-        {
-            SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
-            ICoroutinesPerformer coroutinePerformer = _container.Resolve<ICoroutinesPerformer>();
-
-            GameplayInputArgs args = new GameplayInputArgs(gameMode);
-            
-            coroutinePerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, args));
+            _selectGameModeService.Update();
         }
     }
 }
