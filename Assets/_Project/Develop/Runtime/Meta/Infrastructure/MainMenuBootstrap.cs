@@ -25,7 +25,6 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             Debug.Log("Initializing Menu Scene");
 
             _selectGameModeService = _container.Resolve<SelectGameModeService>();
-            
             yield break;
         }
 
@@ -39,7 +38,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
 
         private void Update()
         {
-            _selectGameModeService.Update();
+            _selectGameModeService?.Update();
         }
     }
 }

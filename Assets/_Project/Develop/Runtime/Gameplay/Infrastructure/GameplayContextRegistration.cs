@@ -1,6 +1,8 @@
 using _Project.Develop.Runtime.Gameplay.Core;
 using _Project.Develop.Runtime.Gameplay.Input;
+using _Project.Develop.Runtime.Gameplay.View;
 using _Project.Develop.Runtime.Infrastructure.DI;
+using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
@@ -15,6 +17,8 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateGeneratorLetters);
             container.RegisterAsSingle<IInput>(CreateUserKeyBoardInput);
             container.RegisterAsSingle(CreateTypingGameHandler);
+            container.RegisterAsSingle(CreateHameCycle);
+            container.RegisterAsSingle(CreateInitializationViewService);
             
             // Debug.Log("Process registration service on scene Gameplay");
         }
@@ -36,6 +40,23 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
                 c.Resolve<ICoroutinesPerformer>(),
                 c.Resolve<SceneSwitcherService>());
 
+        private static InitializationViewService CreateInitializationViewService(DIContainer c)
+        {
+            ResourcesAssetsLouder resourcesAssetsLouder = c.Resolve<ResourcesAssetsLouder>();
+            
+            ViewTypingGameHandler viewTypingGameHandlerPrefab = resourcesAssetsLouder
+                .Load<ViewTypingGameHandler>("View");
+
+            ViewTypingGameHandler viewTypingGameHandler = Object.Instantiate(viewTypingGameHandlerPrefab);
+            
+            
+            InitializationViewService initializationViewService = new InitializationViewService(viewTypingGameHandler,
+                c.Resolve<IInput>(),
+                c.Resolve<GeneratorSymbols.GeneratorSymbols>(),
+                c.Resolve<GameCycle>() );
+
+            return initializationViewService;
+        }
         
         /*
         

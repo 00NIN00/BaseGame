@@ -20,8 +20,6 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         private GameCycle _gameCycle;
 
         private InitializationViewService  _initializationViewService;
-        
-        [SerializeField] private ViewTypingGameHandler _viewTypingGameHandler;
 
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -41,10 +39,7 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 
             _gameCycle = _container.Resolve<GameCycle>();
 
-            _initializationViewService = new InitializationViewService(_viewTypingGameHandler,
-                _container.Resolve<IInput>(),
-                _container.Resolve<GeneratorSymbols.GeneratorSymbols>(),
-                _container.Resolve<GameCycle>() );
+            _initializationViewService = _container.Resolve<InitializationViewService>();
            
             // Debug.Log("Initializing Gameplay Scene");
             

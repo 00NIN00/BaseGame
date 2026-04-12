@@ -8,7 +8,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
     {
         public static void Process(DIContainer container)
         {
-            CreateSelectGameModeService(container);
+            container.RegisterAsSingle(CreateSelectGameModeService);
         }
 
         private static SelectGameModeService CreateSelectGameModeService(DIContainer c)
