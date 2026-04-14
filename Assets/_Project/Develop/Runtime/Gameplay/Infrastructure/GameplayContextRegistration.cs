@@ -2,25 +2,28 @@ using _Project.Develop.Runtime.Gameplay.Core;
 using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Gameplay.View;
 using _Project.Develop.Runtime.Infrastructure.DI;
+using _Project.Develop.Runtime.Meta.Features;
+using _Project.Develop.Runtime.Meta.Features.Wallet;
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
+using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 {
-    public class GameplayContextRegistration
+    public static class GameplayContextRegistration
     {
         public static void Process(DIContainer container, GameplayInputArgs args)
         {
+            // Debug.Log("Process registration service on scene Gameplay");
             container.RegisterAsSingle(CreateGeneratorLetters);
             container.RegisterAsSingle(CreateTypingGameHandler);
             container.RegisterAsSingle(CreateHameCycle);
             container.RegisterAsSingle(CreateInitializationViewService);
-            
-            
-            // Debug.Log("Process registration service on scene Gameplay");
+            container.RegisterAsSingle(CreateGameRewardHandler);
+            container.RegisterAsSingle(CreateGameplayEventBindingService);
         }
 
         private static GeneratorSymbols.GeneratorSymbols CreateGeneratorLetters(DIContainer c)
@@ -54,7 +57,22 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 
             return initializationViewService;
         }
-        
+
+        private static GameRewardHandler CreateGameRewardHandler(DIContainer c)
+        {
+            return new GameRewardHandler(
+                c.Resolve<ConfigsProviderService>(),
+                c.Resolve<WalletService>(),
+                c.Resolve<ICoroutinesPerformer>(),
+                c.Resolve<PlayerDataProvider>());
+        }
+        private static GameplayEventBindingService CreateGameplayEventBindingService(DIContainer c)
+        {
+            return new GameplayEventBindingService(
+                c.Resolve<GameCycle>(),
+                c.Resolve<OutcomesCounterService>(),
+                c.Resolve<GameRewardHandler>());
+        }
         /*
         
         private static TypingGameHandler CreateTypingGameHandler(DIContainer c)

@@ -1,10 +1,11 @@
+using System;
 using _Project.Develop.Runtime.Gameplay.Core;
 using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Gameplay.View;
 
 namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 {
-    public class InitializationViewService
+    public class InitializationViewService : IDisposable
     {
         private readonly ViewTypingGameHandler _viewTypingGameHandler;
         private readonly IInput _input;
@@ -27,8 +28,8 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
             _gameCycle.Wined += _viewTypingGameHandler.Win;
             _gameCycle.Defeated += _viewTypingGameHandler.Defeat;
         }
-
-        public void DeInitialize()
+        
+        public void Dispose()
         {
             _generatorSymbols.LetterGenerated -= _viewTypingGameHandler.DebugLetters;
             _gameCycle.Wined -= _viewTypingGameHandler.Win;

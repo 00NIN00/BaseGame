@@ -1,13 +1,8 @@
-using System;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
-using _Project.Develop.Runtime.Meta.Features.Wallet;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Infrastructure;
-using _Project.Develop.Runtime.Gameplay.Input;
-using _Project.Develop.Runtime.Gameplay.View;
-using _Project.Develop.Runtime.Meta.Features;
 using _Project.Develop.Runtime.Gameplay;
 using System.Collections;
 using UnityEngine;
@@ -20,8 +15,6 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
 
         private SelectGameModeService _selectGameModeService;
         
-        private WalletService _walletService;
-
         private PlayerDataProvider _playerDataProvider;
         private MainMenuInputHandler _inputHandler;
 
@@ -37,11 +30,10 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             Debug.Log("Initializing Menu Scene");
 
             _selectGameModeService = _container.Resolve<SelectGameModeService>();
-            _walletService = _container.Resolve<WalletService>();
 
             _playerDataProvider = _container.Resolve<PlayerDataProvider>();
 
-            _inputHandler = new MainMenuInputHandler(_container.Resolve<IInput>(), _container, new ViewStats(_walletService, _container.Resolve<OutcomesCounterService>()));
+            _inputHandler = _container.Resolve<MainMenuInputHandler>();
             _inputHandler.Subscribe();
             yield break;
         }

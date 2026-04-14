@@ -11,40 +11,51 @@ namespace _Project.Develop.Runtime.Gameplay
 {
     public class GameRewardHandler
     {
-        private readonly DIContainer _container;
+        private readonly ConfigsProviderService _configsProviderService;
+        private readonly WalletService _walletService;
+        private readonly ICoroutinesPerformer _coroutinesPerformer;
+        private readonly PlayerDataProvider _playerDataProvider;
 
-        public GameRewardHandler(DIContainer container)
+
+        public GameRewardHandler(
+            ConfigsProviderService  configsProviderService,
+            WalletService walletService,
+            ICoroutinesPerformer  coroutinesPerformer,
+            PlayerDataProvider playerDataProvider)
         {
-            _container = container;
+            _configsProviderService = configsProviderService;
+            _walletService = walletService;
+            _coroutinesPerformer = coroutinesPerformer;
+            _playerDataProvider = playerDataProvider;
         }
 
         public void Win()
         {
-            ConfigReward configReward = _container.Resolve<ConfigsProviderService>().GetConfig<ConfigGameReward>()
+            ConfigReward configReward = _configsProviderService.GetConfig<ConfigGameReward>()
                 .GetConfigReward(OutcomesType.Win);
             
             
             foreach (CurrencyType currencyType in configReward.GetAllKeys())
             {
-                _container.Resolve<WalletService>().Add(
+                _walletService.Add(
                     currencyType,
                     configReward.GetReward(currencyType));
             }
             
-            _container.Resolve<ICoroutinesPerformer>().StartPerform(_container.Resolve<PlayerDataProvider>().Save());
+            _coroutinesPerformer.StartPerform(_playerDataProvider.Save());
         }
 
         public void Defeat()
         {
-            ConfigReward configReward = _container.Resolve<ConfigsProviderService>().GetConfig<ConfigGameReward>()
+            ConfigReward configReward = _configsProviderService.GetConfig<ConfigGameReward>()
                 .GetConfigReward(OutcomesType.Defeat);
             
             
             foreach (CurrencyType currencyType in configReward.GetAllKeys())
             {
-                if (_container.Resolve<WalletService>().Enough(currencyType, configReward.GetReward(currencyType)))
+                if (_walletService.Enough(currencyType, configReward.GetReward(currencyType)))
                 {
-                    _container.Resolve<WalletService>().Spend(
+                    _walletService.Spend(
                         currencyType,
                         configReward.GetReward(currencyType));
                 }
@@ -54,7 +65,7 @@ namespace _Project.Develop.Runtime.Gameplay
                 }
             }
             
-            _container.Resolve<ICoroutinesPerformer>().StartPerform(_container.Resolve<PlayerDataProvider>().Save());
+            _coroutinesPerformer.StartPerform(_playerDataProvider.Save());
         }
     }
 }

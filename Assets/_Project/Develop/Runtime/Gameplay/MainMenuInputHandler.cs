@@ -7,16 +7,15 @@ namespace _Project.Develop.Runtime.Gameplay
 {
     public class MainMenuInputHandler
     {
-        private readonly DIContainer _container;
+        private readonly ResetProgressService _resetProgressService;
         private readonly ViewStats _viewStats;
         private readonly IInput _input;
 
-        public MainMenuInputHandler(IInput input, DIContainer container, ViewStats viewStats)
+        public MainMenuInputHandler(IInput input, ResetProgressService resetProgressService, ViewStats viewStats)
         {
             _input = input;
-            _container = container;
+            _resetProgressService = resetProgressService;
             _viewStats = viewStats;
-
         }
 
         public void Subscribe()
@@ -33,7 +32,7 @@ namespace _Project.Develop.Runtime.Gameplay
 
         private void Reset()
         {
-            _container.Resolve<ResetProgressService>().ResetPlayerData();
+            _resetProgressService.ResetPlayerData();
         }
 
         private void ViewStats()
