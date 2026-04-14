@@ -3,6 +3,7 @@ using _Project.Develop.Runtime.Utilities.SceneManagement;
 using _Project.Develop.Runtime.Gameplay.Infrastructure;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Infrastructure;
+using System.Collections;
 using _Project.Develop.Runtime.Gameplay;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
     {
         private DIContainer _container;
 
+        private SelectGameModeService _selectGameModeService;
+        
         private WalletService _walletService;
 
         private PlayerDataProvider _playerDataProvider;
@@ -38,6 +41,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         {
             Debug.Log("Initializing Menu Scene");
 
+            _selectGameModeService = _container.Resolve<SelectGameModeService>();
             _walletService = _container.Resolve<WalletService>();
 
             _playerDataProvider = _container.Resolve<PlayerDataProvider>();
@@ -51,12 +55,13 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         public override void Run()
         {
             Debug.Log("Start Menu Scene");
-
+            
             Debug.Log($"2 - {GameMode.Letters}, 1 - {GameMode.Numbers}");
         }
 
         private void Update()
         {
+            _selectGameModeService?.Update();
             if (Input.GetKeyDown(KeyCode.Alpha1))
                 LoadSceneGameplay(GameMode.Numbers);
 

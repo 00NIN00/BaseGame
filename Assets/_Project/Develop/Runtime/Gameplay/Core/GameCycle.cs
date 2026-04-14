@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using System;
+using System.Linq;
 
 namespace _Project.Develop.Runtime.Gameplay.Core
 {
@@ -16,36 +17,41 @@ namespace _Project.Develop.Runtime.Gameplay.Core
         public event Action Wined;
         public event Action Defeated;
         
-        private readonly DIContainer _container;
         private readonly TypingGameHandler _gameHandler;
         private GameplayInputArgs _inputArgs;
+
+        private readonly GeneratorSymbols.GeneratorSymbols _generatorSymbols;
+        private readonly ConfigsProviderService  _configsProviderService;
+        private readonly ICoroutinesPerformer _coroutinesPerformer;
+        private readonly SceneSwitcherService  _sceneSwitcherService;
         
         private Coroutine _gameLoop;
 
-        public GameCycle(DIContainer container, TypingGameHandler gameHandler)
+        public GameCycle(TypingGameHandler gameHandler, GeneratorSymbols.GeneratorSymbols generatorSymbols, ConfigsProviderService configsProviderService, ICoroutinesPerformer coroutinesPerformer, SceneSwitcherService sceneSwitcherService)
         {
-            _container = container;
             _gameHandler = gameHandler;
+            _generatorSymbols = generatorSymbols;
+            _configsProviderService = configsProviderService;
+            _coroutinesPerformer = coroutinesPerformer;
+            _sceneSwitcherService = sceneSwitcherService;
         }
 
         public void Start(GameplayInputArgs inputArgs)
         {
             _inputArgs = inputArgs;
             
-            GeneratorSymbols.GeneratorSymbols generator = _container.Resolve<GeneratorSymbols.GeneratorSymbols>();
-            
-            ConfigGeneratorSymbols configGeneratorSymbols = _container.Resolve<ConfigsProviderService>().GetConfig<ConfigGeneratorSymbols>();
+            ConfigGeneratorSymbols configGeneratorSymbols = _configsProviderService.GetConfig<ConfigGeneratorSymbols>();
 
-            ConfigListSymbols configListSymbols = _container.Resolve<ConfigsProviderService>().GetConfig<ConfigGameMode>()
+            ConfigListSymbols configListSymbols = _configsProviderService.GetConfig<ConfigGameMode>()
                 .GetConfigListSymbols(_inputArgs.GameMode);
             
-            IEnumerable<char> letters = generator.Generate(
+            IEnumerable<char> letters = _generatorSymbols.Generate(
                 configGeneratorSymbols.CountSymbols,
                 configListSymbols.Symbols.ToArray()
             );
 
             
-            _gameLoop = _container.Resolve<ICoroutinesPerformer>().StartPerform(_gameHandler.GameLoopCoroutine(letters));
+            _gameLoop = _coroutinesPerformer.StartPerform(_gameHandler.GameLoopCoroutine(letters));
 
             _gameHandler.LettersSequenceFinished += Win;
             _gameHandler.LetterMismatched += Defeat;
@@ -55,7 +61,7 @@ namespace _Project.Develop.Runtime.Gameplay.Core
         {
             Wined?.Invoke();
             Stop();
-            _container.Resolve<ICoroutinesPerformer>().StartPerform(Wait());
+            _coroutinesPerformer.StartPerform(Wait());
         }
 
         private IEnumerator Wait()
@@ -65,19 +71,19 @@ namespace _Project.Develop.Runtime.Gameplay.Core
             Debug.Log($"Press '{keyCodeForMainMenu}' to MainMenu");
             yield return new  WaitUntil(() => UnityEngine.Input.GetKeyDown(keyCodeForMainMenu));
             
-            _container.Resolve<ICoroutinesPerformer>().StartPerform(_container.Resolve<SceneSwitcherService>().ProcessSwitchTo(Scenes.MainMenu));
+            _coroutinesPerformer.StartPerform(_sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu));
         }
 
         private void Defeat()
         {
             Defeated?.Invoke();
-            _container.Resolve<ICoroutinesPerformer>().StartPerform(_container.Resolve<SceneSwitcherService>().ProcessSwitchTo(Scenes.Gameplay, _inputArgs));
+            _coroutinesPerformer.StartPerform(_sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, _inputArgs));
             Stop();
         }
 
         private void Stop()
         {
-            _container.Resolve<ICoroutinesPerformer>().StopPerform(_gameLoop);
+            _coroutinesPerformer.StopPerform(_gameLoop);
             
             _gameHandler.LettersSequenceFinished -= Win;
             _gameHandler.LetterMismatched -= Defeat;

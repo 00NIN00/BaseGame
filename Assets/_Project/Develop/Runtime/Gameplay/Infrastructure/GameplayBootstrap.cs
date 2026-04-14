@@ -8,6 +8,7 @@ using _Project.Develop.Runtime.Gameplay.View;
 using System.Collections;
 using UnityEngine;
 using System;
+using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Meta.Features;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
 
@@ -25,7 +26,7 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         
         private GameRewardHandler _rewardHandler;
 
-        [SerializeField] private ViewTypingGameHandler _viewTypingGameHandler;
+        private InitializationViewService  _initializationViewService;
 
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -41,8 +42,9 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         
         public override IEnumerator Initialize()
         {
-            _gameHandler = new TypingGameHandler(_container.Resolve<IInput>());
+            _gameHandler = _container.Resolve<TypingGameHandler>();
 
+            _gameCycle = _container.Resolve<GameCycle>();
             _gameCycle = new GameCycle(_container,  _gameHandler);
             
             _outcomesCounterService = _container.Resolve<OutcomesCounterService>();
@@ -52,9 +54,7 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
             
            _viewTypingGameHandler.Initialize(_container.Resolve<IInput>());
 
-            _container.Resolve<GeneratorSymbols.GeneratorSymbols>().LetterGenerated += _viewTypingGameHandler.DebugLetters;
-           _gameCycle.Wined += _viewTypingGameHandler.Win;
-           _gameCycle.Defeated += _viewTypingGameHandler.Defeat;
+            _initializationViewService = _container.Resolve<InitializationViewService>();
            
            _gameCycle.Wined += _rewardHandler.Win;
            _gameCycle.Defeated += _rewardHandler.Defeat;
@@ -70,23 +70,13 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         public override void Run()
         {
             Debug.Log("Start Gameplay Scene");
-            
+            _initializationViewService.Initialize();   
             _gameCycle.Start(_inputArgs);
-        }
-        
-        private void Update()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.F))
-            {
-                SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
-                ICoroutinesPerformer coroutinePerformer = _container.Resolve<ICoroutinesPerformer>();
-
-                coroutinePerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu));
-            }
         }
 
         private void OnDestroy()
         {
+            _initializationViewService.DeInitialize();
             _container.Resolve<GeneratorSymbols.GeneratorSymbols>().LetterGenerated -= _viewTypingGameHandler.DebugLetters;
             _gameCycle.Wined -= _viewTypingGameHandler.Win;
             _gameCycle.Defeated -= _viewTypingGameHandler.Defeat;
