@@ -1,16 +1,11 @@
-using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Infrastructure;
+using _Project.Develop.Runtime.Meta.Features;
 using _Project.Develop.Runtime.Gameplay.Core;
-using _Project.Develop.Runtime.Gameplay.Input;
-using _Project.Develop.Runtime.Gameplay.View;
 using System.Collections;
 using UnityEngine;
 using System;
-using _Project.Develop.Runtime.Gameplay.Input;
-using _Project.Develop.Runtime.Meta.Features;
-using _Project.Develop.Runtime.Meta.Features.Wallet;
 
 namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 {
@@ -19,10 +14,8 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         private DIContainer _container;
         private GameplayInputArgs _inputArgs;
         
-        private TypingGameHandler _gameHandler;
         private GameCycle _gameCycle;
         private OutcomesCounterService _outcomesCounterService;
-        private WalletService _walletService;
         
         private GameRewardHandler _rewardHandler;
 
@@ -42,18 +35,12 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         
         public override IEnumerator Initialize()
         {
-            _gameHandler = _container.Resolve<TypingGameHandler>();
-
             _gameCycle = _container.Resolve<GameCycle>();
-            _gameCycle = new GameCycle(_container,  _gameHandler);
             
             _outcomesCounterService = _container.Resolve<OutcomesCounterService>();
-            _walletService = _container.Resolve<WalletService>();
-
+            
             _rewardHandler = new GameRewardHandler(_container);
             
-           _viewTypingGameHandler.Initialize(_container.Resolve<IInput>());
-
             _initializationViewService = _container.Resolve<InitializationViewService>();
            
            _gameCycle.Wined += _rewardHandler.Win;
@@ -70,16 +57,15 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         public override void Run()
         {
             Debug.Log("Start Gameplay Scene");
+            
             _initializationViewService.Initialize();   
+            
             _gameCycle.Start(_inputArgs);
         }
 
         private void OnDestroy()
         {
             _initializationViewService.DeInitialize();
-            _container.Resolve<GeneratorSymbols.GeneratorSymbols>().LetterGenerated -= _viewTypingGameHandler.DebugLetters;
-            _gameCycle.Wined -= _viewTypingGameHandler.Win;
-            _gameCycle.Defeated -= _viewTypingGameHandler.Defeat;
             
             _gameCycle.Wined -= _rewardHandler.Win;
             _gameCycle.Defeated -= _rewardHandler.Defeat;

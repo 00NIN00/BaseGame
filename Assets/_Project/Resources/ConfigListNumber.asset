@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ea1a22560c4b1bb3b75d322c7d3340, type: 3}
   m_Name: ConfigListNumber
   m_EditorClassIdentifier: 
-  <Symbols>k__BackingField: 3100320033003400350036003700380039003000
+  <Symbols>k__BackingField: 0123456789

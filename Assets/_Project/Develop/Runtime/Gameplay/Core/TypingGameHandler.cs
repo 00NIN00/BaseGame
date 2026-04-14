@@ -32,7 +32,6 @@ namespace _Project.Develop.Runtime.Gameplay.Core
                     if (_sequence.TryMatch(symbol))
                     {
                         // OnCorrectLetter?.Invoke(symbol);
-
                         if (_sequence.RemainingCount == 0)
                         {
                             LettersSequenceFinished?.Invoke();

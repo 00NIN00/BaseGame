@@ -1,5 +1,11 @@
+using _Project.Develop.Runtime.Gameplay.Core;
 using _Project.Develop.Runtime.Gameplay.Input;
+using _Project.Develop.Runtime.Gameplay.View;
 using _Project.Develop.Runtime.Infrastructure.DI;
+using _Project.Develop.Runtime.Utilities.AssetsManagement;
+using _Project.Develop.Runtime.Utilities.ConfigsManagement;
+using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
+using _Project.Develop.Runtime.Utilities.SceneManagement;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay.Infrastructure
@@ -9,7 +15,6 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         public static void Process(DIContainer container, GameplayInputArgs args)
         {
             container.RegisterAsSingle(CreateGeneratorLetters);
-            container.RegisterAsSingle<IInput>(CreateUserKeyBoardInput);
             container.RegisterAsSingle(CreateTypingGameHandler);
             container.RegisterAsSingle(CreateHameCycle);
             container.RegisterAsSingle(CreateInitializationViewService);
@@ -20,9 +25,6 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 
         private static GeneratorSymbols.GeneratorSymbols CreateGeneratorLetters(DIContainer c)
             => new GeneratorSymbols.GeneratorSymbols();
-        
-        private static UserKeyBoardInput CreateUserKeyBoardInput(DIContainer c)
-            => new UserKeyBoardInput();
 
         private static TypingGameHandler CreateTypingGameHandler(DIContainer c)
             =>  new TypingGameHandler(c.Resolve<IInput>());

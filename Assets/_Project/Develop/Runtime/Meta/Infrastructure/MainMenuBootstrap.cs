@@ -1,20 +1,15 @@
+using System;
+using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
-using _Project.Develop.Runtime.Gameplay.Infrastructure;
+using _Project.Develop.Runtime.Meta.Features.Wallet;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Infrastructure;
-using System.Collections;
-using _Project.Develop.Runtime.Gameplay;
-using System.Collections;
-using System.Collections.Generic;
 using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Gameplay.View;
 using _Project.Develop.Runtime.Meta.Features;
-using _Project.Develop.Runtime.Meta.Features.Wallet;
-using _Project.Develop.Runtime.Utilities.DataManagement;
-using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
-using _Project.Develop.Runtime.Utilities.DataManagement.DataRepository;
-using _Project.Develop.Runtime.Utilities.DataManagement.Serializers;
+using _Project.Develop.Runtime.Gameplay;
+using System.Collections;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Meta.Infrastructure
@@ -47,7 +42,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             _playerDataProvider = _container.Resolve<PlayerDataProvider>();
 
             _inputHandler = new MainMenuInputHandler(_container.Resolve<IInput>(), _container, new ViewStats(_walletService, _container.Resolve<OutcomesCounterService>()));
-            
+            _inputHandler.Subscribe();
             yield break;
         }
 
@@ -62,26 +57,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         private void Update()
         {
             _selectGameModeService?.Update();
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                LoadSceneGameplay(GameMode.Numbers);
-
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-                LoadSceneGameplay(GameMode.Letters);
-
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                _walletService.Add(CurrencyType.Gold, 10);
-                Debug.Log("Gold Added current: " + _walletService.GetCurrency(CurrencyType.Gold).Value);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                if (_walletService.Enough(CurrencyType.Gold, 10) == false)
-                    return;
-
-                _walletService.Spend(CurrencyType.Gold, 10);
-                Debug.Log("Gold Spent current: " + _walletService.GetCurrency(CurrencyType.Gold).Value);
-            }
+            
 
             if (Input.GetKeyDown(KeyCode.S))
             {
@@ -96,17 +72,10 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             //     Debug.Log("Load Data");
             // }
         }
-        
 
-        private void LoadSceneGameplay(GameMode gameMode)
+        private void OnDestroy()
         {
-            SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
-            ICoroutinesPerformer coroutinePerformer = _container.Resolve<ICoroutinesPerformer>();
-
-            GameplayInputArgs args = new GameplayInputArgs(gameMode);
-
-            coroutinePerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, args));
+            _inputHandler.UnSubscribe();
         }
-        
     }
 }

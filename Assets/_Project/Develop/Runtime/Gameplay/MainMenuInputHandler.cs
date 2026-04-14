@@ -2,8 +2,6 @@ using _Project.Develop.Runtime.Configs.Meta;
 using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Gameplay.View;
 using _Project.Develop.Runtime.Infrastructure.DI;
-using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
-using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay
 {
@@ -19,8 +17,18 @@ namespace _Project.Develop.Runtime.Gameplay
             _container = container;
             _viewStats = viewStats;
 
+        }
+
+        public void Subscribe()
+        {
             _input.KeyPressedReset += Reset;
             _input.KeyPressedViewStats += ViewStats;
+        }
+        
+        public void UnSubscribe()
+        {
+            _input.KeyPressedReset -= Reset;
+            _input.KeyPressedViewStats -= ViewStats;
         }
 
         private void Reset()

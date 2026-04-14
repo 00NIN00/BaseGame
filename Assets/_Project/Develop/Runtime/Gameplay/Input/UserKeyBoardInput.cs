@@ -26,14 +26,15 @@ namespace _Project.Develop.Runtime.Gameplay.Input
         {
             while (true)
             {
-                if (UnityEngine.Input.GetKey(UnityEngine.KeyCode.V))
+                if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.V))
                     KeyPressedViewStats?.Invoke();
-
-                if (UnityEngine.Input.GetKey(UnityEngine.KeyCode.R))
+                
+                if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.R))
                     KeyPressedReset?.Invoke();
                 
                 yield return null;
             }
+            // ReSharper disable once IteratorNeverReturns
         }
     }
 }
