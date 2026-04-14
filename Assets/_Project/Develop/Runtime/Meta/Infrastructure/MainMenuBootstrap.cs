@@ -67,7 +67,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
 
         private void OnDestroy()
         {
-            _inputHandler.UnSubscribe();
+            _inputHandler.Dispose();
         }
     }
 }

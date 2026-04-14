@@ -1,3 +1,4 @@
+using System;
 using _Project.Develop.Runtime.Configs.Meta;
 using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Gameplay.View;
@@ -5,7 +6,7 @@ using _Project.Develop.Runtime.Infrastructure.DI;
 
 namespace _Project.Develop.Runtime.Gameplay
 {
-    public class MainMenuInputHandler
+    public class MainMenuInputHandler : IDisposable
     {
         private readonly ResetProgressService _resetProgressService;
         private readonly ViewStats _viewStats;
@@ -24,12 +25,6 @@ namespace _Project.Develop.Runtime.Gameplay
             _input.KeyPressedViewStats += ViewStats;
         }
         
-        public void UnSubscribe()
-        {
-            _input.KeyPressedReset -= Reset;
-            _input.KeyPressedViewStats -= ViewStats;
-        }
-
         private void Reset()
         {
             _resetProgressService.ResetPlayerData();
@@ -38,6 +33,12 @@ namespace _Project.Develop.Runtime.Gameplay
         private void ViewStats()
         {
             _viewStats.DebugStats();
+        }
+
+        public void Dispose()
+        {
+            _input.KeyPressedReset -= Reset;
+            _input.KeyPressedViewStats -= ViewStats;
         }
     }
 }
