@@ -1,21 +1,21 @@
 using System;
-using _Project.Develop.Runtime.Configs.Meta;
 using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Gameplay.View;
 using _Project.Develop.Runtime.Infrastructure.DI;
+using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay
 {
     public class MainMenuInputHandler : IDisposable
     {
-        private readonly ResetProgressService _resetProgressService;
+        private readonly PaidResetService _paidResetService;
         private readonly ViewStats _viewStats;
         private readonly IInput _input;
 
-        public MainMenuInputHandler(IInput input, ResetProgressService resetProgressService, ViewStats viewStats)
+        public MainMenuInputHandler(IInput input, PaidResetService resetProgressService, ViewStats viewStats)
         {
             _input = input;
-            _resetProgressService = resetProgressService;
+            _paidResetService = resetProgressService;
             _viewStats = viewStats;
         }
 
@@ -24,10 +24,13 @@ namespace _Project.Develop.Runtime.Gameplay
             _input.KeyPressedReset += Reset;
             _input.KeyPressedViewStats += ViewStats;
         }
-        
+
         private void Reset()
         {
-            _resetProgressService.ResetPlayerData();
+            if (_paidResetService.CanReset())
+                _paidResetService.Reset();
+            else
+                Debug.Log("dsa");
         }
 
         private void ViewStats()
