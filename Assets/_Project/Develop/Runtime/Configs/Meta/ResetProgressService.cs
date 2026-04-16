@@ -6,18 +6,16 @@ namespace _Project.Develop.Runtime.Configs.Meta
 {
     public class ResetProgressService
     {
-        private readonly DIContainer _container;
+        private readonly PlayerDataProvider _playerDataProvider;
 
-        public ResetProgressService(DIContainer container)
+        public ResetProgressService(PlayerDataProvider playerDataProvider)
         {
-            _container = container;
+            _playerDataProvider = playerDataProvider;
         }
 
         public void ResetPlayerData()
         {
-            PlayerDataProvider playerDataProvider = _container.Resolve<PlayerDataProvider>(); 
-            
-            Reset(playerDataProvider);
+            Reset(_playerDataProvider);
         }
         
         private void Reset<TData>(DataProvider<TData> dataProvider) where TData : ISaveData
