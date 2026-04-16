@@ -30,7 +30,7 @@ namespace _Project.Develop.Runtime.Gameplay
             if (_paidResetService.CanReset())
                 _paidResetService.Reset();
             else
-                Debug.Log("dsa");
+                Debug.Log("it is not possible to reset progress");
         }
 
         private void ViewStats()
