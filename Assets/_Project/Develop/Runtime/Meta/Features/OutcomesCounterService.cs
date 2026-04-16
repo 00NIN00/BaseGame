@@ -26,13 +26,7 @@ namespace _Project.Develop.Runtime.Meta.Features
         
         public int GetCount(OutcomesType type) => _counter[type];
 
-        public void AddWinner() 
-            => AddOutcome(OutcomesType.Win);
-        
-        public void AddDefeated() 
-            => AddOutcome(OutcomesType.Defeat);
-
-        private void AddOutcome(OutcomesType type)
+        public void AddOutcome(OutcomesType type)
         {
             _counter[type]++;
             _container.Resolve<ICoroutinesPerformer>().StartPerform(_container.Resolve<PlayerDataProvider>().Save());

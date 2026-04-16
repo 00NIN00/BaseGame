@@ -25,17 +25,20 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
             _gameCycle.Wined += _rewardHandler.Win;
             _gameCycle.Defeated += _rewardHandler.Defeat;
            
-            _gameCycle.Wined += _outcomesCounterService.AddWinner; 
-            _gameCycle.Defeated += _outcomesCounterService.AddDefeated; 
+            _gameCycle.Wined += OnWinCounted; 
+            _gameCycle.Defeated += OnDefeatCounted; 
         }
+        
+        private void OnWinCounted() => _outcomesCounterService.AddOutcome(OutcomesType.Win);
+        private void OnDefeatCounted() => _outcomesCounterService.AddOutcome(OutcomesType.Defeat);
 
         public void Dispose()
         {
             _gameCycle.Wined -= _rewardHandler.Win;
             _gameCycle.Defeated -= _rewardHandler.Defeat;
             
-            _gameCycle.Wined -= _outcomesCounterService.AddWinner; 
-            _gameCycle.Defeated -= _outcomesCounterService.AddDefeated; 
+            _gameCycle.Wined -= OnWinCounted; 
+            _gameCycle.Defeated -= OnDefeatCounted; 
         }
     }
 }
