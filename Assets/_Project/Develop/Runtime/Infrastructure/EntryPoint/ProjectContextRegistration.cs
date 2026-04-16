@@ -116,7 +116,7 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             => new PlayerDataProvider(c.Resolve<ISaveLoadService>(), c.Resolve<ConfigsProviderService>());
 
         private static ResetProgressService CreateResetProgressService(DIContainer c)
-            => new ResetProgressService(c.Resolve<PlayerDataProvider>());
+            => new ResetProgressService(c.Resolve<PlayerDataProvider>(), c.Resolve<ICoroutinesPerformer>());
         
         
         private static UserKeyBoardInput CreateUserKeyBoardInput(DIContainer c)
