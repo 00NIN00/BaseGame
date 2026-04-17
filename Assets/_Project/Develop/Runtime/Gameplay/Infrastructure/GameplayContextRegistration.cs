@@ -3,6 +3,7 @@ using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Gameplay.View;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Meta.Features;
+using _Project.Develop.Runtime.Meta.Features.OutcomesGame;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;

@@ -1,6 +1,7 @@
 using System;
 using _Project.Develop.Runtime.Gameplay.Core;
 using _Project.Develop.Runtime.Meta.Features;
+using _Project.Develop.Runtime.Meta.Features.OutcomesGame;
 
 namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 {

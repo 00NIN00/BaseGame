@@ -2,6 +2,7 @@ using System;
 using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Gameplay.View;
 using _Project.Develop.Runtime.Infrastructure.DI;
+using _Project.Develop.Runtime.Meta.Features.ResetProgress;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay
