@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ConfigBuyReset
   m_EditorClassIdentifier: 
   <CurrencyType>k__BackingField: 0
-  <Count>k__BackingField: 0
+  <Count>k__BackingField: 10
