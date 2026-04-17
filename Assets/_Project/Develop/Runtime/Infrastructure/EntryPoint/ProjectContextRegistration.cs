@@ -7,6 +7,8 @@ using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Meta.Features;
+using _Project.Develop.Runtime.Meta.Features.OutcomesGame;
+using _Project.Develop.Runtime.Meta.Features.ResetProgress;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataRepository;
@@ -33,7 +35,6 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateWalletService).NonLazy();
             container.RegisterAsSingle(CreateOutcomesCounterService).NonLazy();
             container.RegisterAsSingle(CreatePlayerDataProvider);
-            container.RegisterAsSingle(CreateResetProgressService);
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
             
             container.RegisterAsSingle<IInput>(CreateUserKeyBoardInput);
@@ -109,15 +110,11 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             foreach (OutcomesType currencyType in Enum.GetValues(typeof(OutcomesType)))
                 outcomes[currencyType] = 0;
             
-            return new OutcomesCounterService(outcomes, c.Resolve<PlayerDataProvider>(), c);
+            return new OutcomesCounterService(outcomes, c.Resolve<PlayerDataProvider>(), c.Resolve<ICoroutinesPerformer>());
         }
         
         private static PlayerDataProvider CreatePlayerDataProvider(DIContainer c)
             => new PlayerDataProvider(c.Resolve<ISaveLoadService>(), c.Resolve<ConfigsProviderService>());
-
-        private static ResetProgressService CreateResetProgressService(DIContainer c)
-            => new ResetProgressService(c.Resolve<PlayerDataProvider>(), c.Resolve<ICoroutinesPerformer>());
-        
         
         private static UserKeyBoardInput CreateUserKeyBoardInput(DIContainer c)
             => new UserKeyBoardInput();

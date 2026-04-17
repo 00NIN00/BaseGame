@@ -1,9 +1,9 @@
-using _Project.Develop.Runtime.Configs.Meta;
 using _Project.Develop.Runtime.Gameplay;
 using _Project.Develop.Runtime.Gameplay.Input;
 using _Project.Develop.Runtime.Gameplay.View;
 using _Project.Develop.Runtime.Infrastructure.DI;
-using _Project.Develop.Runtime.Meta.Features;
+using _Project.Develop.Runtime.Meta.Features.OutcomesGame;
+using _Project.Develop.Runtime.Meta.Features.ResetProgress;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -35,7 +35,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         {
             return new PaidResetService(
                 c.Resolve<WalletService>(),
-                c.Resolve<ResetProgressService>(),
+                c.Resolve<OutcomesCounterService>(),
                 c.Resolve<ConfigsProviderService>());
         }
 

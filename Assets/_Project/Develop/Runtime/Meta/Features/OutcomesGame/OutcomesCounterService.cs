@@ -1,25 +1,25 @@
-using System.Collections.Generic;
-using System.Linq;
-using _Project.Develop.Runtime.Infrastructure.DI;
+using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.DataManagement;
-using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
-using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace _Project.Develop.Runtime.Meta.Features
+namespace _Project.Develop.Runtime.Meta.Features.OutcomesGame
 {
     public class OutcomesCounterService : IDataReader<PlayerData>, IDataWriter<PlayerData>
     {
+        private readonly PlayerDataProvider _playerDataProvider;
+        private readonly ICoroutinesPerformer _coroutinesPerformer;
         private readonly Dictionary<OutcomesType, int> _counter;
-        private readonly DIContainer _container;
 
-        public OutcomesCounterService(Dictionary<OutcomesType, int> counter, PlayerDataProvider playerDataProvider, DIContainer container)
+        public OutcomesCounterService(Dictionary<OutcomesType, int> counter, PlayerDataProvider playerDataProvider, ICoroutinesPerformer coroutinesPerformer)
         {
-           _container = container;
+            _playerDataProvider = playerDataProvider;
+            _coroutinesPerformer = coroutinesPerformer;
             _counter = new(counter);
             
-            playerDataProvider.RegisterReader(this);
-            playerDataProvider.RegisterWriter(this);
+            _playerDataProvider.RegisterReader(this);
+            _playerDataProvider.RegisterWriter(this);
         }
         
         public IReadOnlyList<OutcomesType> AvailableOutcomes => _counter.Keys.ToList();
@@ -29,8 +29,19 @@ namespace _Project.Develop.Runtime.Meta.Features
         public void AddOutcome(OutcomesType type)
         {
             _counter[type]++;
-            _container.Resolve<ICoroutinesPerformer>().StartPerform(_container.Resolve<PlayerDataProvider>().Save());
+            Save();//TODO: было бы хорошо, один раз сохранятся  там например после игры и тогда разом и деньги буду сохранятся и очки
         }
+
+        public void Reset()
+        {
+            foreach (var key in _counter.Keys.ToList())
+                _counter[key] = 0;
+
+            Save();
+        }
+
+        private void Save()
+            => _coroutinesPerformer.StartPerform(_playerDataProvider.Save());
 
         public void ReadFrom(PlayerData data)
         {
