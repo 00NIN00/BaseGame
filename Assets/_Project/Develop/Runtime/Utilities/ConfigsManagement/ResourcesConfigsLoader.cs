@@ -20,6 +20,7 @@ namespace _Project.Develop.Runtime.Utilities.ConfigsManagement
             { typeof(ConfigStartWallet), "Configs/Meta/Wallet/StartWalletConfig" },
             { typeof(ConfigGameReward),  "Configs/Reward/ConfigGameReward" },
             { typeof(ConfigBuyReset), "Configs/Meta/ConfigBuyReset" },
+            { typeof(ConfigCurrencyIcons), "Configs/Meta/Wallet/ConfigCurrencyIcons"}
         };
         
         public ResourcesConfigsLoader(ResourcesAssetsLouder resourcesAssetsLouder)

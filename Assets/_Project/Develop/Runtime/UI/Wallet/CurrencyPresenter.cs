@@ -1,0 +1,53 @@
+using System;
+using _Project.Develop.Runtime.Configs.Meta.Wallet;
+using _Project.Develop.Runtime.Meta.Features.Wallet;
+using _Project.Develop.Runtime.UI.CommonViews;
+using _Project.Develop.Runtime.UI.Core;
+using _Project.Develop.Runtime.Utilities.Reactive;
+
+namespace _Project.Develop.Runtime.UI.Wallet
+{
+    public class CurrencyPresenter : IPresenter
+    {
+        private readonly IReadOnlyReactiveValue<int> _currency;
+        private readonly CurrencyType _currentType;
+        private readonly ConfigCurrencyIcons _configCurrencyIcons;
+
+        private readonly IconTextView _view;
+        
+        private IDisposable _disposable;
+
+        public CurrencyPresenter(
+            IReadOnlyReactiveValue<int> currency,
+            CurrencyType currentType,
+            ConfigCurrencyIcons configCurrencyIcons,
+            IconTextView view)
+        {
+            _currency = currency;
+            _currentType = currentType;
+            _configCurrencyIcons = configCurrencyIcons;
+            _view = view;
+        }
+        
+        public IconTextView View => _view;
+
+        public void Initialize()
+        {
+            UpdateValue(_currency.Value);
+            _view.SetImage(_configCurrencyIcons.GetSpriteFor(_currentType));
+
+            _disposable = _currency.Subscribe(OnCurrencyChanged);
+        }
+        
+        public void Dispose()
+        {
+            _disposable.Dispose();
+        }
+        
+        private void OnCurrencyChanged(int arg1, int newValue)
+        => UpdateValue(newValue);
+        
+        private void UpdateValue(int value) 
+        => _view.SetText(value.ToString());
+    }
+}

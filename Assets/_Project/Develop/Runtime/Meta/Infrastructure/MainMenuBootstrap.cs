@@ -5,6 +5,11 @@ using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Infrastructure;
 using _Project.Develop.Runtime.Gameplay;
 using System.Collections;
+using _Project.Develop.Runtime.Meta.Features.Wallet;
+using _Project.Develop.Runtime.UI;
+using _Project.Develop.Runtime.UI.CommonViews;
+using _Project.Develop.Runtime.UI.Core;
+using _Project.Develop.Runtime.UI.Wallet;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Meta.Infrastructure
@@ -17,7 +22,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         
         private PlayerDataProvider _playerDataProvider;
         private MainMenuInputHandler _inputHandler;
-
+        
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
             _container = container;
@@ -35,6 +40,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
 
             _inputHandler = _container.Resolve<MainMenuInputHandler>();
             _inputHandler.Subscribe();
+            
             yield break;
         }
 
@@ -67,7 +73,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
 
         private void OnDestroy()
         {
-            _inputHandler.Dispose();
+            //_inputHandler.Dispose();
         }
     }
 }

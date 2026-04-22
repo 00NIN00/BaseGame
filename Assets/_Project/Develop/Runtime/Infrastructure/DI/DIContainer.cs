@@ -6,7 +6,7 @@ namespace _Project.Develop.Runtime.Infrastructure.DI
     public class DIContainer
     {
         private readonly Dictionary<Type, Registration> _container = new();
-        
+
         private readonly List<Type> _requests = new();
 
         private DIContainer _parent;
@@ -14,16 +14,17 @@ namespace _Project.Develop.Runtime.Infrastructure.DI
         public DIContainer() : this(null)
         {
         }
+
         public DIContainer(DIContainer parent) => _parent = parent;
-        
+
         public IRegistrationOptions RegisterAsSingle<T>(Func<DIContainer, T> creator)
         {
             if (IsAlreadyRegister<T>())
                 throw new InvalidOperationException($"{typeof(T)} already register");
-            
+
             Registration registration = new Registration(container => creator.Invoke(container));
             _container.Add(typeof(T), registration);
-            
+
             return registration;
         }
 
@@ -31,18 +32,18 @@ namespace _Project.Develop.Runtime.Infrastructure.DI
         {
             if (_container.ContainsKey(typeof(T)))
                 return true;
-            
-            if(_parent != null)
+
+            if (_parent != null)
                 return _parent.IsAlreadyRegister<T>();
-            
+
             return false;
         }
-        
+
         public T Resolve<T>()
         {
             if (_requests.Contains(typeof(T)))
                 throw new InvalidOperationException($"Cycle resolve for {typeof(T)}");
-            
+
             _requests.Add(typeof(T));
 
             try
@@ -57,7 +58,7 @@ namespace _Project.Develop.Runtime.Infrastructure.DI
             {
                 _requests.Remove(typeof(T));
             }
-            
+
             throw new InvalidOperationException($"Registration for {typeof(T)} not exist");
         }
 
@@ -67,33 +68,15 @@ namespace _Project.Develop.Runtime.Infrastructure.DI
             {
                 if (registration.IsNonLazy)
                     registration.CreateInstanceFrom(this);
+
+                registration.OnInitialize();
             }
         }
-    }
 
-    public class Registration : IRegistrationOptions
-    {
-        private Func<DIContainer, object> _creator;
-        
-        private object _cachedInstance;
-        
-        public bool IsNonLazy { get; private set; }
-
-        public Registration(Func<DIContainer, object> creator) => _creator = creator;
-
-        public object CreateInstanceFrom(DIContainer container)
+        public void Dispose()
         {
-            if(_cachedInstance != null)
-                return  _cachedInstance;
-
-            if (_creator == null)
-                throw new InvalidOperationException("Not has instance or creator");
-            
-            _cachedInstance = _creator.Invoke(container);
-            
-            return _cachedInstance;
+            foreach (Registration registration in _container.Values)
+                registration.OnDispose();
         }
-        
-        public void NonLazy() => IsNonLazy = true;
     }
 }

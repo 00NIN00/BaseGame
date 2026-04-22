@@ -10,6 +10,8 @@ using _Project.Develop.Runtime.Meta.Features;
 using _Project.Develop.Runtime.Meta.Features.OutcomesGame;
 using _Project.Develop.Runtime.Meta.Features.ResetProgress;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
+using _Project.Develop.Runtime.UI;
+using _Project.Develop.Runtime.UI.Core;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Project.Develop.Runtime.Utilities.DataManagement.DataRepository;
 using _Project.Develop.Runtime.Utilities.DataManagement.KeysStorage;
@@ -38,7 +40,12 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
             
             container.RegisterAsSingle<IInput>(CreateUserKeyBoardInput);
+            container.RegisterAsSingle(CreateProjectPresentsFactory);
+            container.RegisterAsSingle(CreateViewsFactory);
         }
+
+        private static ViewsFactory CreateViewsFactory(DIContainer c)
+            => new ViewsFactory(c.Resolve<ResourcesAssetsLouder>());
 
         private static SceneSwitcherService CreateSceneSwitcherService(DIContainer c)
             => new SceneSwitcherService(
@@ -118,5 +125,8 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
         
         private static UserKeyBoardInput CreateUserKeyBoardInput(DIContainer c)
             => new UserKeyBoardInput();
+
+        private static ProjectPresentsFactory CreateProjectPresentsFactory(DIContainer c)
+            => new ProjectPresentsFactory(c);
     }
 }

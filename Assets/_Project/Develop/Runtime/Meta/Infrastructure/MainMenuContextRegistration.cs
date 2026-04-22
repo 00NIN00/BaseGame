@@ -5,9 +5,13 @@ using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Meta.Features.OutcomesGame;
 using _Project.Develop.Runtime.Meta.Features.ResetProgress;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
+using _Project.Develop.Runtime.UI;
+using _Project.Develop.Runtime.UI.CommonViews;
+using _Project.Develop.Runtime.UI.Wallet;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
+using UnityEngine;
 
 namespace _Project.Develop.Runtime.Meta.Infrastructure
 {
@@ -19,8 +23,18 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             container.RegisterAsSingle(CreateMainMenuInputHandler);
             container.RegisterAsSingle(CreateViewStats);
             container.RegisterAsSingle(CreatePaidResetService);
+            // container.RegisterAsSingle(CreateWalletPresenter).NonLazy();
         }
 
+        // private static WalletPresenter CreateWalletPresenter(DIContainer c)
+        // {
+        //     IconTextListView walletView = Object.FindObjectOfType<IconTextListView>();
+        //     
+        //     WalletPresenter walletPresenter = c.Resolve<ProjectPresentsFactory>().CreateWalletPresenter(walletView);
+        //     
+        //     return walletPresenter;
+        // }
+        
         private static SelectGameModeService CreateSelectGameModeService(DIContainer c)
         {
             return new SelectGameModeService(c.Resolve<SceneSwitcherService>(), c.Resolve<ICoroutinesPerformer>());
