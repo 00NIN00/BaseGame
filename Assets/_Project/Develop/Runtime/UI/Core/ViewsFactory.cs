@@ -12,7 +12,8 @@ namespace _Project.Develop.Runtime.UI.Core
 
         private readonly Dictionary<string, string> _viewIDToResourcePath = new Dictionary<string, string>()
         {
-            {ViewIDs.CurrentView, "UI/Wallet/CurrencyView"}
+            {ViewIDs.CurrentView, "UI/Wallet/CurrencyView"},
+            {ViewIDs.MainMenuScreen, "UI/MainMenu/MainMenuScreenView"},
         };
         
         public ViewsFactory(ResourcesAssetsLouder resourcesAssetsLouder)

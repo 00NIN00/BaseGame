@@ -5,9 +5,9 @@ using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Meta.Features.OutcomesGame;
 using _Project.Develop.Runtime.Meta.Features.ResetProgress;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
-using _Project.Develop.Runtime.UI;
-using _Project.Develop.Runtime.UI.CommonViews;
-using _Project.Develop.Runtime.UI.Wallet;
+using _Project.Develop.Runtime.UI.Core;
+using _Project.Develop.Runtime.UI.MainMenu;
+using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
@@ -23,6 +23,9 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             container.RegisterAsSingle(CreateMainMenuInputHandler);
             container.RegisterAsSingle(CreateViewStats);
             container.RegisterAsSingle(CreatePaidResetService);
+            container.RegisterAsSingle(CreateMainMenuUIRoot).NonLazy();
+            container.RegisterAsSingle(CreateMainMenuPresentersFactory);
+            container.RegisterAsSingle(CreateMainMenuScreenPresenter).NonLazy();
             // container.RegisterAsSingle(CreateWalletPresenter).NonLazy();
         }
 
@@ -34,6 +37,36 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         //     
         //     return walletPresenter;
         // }
+
+        private static MainMenuPresentersFactory CreateMainMenuPresentersFactory(DIContainer c)
+        {
+            return new MainMenuPresentersFactory(c);
+        }
+
+        private static MainMenuScreenPresenter CreateMainMenuScreenPresenter(DIContainer c)
+        {
+            MainMenuUIRoot uiRoot = c.Resolve<MainMenuUIRoot>();
+            
+            MainMenuScreenView view = c.
+                Resolve<ViewsFactory>().
+                Create<MainMenuScreenView>(ViewIDs.MainMenuScreen, uiRoot.HUDLayer);
+            
+            MainMenuScreenPresenter presenter = c.
+                Resolve<MainMenuPresentersFactory>().
+                CreateMainMenuScreenPresenter(view);
+            
+            return presenter;
+        }
+        
+        private static MainMenuUIRoot CreateMainMenuUIRoot(DIContainer c)
+        {
+            ResourcesAssetsLouder resourcesAssetsLouder = c.Resolve<ResourcesAssetsLouder>();
+            
+            MainMenuUIRoot mainMenuUIRoot = resourcesAssetsLouder
+                .Load<MainMenuUIRoot>("UI/MainMenu/MainMenuUIRoot");
+
+            return Object.Instantiate(mainMenuUIRoot);
+        }
         
         private static SelectGameModeService CreateSelectGameModeService(DIContainer c)
         {
