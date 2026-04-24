@@ -5,6 +5,7 @@ using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Meta.Features.OutcomesGame;
 using _Project.Develop.Runtime.Meta.Features.ResetProgress;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
+using _Project.Develop.Runtime.UI;
 using _Project.Develop.Runtime.UI.Core;
 using _Project.Develop.Runtime.UI.MainMenu;
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
@@ -26,6 +27,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             container.RegisterAsSingle(CreateMainMenuUIRoot).NonLazy();
             container.RegisterAsSingle(CreateMainMenuPresentersFactory);
             container.RegisterAsSingle(CreateMainMenuScreenPresenter).NonLazy();
+            container.RegisterAsSingle(CreateMaiMenuPopupService);
             // container.RegisterAsSingle(CreateWalletPresenter).NonLazy();
         }
 
@@ -37,6 +39,14 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         //     
         //     return walletPresenter;
         // }
+
+        private static MainMenuPopupService CreateMaiMenuPopupService(DIContainer c)
+        {
+            return new MainMenuPopupService(
+                c.Resolve<ViewsFactory>(),
+                c.Resolve<ProjectPresentsFactory>(),
+                c.Resolve<MainMenuUIRoot>());
+        }
 
         private static MainMenuPresentersFactory CreateMainMenuPresentersFactory(DIContainer c)
         {

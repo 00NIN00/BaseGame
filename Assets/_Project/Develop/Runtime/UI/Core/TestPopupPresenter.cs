@@ -1,0 +1,21 @@
+namespace _Project.Develop.Runtime.UI.Core
+{
+    public class TestPopupPresenter : PopupPresenterBase
+    {
+        private readonly TestPopupView _view;
+
+        public TestPopupPresenter(TestPopupView view)
+        {
+            _view = view;
+        }
+
+        protected override PopupViewBase PopupView => _view;
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            
+            _view.SetText("Test TITLE LALALa");
+        }
+    }
+}

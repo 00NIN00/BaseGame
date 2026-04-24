@@ -38,5 +38,10 @@ namespace _Project.Develop.Runtime.UI
                 this,
                 _container.Resolve<WalletService>()); 
         }
+
+        public TestPopupPresenter CreateTestPopupPresenter(TestPopupView view)
+        {
+            return new TestPopupPresenter(view);
+        }
     }
 }

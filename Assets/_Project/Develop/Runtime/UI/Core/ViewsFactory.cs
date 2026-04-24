@@ -14,6 +14,7 @@ namespace _Project.Develop.Runtime.UI.Core
         {
             {ViewIDs.CurrentView, "UI/Wallet/CurrencyView"},
             {ViewIDs.MainMenuScreen, "UI/MainMenu/MainMenuScreenView"},
+            {ViewIDs.TestPopup, "UI/TestPopup"},
         };
         
         public ViewsFactory(ResourcesAssetsLouder resourcesAssetsLouder)
