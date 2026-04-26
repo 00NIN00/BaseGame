@@ -24,6 +24,7 @@ namespace _Project.Develop.Runtime.Utilities.DataManagement.DataProviders
             {
                 WalletData = InitWalletData(),
                 Counter = InitCounter(),
+                CompletedLevels = new(),
             };
         }
 

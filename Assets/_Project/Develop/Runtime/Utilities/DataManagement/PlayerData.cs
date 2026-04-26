@@ -8,5 +8,6 @@ namespace _Project.Develop.Runtime.Utilities.DataManagement
     {
         public Dictionary<CurrencyType, int> WalletData;
         public Dictionary<OutcomesType, int> Counter;
+        public List<int> CompletedLevels;
     }
 }

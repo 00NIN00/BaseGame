@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Project.Develop.Runtime.Configs.Gameplay.Levels;
 using _Project.Develop.Runtime.Configs.Meta.Wallet;
 using _Project.Develop.Runtime.Gameplay;
 using _Project.Develop.Runtime.Gameplay.Configs;
@@ -20,7 +21,8 @@ namespace _Project.Develop.Runtime.Utilities.ConfigsManagement
             { typeof(ConfigStartWallet), "Configs/Meta/Wallet/StartWalletConfig" },
             { typeof(ConfigGameReward),  "Configs/Reward/ConfigGameReward" },
             { typeof(ConfigBuyReset), "Configs/Meta/ConfigBuyReset" },
-            { typeof(ConfigCurrencyIcons), "Configs/Meta/Wallet/ConfigCurrencyIcons"}
+            { typeof(ConfigCurrencyIcons), "Configs/Meta/Wallet/ConfigCurrencyIcons"},
+            { typeof(ConfigLevelsList), "Configs/Gameplay/Levels/ConfigLevels"},
         };
         
         public ResourcesConfigsLoader(ResourcesAssetsLouder resourcesAssetsLouder)
