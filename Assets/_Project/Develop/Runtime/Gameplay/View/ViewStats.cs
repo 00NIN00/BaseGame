@@ -27,8 +27,8 @@ namespace _Project.Develop.Runtime.Gameplay.View
    
             
             Debug.Log("OutcomesCounter STATS");
-            foreach (OutcomesType outcomesType in _outcomesCounterService.AvailableOutcomes)
-                Debug.Log($"{outcomesType}: {_outcomesCounterService.GetCount(outcomesType)}");                
+            //foreach (OutcomesType outcomesType in _outcomesCounterService.AvailableOutcomes)
+                //Debug.Log($"{outcomesType}: {_outcomesCounterService.GetCount(outcomesType)}");                
 
         }
     }

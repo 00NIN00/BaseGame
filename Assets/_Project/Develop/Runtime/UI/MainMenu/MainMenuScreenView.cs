@@ -11,6 +11,7 @@ namespace _Project.Develop.Runtime.UI.MainMenu
         public event Action OpenLevelsMenuButtonClicked;
         
         [field:SerializeField] public IconTextListView WalletView { get; private set; }
+        [field:SerializeField] public TextAndTextListView OutcomesCounter { get; private set; }
         [SerializeField] private Button _openLevelsMenuButton;
 
         private void OnEnable()

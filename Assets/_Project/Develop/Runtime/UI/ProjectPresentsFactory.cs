@@ -1,10 +1,13 @@
 using _Project.Develop.Runtime.Configs.Meta.Wallet;
 using _Project.Develop.Runtime.Infrastructure.DI;
+using _Project.Develop.Runtime.Meta.Features;
 using _Project.Develop.Runtime.Meta.Features.LevelsProgression;
+using _Project.Develop.Runtime.Meta.Features.OutcomesGame;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
 using _Project.Develop.Runtime.UI.CommonViews;
 using _Project.Develop.Runtime.UI.Core;
 using _Project.Develop.Runtime.UI.LevelsMenuPopup;
+using _Project.Develop.Runtime.UI.OutcomesCounter;
 using _Project.Develop.Runtime.UI.Wallet;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -65,6 +68,26 @@ namespace _Project.Develop.Runtime.UI
             return new LevelsMenuPopupPresenter(
                 _container.Resolve<ICoroutinesPerformer>(),
                 _container.Resolve<ConfigsProviderService>(),
+                this,
+                _container.Resolve<ViewsFactory>(),
+                view);
+        }
+
+        public OutcomesPresenter CreateOutcomesPresenter(
+            IReadOnlyReactiveValue<int> outcomes,
+            OutcomesType outcomesType,
+            TextAndTextView view)
+        {
+            return new OutcomesPresenter(
+                outcomes,
+                outcomesType,
+                view);
+        }
+
+        public OutcomesCounterPresenter CreateOutcomesCounterPresenter(TextAndTextListView view)
+        {
+            return new OutcomesCounterPresenter(
+                _container.Resolve<OutcomesCounterService>(),
                 this,
                 _container.Resolve<ViewsFactory>(),
                 view);

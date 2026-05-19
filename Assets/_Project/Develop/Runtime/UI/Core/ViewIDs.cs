@@ -7,5 +7,6 @@ namespace _Project.Develop.Runtime.UI.Core
         public const string TestPopup = nameof(TestPopup);
         public const string LevelTile = nameof(LevelTile);
         public const string LevelsMenuPopup = nameof(LevelsMenuPopup);
+        public const string OutcomesView = nameof(OutcomesView);
     }
 }

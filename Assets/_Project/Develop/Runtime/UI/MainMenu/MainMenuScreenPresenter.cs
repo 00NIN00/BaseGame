@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Project.Develop.Runtime.UI.Core;
+using _Project.Develop.Runtime.UI.OutcomesCounter;
 using _Project.Develop.Runtime.UI.Wallet;
 
 namespace _Project.Develop.Runtime.UI.MainMenu
@@ -29,12 +30,12 @@ namespace _Project.Develop.Runtime.UI.MainMenu
             _screen.OpenLevelsMenuButtonClicked += OnOpenLevelsMenuButtonClicked;
             
             CreateWallet();
+            CreateOutcomesCounter();
             
             foreach (IPresenter childPresenter in _childPresenters)
                 childPresenter.Initialize();
         }
-
-
+        
         public void Dispose()
         {
             _screen.OpenLevelsMenuButtonClicked += OnOpenLevelsMenuButtonClicked;
@@ -50,6 +51,14 @@ namespace _Project.Develop.Runtime.UI.MainMenu
             WalletPresenter walletPresenter = _projectPresentsFactory.CreateWalletPresenter(_screen.WalletView);
             
             _childPresenters.Add(walletPresenter);
+        }
+        
+        private void CreateOutcomesCounter()
+        {
+            OutcomesCounterPresenter outcomesCounterPresenter =
+                _projectPresentsFactory.CreateOutcomesCounterPresenter(_screen.OutcomesCounter);
+            
+            _childPresenters.Add(outcomesCounterPresenter);
         }
         
         private void OnOpenLevelsMenuButtonClicked()
