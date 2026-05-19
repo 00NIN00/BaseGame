@@ -117,10 +117,10 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
 
         private static OutcomesCounterService CreateOutcomesCounterService(DIContainer c)
         {
-            Dictionary<OutcomesType, int> outcomes = new();
+            Dictionary<OutcomesType, ReactiveVariable<int>> outcomes = new();
 
             foreach (OutcomesType currencyType in Enum.GetValues(typeof(OutcomesType)))
-                outcomes[currencyType] = 0;
+                outcomes[currencyType] = new ReactiveVariable<int>();
             
             return new OutcomesCounterService(outcomes, c.Resolve<PlayerDataProvider>(), c.Resolve<ICoroutinesPerformer>());
         }

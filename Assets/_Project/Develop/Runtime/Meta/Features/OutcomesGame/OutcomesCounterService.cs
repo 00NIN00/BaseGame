@@ -3,6 +3,7 @@ using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.DataManagement;
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Develop.Runtime.Utilities.Reactive;
 
 namespace _Project.Develop.Runtime.Meta.Features.OutcomesGame
 {
@@ -10,9 +11,12 @@ namespace _Project.Develop.Runtime.Meta.Features.OutcomesGame
     {
         private readonly PlayerDataProvider _playerDataProvider;
         private readonly ICoroutinesPerformer _coroutinesPerformer;
-        private readonly Dictionary<OutcomesType, int> _counter;
+        private readonly Dictionary<OutcomesType, ReactiveVariable<int>> _counter;
 
-        public OutcomesCounterService(Dictionary<OutcomesType, int> counter, PlayerDataProvider playerDataProvider, ICoroutinesPerformer coroutinesPerformer)
+        public OutcomesCounterService(
+            Dictionary<OutcomesType, ReactiveVariable<int>> counter,
+            PlayerDataProvider playerDataProvider,
+            ICoroutinesPerformer coroutinesPerformer)
         {
             _playerDataProvider = playerDataProvider;
             _coroutinesPerformer = coroutinesPerformer;
@@ -24,18 +28,18 @@ namespace _Project.Develop.Runtime.Meta.Features.OutcomesGame
         
         public IReadOnlyList<OutcomesType> AvailableOutcomes => _counter.Keys.ToList();
         
-        public int GetCount(OutcomesType type) => _counter[type];
+        public IReadOnlyReactiveValue<int> GetOutcomes(OutcomesType type) => _counter[type];
 
         public void AddOutcome(OutcomesType type)
         {
-            _counter[type]++;
+            _counter[type].Value++;
             Save();//TODO: было бы хорошо, один раз сохранятся  там например после игры и тогда разом и деньги буду сохранятся и очки
         }
 
         public void Reset()
         {
             foreach (var key in _counter.Keys.ToList())
-                _counter[key] = 0;
+                _counter[key].Value = 0;
 
             Save();
         }
@@ -48,20 +52,20 @@ namespace _Project.Develop.Runtime.Meta.Features.OutcomesGame
             foreach (KeyValuePair<OutcomesType, int> count in data.Counter)
             {
                 if (_counter.ContainsKey(count.Key))
-                    _counter[count.Key] = count.Value;
+                    _counter[count.Key].Value = count.Value;
                 else
-                    _counter.Add(count.Key, count.Value);
+                    _counter.Add(count.Key, new ReactiveVariable<int>(count.Value));
             }
         }
 
         public void WriteTo(PlayerData data)
         {
-            foreach (KeyValuePair<OutcomesType, int> count in _counter)
+            foreach (KeyValuePair<OutcomesType, ReactiveVariable<int>> count in _counter)
             {
                 if (data.Counter.ContainsKey(count.Key))
-                    data.Counter[count.Key] = count.Value;
+                    data.Counter[count.Key] = count.Value.Value;
                 else
-                    data.Counter.Add(count.Key, count.Value);
+                    data.Counter.Add(count.Key, count.Value.Value);
             }
         }
     }
