@@ -310,6 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <WalletView>k__BackingField: {fileID: 8233374424775100148}
+  <OutcomesCounter>k__BackingField: {fileID: 5322211652985512453}
   _openLevelsMenuButton: {fileID: 8861940822061580281}
 --- !u!222 &7759903492117771117
 CanvasRenderer:
@@ -579,3 +580,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3351153767105627136}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5322211652985512453 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7448386247894918661, guid: 22110302f501e784a8822f481ac067bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 3351153767105627136}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3647ab858aa1407d9abd1e81dfb47899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
