@@ -1,12 +1,15 @@
 using _Project.Develop.Runtime.Configs.Meta.Wallet;
 using _Project.Develop.Runtime.Infrastructure.DI;
+using _Project.Develop.Runtime.Meta.Features.LevelsProgression;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
 using _Project.Develop.Runtime.UI.CommonViews;
 using _Project.Develop.Runtime.UI.Core;
+using _Project.Develop.Runtime.UI.LevelsMenuPopup;
 using _Project.Develop.Runtime.UI.Wallet;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.Reactive;
+using _Project.Develop.Runtime.Utilities.SceneManagement;
 
 namespace _Project.Develop.Runtime.UI
 {
@@ -45,6 +48,26 @@ namespace _Project.Develop.Runtime.UI
             return new TestPopupPresenter(
                 view,
                 _container.Resolve<ICoroutinesPerformer>());
+        }
+
+        public LevelTitlePresenter CreateLevelTitlePresenter(LevelTitleView view, int levelNumber)
+        {
+            return new LevelTitlePresenter(
+                _container.Resolve<LevelsProgressionService>(),
+                _container.Resolve<ICoroutinesPerformer>(),
+                _container.Resolve<SceneSwitcherService>(),
+                levelNumber,
+                view);
+        }
+
+        public LevelsMenuPopupPresenter CreateLevelsMenuPopupPresenter(LevelsMenuPopupView view)
+        {
+            return new LevelsMenuPopupPresenter(
+                _container.Resolve<ICoroutinesPerformer>(),
+                _container.Resolve<ConfigsProviderService>(),
+                this,
+                _container.Resolve<ViewsFactory>(),
+                view);
         }
     }
 }

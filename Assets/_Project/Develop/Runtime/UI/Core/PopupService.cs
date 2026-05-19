@@ -1,33 +1,45 @@
 using System;
 using System.Collections.Generic;
+using _Project.Develop.Runtime.UI.LevelsMenuPopup;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.UI.Core
 {
     public abstract class PopupService : IDisposable
     {
-         protected readonly ViewsFactory ViewFactory;
+         protected readonly ViewsFactory ViewsFactory;
          private readonly ProjectPresentsFactory _presentsFactory;
 
          private readonly Dictionary<PopupPresenterBase, PopupInfo> _presenterToInfo = new();
          
          protected PopupService(
-             ViewsFactory viewFactory,
+             ViewsFactory viewsFactory,
              ProjectPresentsFactory presentsFactory)
          {
-             ViewFactory = viewFactory;
+             ViewsFactory = viewsFactory;
              _presentsFactory = presentsFactory;
          }
 
          protected abstract Transform PopupLayer { get; }
          
-         public TestPopupPresenter OpenTestPopup(Action closedCallback = null)
+         public TestPopupPresenter OpenLevelsMenuPopup(Action closedCallback = null)
          {
-             TestPopupView view = ViewFactory.Create<TestPopupView>(ViewIDs.TestPopup,  PopupLayer);
+             TestPopupView view = ViewsFactory.Create<TestPopupView>(ViewIDs.TestPopup,  PopupLayer);
              
              TestPopupPresenter popup = _presentsFactory.CreateTestPopupPresenter(view);
              
              OnPopupCreated(popup, view, closedCallback);
+             return popup;
+         }
+
+         public LevelsMenuPopupPresenter OpenLevelsMenuPopup()
+         {
+             LevelsMenuPopupView view = ViewsFactory.Create<LevelsMenuPopupView>(ViewIDs.LevelsMenuPopup, PopupLayer);
+             
+             LevelsMenuPopupPresenter popup = _presentsFactory.CreateLevelsMenuPopupPresenter(view);
+             
+             OnPopupCreated(popup, view);
+             
              return popup;
          }
 
@@ -72,7 +84,7 @@ namespace _Project.Develop.Runtime.UI.Core
          private void DisposeFor(PopupPresenterBase popup)
          {
              popup.Dispose();
-             ViewFactory.Release(_presenterToInfo[popup].View);
+             ViewsFactory.Release(_presenterToInfo[popup].View);
          }
 
          private class PopupInfo

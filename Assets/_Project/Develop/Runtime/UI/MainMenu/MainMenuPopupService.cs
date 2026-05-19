@@ -7,9 +7,9 @@ namespace _Project.Develop.Runtime.UI.MainMenu
     {
         private readonly MainMenuUIRoot _uiRoot;
         public MainMenuPopupService(
-            ViewsFactory viewFactory,
+            ViewsFactory viewsFactory,
             ProjectPresentsFactory presentsFactory, MainMenuUIRoot uiRoot) 
-            : base(viewFactory, presentsFactory)
+            : base(viewsFactory, presentsFactory)
         {
             _uiRoot = uiRoot;
         }
