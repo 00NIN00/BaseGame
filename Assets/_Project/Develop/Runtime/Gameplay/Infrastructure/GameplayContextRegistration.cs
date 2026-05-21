@@ -26,7 +26,7 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateGeneratorLetters);
             container.RegisterAsSingle(CreateTypingGameHandler);
             container.RegisterAsSingle(CreateHameCycle);
-            container.RegisterAsSingle(CreateInitializationViewService);
+            // container.RegisterAsSingle(CreateInitializationViewService);
             container.RegisterAsSingle(CreateGameRewardHandler);
             container.RegisterAsSingle(CreateGameplayEventBindingService);
             
@@ -50,23 +50,23 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
                 c.Resolve<ICoroutinesPerformer>(),
                 c.Resolve<SceneSwitcherService>());
 
-        private static InitializationViewService CreateInitializationViewService(DIContainer c)
-        {
-            ResourcesAssetsLouder resourcesAssetsLouder = c.Resolve<ResourcesAssetsLouder>();
-            
-            ViewTypingGameHandler viewTypingGameHandlerPrefab = resourcesAssetsLouder
-                .Load<ViewTypingGameHandler>("View");
-
-            ViewTypingGameHandler viewTypingGameHandler = Object.Instantiate(viewTypingGameHandlerPrefab);
-            
-            
-            InitializationViewService initializationViewService = new InitializationViewService(viewTypingGameHandler,
-                c.Resolve<IInput>(),
-                c.Resolve<GeneratorSymbols.GeneratorSymbols>(),
-                c.Resolve<GameCycle>() );
-
-            return initializationViewService;
-        }
+        // private static InitializationViewService CreateInitializationViewService(DIContainer c)
+        // {
+        //     ResourcesAssetsLouder resourcesAssetsLouder = c.Resolve<ResourcesAssetsLouder>();
+        //     
+        //     ViewTypingGameHandler viewTypingGameHandlerPrefab = resourcesAssetsLouder
+        //         .Load<ViewTypingGameHandler>("View");
+        //
+        //     ViewTypingGameHandler viewTypingGameHandler = Object.Instantiate(viewTypingGameHandlerPrefab);
+        //     
+        //     
+        //     InitializationViewService initializationViewService = new InitializationViewService(viewTypingGameHandler,
+        //         c.Resolve<IInput>(),
+        //         c.Resolve<GeneratorSymbols.GeneratorSymbols>(),
+        //         c.Resolve<GameCycle>() );
+        //
+        //     return initializationViewService;
+        // }
 
         private static GameRewardHandler CreateGameRewardHandler(DIContainer c)
         {

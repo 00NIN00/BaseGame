@@ -1,9 +1,8 @@
 using System;
 using _Project.Develop.Runtime.Gameplay.Core;
 using _Project.Develop.Runtime.Gameplay.Input;
-using _Project.Develop.Runtime.Gameplay.View;
 
-namespace _Project.Develop.Runtime.Gameplay.Infrastructure
+namespace _Project.Develop.Runtime.Gameplay.View
 {
     public class InitializationViewService : IDisposable
     {
@@ -22,18 +21,18 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 
         public void Initialize()
         {
-            _viewTypingGameHandler.Initialize(_input);
+            // _viewTypingGameHandler.Initialize(_input);
 
-            _generatorSymbols.LetterGenerated += _viewTypingGameHandler.DebugLetters;
-            _gameCycle.Wined += _viewTypingGameHandler.Win;
-            _gameCycle.Defeated += _viewTypingGameHandler.Defeat;
+            // _generatorSymbols.LetterGenerated += _viewTypingGameHandler.DebugLetters;
+            // _gameCycle.Wined += _viewTypingGameHandler.Win;
+            // _gameCycle.Defeated += _viewTypingGameHandler.Defeat;
         }
         
         public void Dispose()
         {
-            _generatorSymbols.LetterGenerated -= _viewTypingGameHandler.DebugLetters;
-            _gameCycle.Wined -= _viewTypingGameHandler.Win;
-            _gameCycle.Defeated -= _viewTypingGameHandler.Defeat;
+            // _generatorSymbols.LetterGenerated -= _viewTypingGameHandler.DebugLetters;
+            // _gameCycle.Wined -= _viewTypingGameHandler.Win;
+            // _gameCycle.Defeated -= _viewTypingGameHandler.Defeat;
         }
     }
 }
