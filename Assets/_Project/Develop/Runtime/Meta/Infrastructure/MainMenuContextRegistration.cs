@@ -45,7 +45,8 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             return new MainMenuPopupService(
                 c.Resolve<ViewsFactory>(),
                 c.Resolve<ProjectPresentsFactory>(),
-                c.Resolve<MainMenuUIRoot>());
+                c.Resolve<MainMenuUIRoot>(),
+                c.Resolve<MainMenuPresentersFactory>());
         }
 
         private static MainMenuPresentersFactory CreateMainMenuPresentersFactory(DIContainer c)
@@ -87,7 +88,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
         {
             return new MainMenuInputHandler(c.Resolve<IInput>(), c.Resolve<PaidResetService>(),c.Resolve<ViewStats>() );
         }
-
+        
         private static PaidResetService CreatePaidResetService(DIContainer c)
         {
             return new PaidResetService(
@@ -95,7 +96,7 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
                 c.Resolve<OutcomesCounterService>(),
                 c.Resolve<ConfigsProviderService>());
         }
-
+        
         private static ViewStats CreateViewStats(DIContainer c)
         {
             return new ViewStats(c.Resolve<WalletService>(), c.Resolve<OutcomesCounterService>());
