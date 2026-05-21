@@ -10,6 +10,7 @@ using _Project.Develop.Runtime.UI.Core;
 using _Project.Develop.Runtime.UI.LevelsMenuPopup;
 using _Project.Develop.Runtime.UI.OutcomesCounter;
 using _Project.Develop.Runtime.UI.ResetPopup;
+using _Project.Develop.Runtime.UI.TextPopup;
 using _Project.Develop.Runtime.UI.Wallet;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -94,12 +95,11 @@ namespace _Project.Develop.Runtime.UI
                 _container.Resolve<ViewsFactory>(),
                 view);
         }
-        public ResetPopupPresenter CreateResetPopupPresenter(ResetPopupView view)
+        public TextPopupPresenter CreateTextPopupPresenter(TextPopupView view)
         {
-            return new ResetPopupPresenter(
+            return new TextPopupPresenter(
                 _container.Resolve<ICoroutinesPerformer>(),
-                view,
-                _container.Resolve<PaidResetService>());
+                view);
         }
     }
 }

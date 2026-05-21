@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Project.Develop.Runtime.UI.LevelsMenuPopup;
+using _Project.Develop.Runtime.UI.TextPopup;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.UI.Core
@@ -39,6 +40,19 @@ namespace _Project.Develop.Runtime.UI.Core
              LevelsMenuPopupPresenter popup = _presentsFactory.CreateLevelsMenuPopupPresenter(view);
              
              OnPopupCreated(popup, view);
+             
+             return popup;
+         }
+         
+         public TextPopupPresenter OpenTextPopup(string text)
+         {
+             TextPopupView view = ViewsFactory.Create<TextPopupView>(ViewIDs.TextPopupView, PopupLayer);
+             
+             TextPopupPresenter popup = _presentsFactory.CreateTextPopupPresenter(view);
+             
+             OnPopupCreated(popup, view);
+             
+             popup.SetText(text);
              
              return popup;
          }
