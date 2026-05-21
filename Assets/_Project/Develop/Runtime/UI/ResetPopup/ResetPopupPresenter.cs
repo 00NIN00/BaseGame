@@ -9,21 +9,25 @@ namespace _Project.Develop.Runtime.UI.ResetPopup
     public class ResetPopupPresenter : PopupPresenterBase
     {
         private const string Title = "Do you want to reset your progress?";
+        private const string TextUnsuccessfulOperation = "you do not have enough money";
         
         private readonly PaidResetService _paidResetService;
         
         private readonly ResetPopupView _view;
         
         private TextPopupPresenter _textPopupPresenter;
-        // private TextPopupView _textPopupView;
+
+        private MainMenuPopupService _mainMenuPopupService;
         
         public ResetPopupPresenter(
             ICoroutinesPerformer coroutinesPerformer,
             ResetPopupView view,
-            PaidResetService paidResetService) : base(coroutinesPerformer)
+            PaidResetService paidResetService, 
+            MainMenuPopupService mainMenuPopupService) : base(coroutinesPerformer)
         {
             _view = view;
             _paidResetService = paidResetService;
+            _mainMenuPopupService = mainMenuPopupService;
         }
 
         protected override PopupViewBase PopupView => _view;
@@ -61,12 +65,12 @@ namespace _Project.Develop.Runtime.UI.ResetPopup
             if (_paidResetService.CanReset())
             {
                 _paidResetService.Reset();    
-                _view.OnCloseButtonClicked();//TODO: сделать нормально через closeRequest
+                _mainMenuPopupService.ClosePopup(this);
             }
             else
             {
-                //_mainMenuPopupService.OpenTextPopup("Not");
-                //TODO:почему мы его сдесь делаем он даже не дочерний, он не должен зависить, он самостоятельный
+                _mainMenuPopupService.ClosePopup(this);
+                _mainMenuPopupService.OpenTextPopup(TextUnsuccessfulOperation);
             }
         }
     }
