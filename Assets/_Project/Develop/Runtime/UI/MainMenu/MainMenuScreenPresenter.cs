@@ -28,6 +28,7 @@ namespace _Project.Develop.Runtime.UI.MainMenu
         public void Initialize()
         {
             _screen.OpenLevelsMenuButtonClicked += OnOpenLevelsMenuButtonClicked;
+            _screen.ResetButtonClicked += OnResetButtonClicked;
             
             CreateWallet();
             CreateOutcomesCounter();
@@ -39,6 +40,7 @@ namespace _Project.Develop.Runtime.UI.MainMenu
         public void Dispose()
         {
             _screen.OpenLevelsMenuButtonClicked += OnOpenLevelsMenuButtonClicked;
+            _screen.ResetButtonClicked -= OnResetButtonClicked;
             
             foreach (IPresenter childPresenter in _childPresenters)
                 childPresenter.Dispose();
@@ -64,6 +66,11 @@ namespace _Project.Develop.Runtime.UI.MainMenu
         private void OnOpenLevelsMenuButtonClicked()
         {
             _menuPopupService.OpenLevelsMenuPopup();
+        }
+        
+        private void OnResetButtonClicked()
+        {
+            _menuPopupService.OpenResetPopup();
         }
     }
 }
