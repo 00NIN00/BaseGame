@@ -9,5 +9,6 @@ namespace _Project.Develop.Runtime.UI.Core
         public const string LevelsMenuPopup = nameof(LevelsMenuPopup);
         public const string OutcomesView = nameof(OutcomesView);
         public const string ResetPopupView = nameof(ResetPopupView);
+        public const string TextPopupView = nameof(TextPopupView);
     }
 }

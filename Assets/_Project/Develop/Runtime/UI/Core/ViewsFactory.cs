@@ -19,6 +19,7 @@ namespace _Project.Develop.Runtime.UI.Core
             {ViewIDs.LevelsMenuPopup, "UI/LevelsMenuPopup/LevelsMenuPopup"},
             {ViewIDs.OutcomesView, "UI/OutcomesCounter/OutcomesView"},
             {ViewIDs.ResetPopupView, "UI/ResetPopup/ResetPopup"},
+            {ViewIDs.TextPopupView, "UI/TextPopup/TextPopup"},
         };
         
         public ViewsFactory(ResourcesAssetsLouder resourcesAssetsLouder)
