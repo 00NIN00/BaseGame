@@ -20,6 +20,7 @@ namespace _Project.Develop.Runtime.UI.Core
             {ViewIDs.OutcomesView, "UI/OutcomesCounter/OutcomesView"},
             {ViewIDs.ResetPopupView, "UI/ResetPopup/ResetPopup"},
             {ViewIDs.TextPopupView, "UI/TextPopup/TextPopup"},
+            {ViewIDs.GameplayScreen, "UI/Gameplay/GameplayScreenView"},
         };
         
         public ViewsFactory(ResourcesAssetsLouder resourcesAssetsLouder)

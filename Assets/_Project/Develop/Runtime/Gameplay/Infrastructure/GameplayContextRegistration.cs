@@ -5,6 +5,10 @@ using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Meta.Features;
 using _Project.Develop.Runtime.Meta.Features.OutcomesGame;
 using _Project.Develop.Runtime.Meta.Features.Wallet;
+using _Project.Develop.Runtime.UI;
+using _Project.Develop.Runtime.UI.Core;
+using _Project.Develop.Runtime.UI.Gameplay;
+using _Project.Develop.Runtime.UI.MainMenu;
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -25,6 +29,11 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateInitializationViewService);
             container.RegisterAsSingle(CreateGameRewardHandler);
             container.RegisterAsSingle(CreateGameplayEventBindingService);
+            
+            container.RegisterAsSingle(CreateMainMenuUIRoot).NonLazy();
+            container.RegisterAsSingle(CreateMainMenuPresentersFactory);
+            container.RegisterAsSingle(CreateMainMenuScreenPresenter).NonLazy();
+            container.RegisterAsSingle(CreateMaiMenuPopupService);
         }
 
         private static GeneratorSymbols.GeneratorSymbols CreateGeneratorLetters(DIContainer c)
@@ -73,6 +82,45 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
                 c.Resolve<GameCycle>(),
                 c.Resolve<OutcomesCounterService>(),
                 c.Resolve<GameRewardHandler>());
+        }
+        
+        private static GameplayUIRoot CreateMainMenuUIRoot(DIContainer c)
+        {
+            ResourcesAssetsLouder resourcesAssetsLouder = c.Resolve<ResourcesAssetsLouder>();
+            
+            GameplayUIRoot gameplayUIRoot = resourcesAssetsLouder
+                .Load<GameplayUIRoot>("UI/Gameplay/GameplayUIRoot");
+
+            return Object.Instantiate(gameplayUIRoot);
+        }
+        
+        private static GameplayPresentersFactory CreateMainMenuPresentersFactory(DIContainer c)
+        {
+            return new GameplayPresentersFactory(c);
+        }
+        
+        private static GameplayScreenPresenter CreateMainMenuScreenPresenter(DIContainer c)
+        {
+            GameplayUIRoot uiRoot = c.Resolve<GameplayUIRoot>();
+            
+            GameplayScreenView view = c.
+                Resolve<ViewsFactory>().
+                Create<GameplayScreenView>(ViewIDs.GameplayScreen, uiRoot.HUDLayer);
+            
+            GameplayScreenPresenter presenter = c.
+                Resolve<GameplayPresentersFactory>().
+                CreateMainMenuScreenPresenter(view);
+            
+            return presenter;
+        }
+        
+        private static GameplayPopupService CreateMaiMenuPopupService(DIContainer c)
+        {
+            return new GameplayPopupService(
+                c.Resolve<ViewsFactory>(),
+                c.Resolve<ProjectPresentsFactory>(),
+                c.Resolve<GameplayUIRoot>(),
+                c.Resolve<GameplayPresentersFactory>());
         }
         /*
         
