@@ -13,7 +13,7 @@ namespace _Project.Develop.Runtime.Configs.Gameplay.Levels
         public ConfigLevel GetBy(int levelNumber)
         {
             int levelIndex = levelNumber - 1;
-            return _levels[levelNumber];
+            return _levels[levelIndex];
         }
     }
 }

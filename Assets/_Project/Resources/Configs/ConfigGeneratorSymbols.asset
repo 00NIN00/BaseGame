@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c222edbac1447daf600bcac5f3428e, type: 3}
   m_Name: ConfigGeneratorSymbols
   m_EditorClassIdentifier: 
-  <CountSymbols>k__BackingField: 2
+  <CountSymbols>k__BackingField: 10

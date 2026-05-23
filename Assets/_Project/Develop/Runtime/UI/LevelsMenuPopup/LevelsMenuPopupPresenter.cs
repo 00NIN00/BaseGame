@@ -3,6 +3,7 @@ using _Project.Develop.Runtime.Configs.Gameplay.Levels;
 using _Project.Develop.Runtime.UI.Core;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
+using UnityEngine;
 
 namespace _Project.Develop.Runtime.UI.LevelsMenuPopup
 {
@@ -46,7 +47,8 @@ namespace _Project.Develop.Runtime.UI.LevelsMenuPopup
                 
                 _view.LevelTilesListView.Add(levelTitleView);
                 
-                LevelTitlePresenter levelTitlePresenter = _presentsFactory.CreateLevelTitlePresenter(levelTitleView, i + 1);
+                Debug.Log(i+1);
+                LevelTitlePresenter levelTitlePresenter = _presentsFactory.CreateLevelTitlePresenter(levelTitleView, i + 1, configLevelsList.GetBy(i+1));
                 
                 levelTitlePresenter.Initialize();
                 

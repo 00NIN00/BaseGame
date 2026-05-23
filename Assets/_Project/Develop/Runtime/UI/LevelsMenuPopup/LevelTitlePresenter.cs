@@ -1,4 +1,5 @@
 using System;
+using _Project.Develop.Runtime.Configs.Gameplay.Levels;
 using _Project.Develop.Runtime.Gameplay;
 using _Project.Develop.Runtime.Gameplay.Infrastructure;
 using _Project.Develop.Runtime.Meta.Features.LevelsProgression;
@@ -14,6 +15,7 @@ namespace _Project.Develop.Runtime.UI.LevelsMenuPopup
         private readonly LevelsProgressionService _levelsService;
         private readonly ICoroutinesPerformer _coroutinesPerformer;
         private readonly SceneSwitcherService _sceneSwitcherService;
+        private readonly ConfigLevel _configLevel;
 
         private readonly int _levelNumber;
         private readonly LevelTitleView _view;
@@ -23,32 +25,36 @@ namespace _Project.Develop.Runtime.UI.LevelsMenuPopup
             ICoroutinesPerformer coroutinesPerformer,
             SceneSwitcherService sceneSwitcherService,
             int levelNumber,
-            LevelTitleView view)
+            LevelTitleView view,
+            ConfigLevel configLevel)
         {
             _levelsService = levelsService;
             _coroutinesPerformer = coroutinesPerformer;
             _sceneSwitcherService = sceneSwitcherService;
             _levelNumber = levelNumber;
             _view = view;
+            _configLevel = configLevel;
         }
 
         public LevelTitleView View => _view;
         
         public void Initialize()
         {
-            _view.SetLevel(_levelNumber.ToString());
+            _view.SetLevel(_configLevel.GameMode.ToString());
 
-            if (_levelsService.CanPlay(_levelNumber))
-            {
-                if (_levelsService.IsLevelCompleted(_levelNumber))
-                    _view.SetComplete();
-                else
-                    _view.SetActive();
-            }
-            else
-            {
-                _view.SetBlock();
-            }
+            _view.SetActive();//сделал чтобы работало
+            //
+            // if (_levelsService.CanPlay(_levelNumber))
+            // {
+            //     if (_levelsService.IsLevelCompleted(_levelNumber))
+            //         _view.SetComplete();
+            //     else
+            //         _view.SetActive();
+            // }
+            // else
+            // {
+            //     _view.SetBlock();
+            // }
         }
 
         public void Dispose()
@@ -68,15 +74,15 @@ namespace _Project.Develop.Runtime.UI.LevelsMenuPopup
         
         private void OnViewClicked()
         {
-            if (_levelsService.CanPlay(_levelNumber) == false)
-            {
-                Debug.Log("Уровень заблокирован, пройдите предыдущий");
-                return;
-            }
+            // if (_levelsService.CanPlay(_levelNumber) == false)
+            // {
+            //     Debug.Log("Уровень заблокирован, пройдите предыдущий");
+            //     return;
+            // }
 
             _coroutinesPerformer
                 .StartPerform(
-                    _sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(GameMode.Letters)));
+                    _sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(_configLevel.GameMode)));
         }
     }
 }

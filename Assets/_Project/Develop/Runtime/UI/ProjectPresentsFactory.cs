@@ -1,3 +1,4 @@
+using _Project.Develop.Runtime.Configs.Gameplay.Levels;
 using _Project.Develop.Runtime.Configs.Meta.Wallet;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Meta.Features;
@@ -56,14 +57,15 @@ namespace _Project.Develop.Runtime.UI
                 _container.Resolve<ICoroutinesPerformer>());
         }
 
-        public LevelTitlePresenter CreateLevelTitlePresenter(LevelTitleView view, int levelNumber)
+        public LevelTitlePresenter CreateLevelTitlePresenter(LevelTitleView view, int levelNumber, ConfigLevel configLevel)
         {
             return new LevelTitlePresenter(
                 _container.Resolve<LevelsProgressionService>(),
                 _container.Resolve<ICoroutinesPerformer>(),
                 _container.Resolve<SceneSwitcherService>(),
                 levelNumber,
-                view);
+                view,
+                configLevel);
         }
 
         public LevelsMenuPopupPresenter CreateLevelsMenuPopupPresenter(LevelsMenuPopupView view)
