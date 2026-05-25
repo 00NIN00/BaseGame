@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4216730093e04dae8edbf5485874708b, type: 3}
   m_Name: ConfigLevel 1
   m_EditorClassIdentifier: 
+  <GameMode>k__BackingField: 1
