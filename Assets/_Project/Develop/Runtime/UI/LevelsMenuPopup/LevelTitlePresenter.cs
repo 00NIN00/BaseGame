@@ -1,12 +1,9 @@
-using System;
 using _Project.Develop.Runtime.Configs.Gameplay.Levels;
-using _Project.Develop.Runtime.Gameplay;
 using _Project.Develop.Runtime.Gameplay.Infrastructure;
 using _Project.Develop.Runtime.Meta.Features.LevelsProgression;
 using _Project.Develop.Runtime.UI.Core;
 using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
-using UnityEngine;
 
 namespace _Project.Develop.Runtime.UI.LevelsMenuPopup
 {
@@ -40,7 +37,7 @@ namespace _Project.Develop.Runtime.UI.LevelsMenuPopup
         
         public void Initialize()
         {
-            _view.SetLevel(_configLevel.GameMode.ToString());
+            // _view.SetLevel();
 
             _view.SetActive();//сделал чтобы работало
             //
@@ -82,7 +79,7 @@ namespace _Project.Develop.Runtime.UI.LevelsMenuPopup
 
             _coroutinesPerformer
                 .StartPerform(
-                    _sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(_configLevel.GameMode)));
+                    _sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs()));
         }
     }
 }

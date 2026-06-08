@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using _Project.Develop.Runtime.UI.Core;
-using _Project.Develop.Runtime.UI.GeneratedText;
-
 namespace _Project.Develop.Runtime.UI.Gameplay
 {
     public class GameplayScreenPresenter: IPresenter
@@ -22,7 +20,6 @@ namespace _Project.Develop.Runtime.UI.Gameplay
 
         public void Initialize()
         {
-            CreateGeneratedText();
             
             foreach (IPresenter childPresenter in _childPresenters)
                 childPresenter.Initialize();
@@ -35,13 +32,6 @@ namespace _Project.Develop.Runtime.UI.Gameplay
                 childPresenter.Dispose();
             
             _childPresenters.Clear();
-        }
-        
-        private void CreateGeneratedText()
-        {
-            GeneratedTextPresenter walletPresenter = _gameplayPresentersFactory.CreateGeneratedTextPresenter(_screen.GeneratedTextView);
-            
-            _childPresenters.Add(walletPresenter);
         }
     }
 }

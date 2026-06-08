@@ -1,6 +1,3 @@
-using _Project.Develop.Runtime.Gameplay;
-using _Project.Develop.Runtime.Gameplay.Input;
-using _Project.Develop.Runtime.Gameplay.View;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Meta.Features.OutcomesGame;
 using _Project.Develop.Runtime.Meta.Features.ResetProgress;
@@ -10,8 +7,6 @@ using _Project.Develop.Runtime.UI.Core;
 using _Project.Develop.Runtime.UI.MainMenu;
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using _Project.Develop.Runtime.Utilities.ConfigsManagement;
-using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
-using _Project.Develop.Runtime.Utilities.SceneManagement;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Meta.Infrastructure
@@ -20,9 +15,6 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
     {
         public static void Process(DIContainer container)
         {
-            container.RegisterAsSingle(CreateSelectGameModeService);
-            container.RegisterAsSingle(CreateMainMenuInputHandler);
-            container.RegisterAsSingle(CreateViewStats);
             container.RegisterAsSingle(CreatePaidResetService);
             container.RegisterAsSingle(CreateMainMenuUIRoot).NonLazy();
             container.RegisterAsSingle(CreateMainMenuPresentersFactory);
@@ -79,27 +71,12 @@ namespace _Project.Develop.Runtime.Meta.Infrastructure
             return Object.Instantiate(mainMenuUIRoot);
         }
         
-        private static SelectGameModeService CreateSelectGameModeService(DIContainer c)
-        {
-            return new SelectGameModeService(c.Resolve<SceneSwitcherService>(), c.Resolve<ICoroutinesPerformer>());
-        }
-
-        private static MainMenuInputHandler CreateMainMenuInputHandler(DIContainer c)
-        {
-            return new MainMenuInputHandler(c.Resolve<IInput>(), c.Resolve<PaidResetService>(),c.Resolve<ViewStats>() );
-        }
-        
         private static PaidResetService CreatePaidResetService(DIContainer c)
         {
             return new PaidResetService(
                 c.Resolve<WalletService>(),
                 c.Resolve<OutcomesCounterService>(),
                 c.Resolve<ConfigsProviderService>());
-        }
-        
-        private static ViewStats CreateViewStats(DIContainer c)
-        {
-            return new ViewStats(c.Resolve<WalletService>(), c.Resolve<OutcomesCounterService>());
         }
     }
 }
