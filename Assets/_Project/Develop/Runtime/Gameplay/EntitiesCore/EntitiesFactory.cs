@@ -33,8 +33,8 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddRotationSpeed(new ReactiveVariable<float>(360))
                 ;
 
-            entity.AddSystem(new RigidbodyMovementSystem());
-            entity.AddSystem(new RigidbodyRotationSystem());
+            entity.AddSystem(new CharacterControllerMovementSystem());
+            // entity.AddSystem(new RigidbodyRotationSystem());
             
             _entitiesLiveContext.Add(entity);
             
