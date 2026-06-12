@@ -21,7 +21,7 @@ namespace _Project.Develop.Runtime.Gameplay
 
         public void Run()
         {
-            _entity = _entitiesFactory.CreateTestEntity(Vector3.zero);
+            _entity = _entitiesFactory.CreateTestPlayerEntity(Vector3.zero);
             
             _isRunning = true;
         }

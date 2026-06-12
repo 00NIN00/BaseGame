@@ -20,11 +20,11 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
             _monoEntitiesFactory = _container.Resolve<MonoEntitiesFactory>();
         }
 
-        public Entity CreateTestEntity(Vector3 position)
+        public Entity CreateTestPlayerEntity(Vector3 position)
         {
             Entity entity = CreateEntity();
             
-            _monoEntitiesFactory.Create(entity, position, "Entities/TestEntity");
+            _monoEntitiesFactory.Create(entity, position, "Entities/Player");
 
             entity
                 .AddMoveDirection()
