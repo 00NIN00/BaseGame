@@ -4,6 +4,7 @@ using _Project.Develop.Runtime.Infrastructure;
 using System.Collections;
 using UnityEngine;
 using System;
+using _Project.Develop.Runtime.Gameplay.EntitiesCore;
 
 namespace _Project.Develop.Runtime.Gameplay.Infrastructure
 {
@@ -13,7 +14,8 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         private GameplayInputArgs _inputArgs;
         
         [SerializeField] private TestGameplay _testGameplay;
-
+        private EntitiesLiveContext _entitiesLiveContext; 
+        
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
             _container = container;
@@ -29,12 +31,18 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         public override IEnumerator Initialize()
         {
             _testGameplay.Initialize(_container);
+            _entitiesLiveContext = _container.Resolve<EntitiesLiveContext>();
             yield break;
         }
 
         public override void Run()
         {
             _testGameplay.Run();
+        }
+
+        private void Update()
+        {
+            _entitiesLiveContext?.Update(Time.deltaTime);
         }
 
         private void OnDestroy()

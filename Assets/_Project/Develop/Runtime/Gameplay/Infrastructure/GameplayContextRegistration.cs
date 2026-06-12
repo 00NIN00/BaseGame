@@ -1,12 +1,10 @@
-using _Project.Develop.Runtime.Infrastructure.DI;
-using _Project.Develop.Runtime.Meta.Features.Wallet;
-using _Project.Develop.Runtime.UI;
-using _Project.Develop.Runtime.UI.Core;
-using _Project.Develop.Runtime.UI.Gameplay;
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
-using _Project.Develop.Runtime.Utilities.ConfigsManagement;
-using _Project.Develop.Runtime.Utilities.CoroutinesManagement;
-using _Project.Develop.Runtime.Utilities.DataManagement.DataProviders;
+using _Project.Develop.Runtime.Gameplay.EntitiesCore;
+using _Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using _Project.Develop.Runtime.Infrastructure.DI;
+using _Project.Develop.Runtime.UI.Gameplay;
+using _Project.Develop.Runtime.UI.Core;
+using _Project.Develop.Runtime.UI;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay.Infrastructure
@@ -19,6 +17,9 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateMainMenuPresentersFactory);
             container.RegisterAsSingle(CreateMainMenuScreenPresenter).NonLazy();
             container.RegisterAsSingle(CreateMaiMenuPopupService);
+            container.RegisterAsSingle(CreateEntitiesFactory);
+            container.RegisterAsSingle(CreateEntitiesLiveContext);
+            container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
         }
 
 
@@ -78,6 +79,24 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
                 c.Resolve<GameplayUIRoot>(),
                 c.Resolve<GameplayPresentersFactory>());
         }
+
+        private static EntitiesFactory CreateEntitiesFactory(DIContainer c)
+        {
+            return new EntitiesFactory(c);
+        }
+
+        private static EntitiesLiveContext CreateEntitiesLiveContext(DIContainer c)
+        {
+            return new EntitiesLiveContext();
+        }
+
+        private static MonoEntitiesFactory CreateMonoEntitiesFactory(DIContainer c)
+        {
+            return new MonoEntitiesFactory(
+                c.Resolve<ResourcesAssetsLouder>(),
+                c.Resolve<EntitiesLiveContext>());
+        }
+        
         /*
         
         private static TypingGameHandler CreateTypingGameHandler(DIContainer c)
