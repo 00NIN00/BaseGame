@@ -34,7 +34,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 ;
 
             entity.AddSystem(new CharacterControllerMovementSystem());
-            // entity.AddSystem(new RigidbodyRotationSystem());
+            entity.AddSystem(new TransformRotationSystem());
             
             _entitiesLiveContext.Add(entity);
             
