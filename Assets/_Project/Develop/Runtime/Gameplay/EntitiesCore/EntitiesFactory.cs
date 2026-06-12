@@ -25,12 +25,16 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
             Entity entity = CreateEntity();
             
             _monoEntitiesFactory.Create(entity, position, "Entities/TestEntity");
-            
+
             entity
                 .AddMoveDirection()
-                .AddMoveSpeed(new ReactiveVariable<float>(10));
+                .AddMoveSpeed(new ReactiveVariable<float>(10))
+                .AddRotationDirection()
+                .AddRotationSpeed(new ReactiveVariable<float>(360))
+                ;
 
             entity.AddSystem(new RigidbodyMovementSystem());
+            entity.AddSystem(new RigidbodyRotationSystem());
             
             _entitiesLiveContext.Add(entity);
             

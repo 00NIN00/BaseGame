@@ -21,7 +21,8 @@ namespace _Project.Develop.Runtime.Gameplay.Features.MovementFeature
 
         public void OnUpdate(float deltaTime)
         {
-            Vector3 velocity = _moveDirection.Value.normalized * _moveSpeed.Value;
+            Vector3 direction = Vector3.ClampMagnitude(_moveDirection.Value, 1f);
+            Vector3 velocity = direction * _moveSpeed.Value;
             
             _rigidbody.velocity = velocity;
         }

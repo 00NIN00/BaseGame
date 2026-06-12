@@ -34,6 +34,7 @@ namespace _Project.Develop.Runtime.Gameplay
             Vector3 inputDirection = new Vector3(UnityEngine.Input.GetAxis("Horizontal"), 0, UnityEngine.Input.GetAxis("Vertical"));
             
             _entity.MoveDirection.Value = inputDirection;
+            _entity.RotationDirection.Value = inputDirection;
         }
     }
 }
