@@ -25,13 +25,11 @@ namespace _Project.Develop.Runtime.Gameplay.Features.MovementFeature
 
             Quaternion targetRotation = Quaternion.LookRotation(_rotationDirection.Value);
             
-            Quaternion newRotation = Quaternion.Lerp(
-                _rigidbody.rotation,
-                targetRotation,
-                _rotationSpeed.Value * deltaTime
-            );
-
-            _rigidbody.rotation = targetRotation;
+            float step = _rotationSpeed.Value * deltaTime;
+            
+            Quaternion rotation = Quaternion.RotateTowards(_rigidbody.rotation, targetRotation, step);
+            
+            _rigidbody.MoveRotation(rotation);
         }
     }
 }
