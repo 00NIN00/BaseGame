@@ -31,7 +31,7 @@ namespace _Project.Develop.Runtime.Gameplay
             if (_isRunning== false)
                 return;
             
-            Vector3 inputDirection = new Vector3(UnityEngine.Input.GetAxis("Horizontal"), 0, UnityEngine.Input.GetAxis("Vertical"));
+            Vector3 inputDirection = new Vector3(UnityEngine.Input.GetAxisRaw("Horizontal"), 0, UnityEngine.Input.GetAxisRaw("Vertical"));
             
             _entity.MoveDirection.Value = inputDirection.normalized;
             _entity.RotationDirection.Value = inputDirection;
