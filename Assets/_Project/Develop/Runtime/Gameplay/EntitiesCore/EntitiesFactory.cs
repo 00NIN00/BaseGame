@@ -43,6 +43,8 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
             
+            ICompositeCondition canRotate = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false));
             
             entity
                 .AddSystem(new RigidbodyMovementSystem())
