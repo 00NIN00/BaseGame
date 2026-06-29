@@ -1,5 +1,6 @@
 using _Project.Develop.Runtime.Gameplay.EntitiesCore;
 using _Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
+using _Project.Develop.Runtime.Utilities.Conditions;
 using _Project.Develop.Runtime.Utilities.Reactive;
 
 namespace _Project.Develop.Runtime.Gameplay.Features.LifeCycle
@@ -9,8 +10,7 @@ namespace _Project.Develop.Runtime.Gameplay.Features.LifeCycle
         private readonly EntitiesLiveContext _entitiesLiveContext;
         
         private Entity _entity;
-        private ReactiveVariable<bool> _isDead;
-        private ReactiveVariable<bool> _inDeathProcess;
+        private ICompositeCondition _mustSelfRelease;
 
         public SelfReleaseSystem(EntitiesLiveContext entitiesLiveContext)
         {
@@ -20,13 +20,12 @@ namespace _Project.Develop.Runtime.Gameplay.Features.LifeCycle
         public void OnInit(Entity entity)
         {
             _entity = entity;
-            _isDead = entity.IsDead;
-            _inDeathProcess = entity.InDeadProcess;
+            _mustSelfRelease = entity.MustSelfRelease;
         }
 
         public void OnUpdate(float deltaTime)
         {
-            if (_isDead.Value && _inDeathProcess.Value == false)
+            if (_mustSelfRelease.Evaluate())
                 _entitiesLiveContext.Release(_entity);
         }
     }

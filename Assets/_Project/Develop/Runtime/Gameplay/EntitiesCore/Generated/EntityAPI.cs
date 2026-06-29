@@ -30,6 +30,15 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.MovementFeature.MoveSpeed() {Value = value}); 
 		}
 
+		public _Project.Develop.Runtime.Gameplay.Features.MovementFeature.CanMove CanMoveC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.MovementFeature.CanMove>();
+
+		public _Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition CanMove =>  CanMoveC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanMove(_Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.MovementFeature.CanMove() {Value = value}); 
+		}
+
 		public _Project.Develop.Runtime.Gameplay.Features.MovementFeature.RotationSpeed RotationSpeedC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.MovementFeature.RotationSpeed>();
 
 		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> RotationSpeed =>  RotationSpeedC.Value;
@@ -56,6 +65,15 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddRotationDirection(_Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Vector3> value)
 		{
 		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.MovementFeature.RotationDirection() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.MovementFeature.CanRotation CanRotationC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.MovementFeature.CanRotation>();
+
+		public _Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition CanRotation =>  CanRotationC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanRotation(_Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.MovementFeature.CanRotation() {Value = value}); 
 		}
 
 		public _Project.Develop.Runtime.Gameplay.Features.LifeCycle.DeathProcessTimerSystem DeathProcessTimerSystemC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.LifeCycle.DeathProcessTimerSystem>();
@@ -105,6 +123,24 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsDead(_Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
 		{
 		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.LifeCycle.IsDead() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.LifeCycle.MustDie MustDieC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.LifeCycle.MustDie>();
+
+		public _Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition MustDie =>  MustDieC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddMustDie(_Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.LifeCycle.MustDie() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.LifeCycle.MustSelfRelease MustSelfReleaseC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.LifeCycle.MustSelfRelease>();
+
+		public _Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition MustSelfRelease =>  MustSelfReleaseC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddMustSelfRelease(_Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.LifeCycle.MustSelfRelease() {Value = value}); 
 		}
 
 		public _Project.Develop.Runtime.Gameplay.Features.LifeCycle.DeathProcessInitialTime DeathProcessInitialTimeC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.LifeCycle.DeathProcessInitialTime>();
