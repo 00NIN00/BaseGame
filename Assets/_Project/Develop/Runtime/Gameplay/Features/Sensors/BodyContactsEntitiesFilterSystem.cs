@@ -39,8 +39,6 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Sensors
                     _contactsEntities.Count++;
                 }
             }
-            
-            Debug.Log("Контакты Сущностей: " + _contactsEntities.Count);
         }
     }
 }

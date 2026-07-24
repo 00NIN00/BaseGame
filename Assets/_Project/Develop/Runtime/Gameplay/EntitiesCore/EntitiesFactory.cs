@@ -1,5 +1,6 @@
 using _Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using _Project.Develop.Runtime.Gameplay.Features.ApplayDamage;
+using _Project.Develop.Runtime.Gameplay.Features.Attack;
 using _Project.Develop.Runtime.Gameplay.Features.ContactTakeDamage;
 using _Project.Develop.Runtime.Gameplay.Features.LifeCycle;
 using _Project.Develop.Runtime.Gameplay.Features.MovementFeature;
@@ -27,6 +28,83 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
             _collidersRegistryService = _container.Resolve<CollidersRegistryService>();
         }
         
+        public Entity CreateHero(Vector3 position)
+        {
+            Entity entity = CreateEntity();
+            
+            _monoEntitiesFactory.Create(entity, position, "Entities/Hero");
+
+            entity
+                .AddMoveDirection()
+                .AddMoveSpeed(new ReactiveVariable<float>(10))
+                .AddIsMoving()
+                .AddRotationDirection()
+                .AddRotationSpeed(new ReactiveVariable<float>(360))
+                .AddMaxHealth(new ReactiveVariable<float>(100))
+                .AddCurrentHealth(new  ReactiveVariable<float>(100))
+                .AddIsDead()
+                .AddInDeadProcess()
+                .AddDeathProcessInitialTime(new ReactiveVariable<float>(2))
+                .AddDeathProcessCurrentTime()
+                .AddTakeDamageRequest()
+                .AddTakeDamageEvent()
+                .AddAttackProcessInitialTime(new ReactiveVariable<float>(3))
+                .AddAttackProcessCurrentTime()
+                .AddInAttackProcess()
+                .AddStartAttackRequest()
+                .AddStartAttackEvent()
+                .AddEndAttackEvent()
+                ;
+
+            ICompositeCondition canMove = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+            
+            ICompositeCondition canRotate = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+
+            ICompositeCondition mustDie = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
+            
+            ICompositeCondition mustSelfRelease = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value))
+                .Add(new FuncCondition(() => entity.InDeadProcess.Value == false));
+            
+            ICompositeCondition canApplyDamage = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+
+            ICompositeCondition canCanStartAttack = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false))
+                .Add(new FuncCondition(() => entity.InAttackProcess.Value == false))
+                .Add(new FuncCondition(() => entity.IsMoving.Value == false));
+                ;
+
+            entity
+                .AddCanMove(canMove)
+                .AddCanRotation(canRotate)
+                .AddMustDie(mustDie)
+                .AddMustSelfRelease(mustSelfRelease)
+                .AddCanApplyDamage(canApplyDamage)
+                .AddCanStartAttack(canCanStartAttack)
+                ;
+            
+            entity
+                .AddSystem(new RigidbodyMovementSystem())
+                .AddSystem(new RigidbodyRotationSystem())
+                .AddSystem(new StartAttackSystem())
+                .AddSystem(new AttackProcessTimerSystem())
+                .AddSystem(new EndAttackSystem())
+                .AddSystem(new ApplyDamageSystem())
+                .AddSystem(new DeathSystem())
+                .AddSystem(new DisableCollidersOnDeathSystem())
+                .AddSystem(new DeathProcessTimerSystem())
+                .AddSystem(new SelfReleaseSystem(_entitiesLiveContext))
+                ;
+            
+            _entitiesLiveContext.Add(entity);
+            
+            return entity;
+        }
+        
         public Entity CreateGhost(Vector3 position)
         {
             Entity entity = CreateEntity();
@@ -36,6 +114,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
             entity
                 .AddMoveDirection()
                 .AddMoveSpeed(new ReactiveVariable<float>(10))
+                .AddIsMoving()
                 .AddRotationDirection()
                 .AddRotationSpeed(new ReactiveVariable<float>(360))
                 .AddMaxHealth(new ReactiveVariable<float>(100))

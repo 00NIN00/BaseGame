@@ -75,6 +75,20 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.MovementFeature.CanMove() {Value = value}); 
 		}
 
+		public _Project.Develop.Runtime.Gameplay.Features.MovementFeature.IsMoving IsMovingC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.MovementFeature.IsMoving>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> IsMoving =>  IsMovingC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsMoving()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.MovementFeature.IsMoving() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsMoving(_Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.MovementFeature.IsMoving() {Value = value}); 
+		}
+
 		public _Project.Develop.Runtime.Gameplay.Features.MovementFeature.RotationSpeed RotationSpeedC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.MovementFeature.RotationSpeed>();
 
 		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> RotationSpeed =>  RotationSpeedC.Value;
@@ -254,6 +268,120 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddBodyContactDamage(_Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
 		{
 		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.ContactTakeDamage.BodyContactDamage() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackRequest StartAttackRequestC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackRequest>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent StartAttackRequest =>  StartAttackRequestC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddStartAttackRequest()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackRequest() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddStartAttackRequest(_Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackRequest() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackEvent StartAttackEventC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackEvent>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent StartAttackEvent =>  StartAttackEventC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddStartAttackEvent()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackEvent() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddStartAttackEvent(_Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackEvent() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.CanStartAttack CanStartAttackC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.CanStartAttack>();
+
+		public _Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition CanStartAttack =>  CanStartAttackC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanStartAttack(_Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.CanStartAttack() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.EndAttackEvent EndAttackEventC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.EndAttackEvent>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent EndAttackEvent =>  EndAttackEventC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddEndAttackEvent()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.EndAttackEvent() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddEndAttackEvent(_Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.EndAttackEvent() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessInitialTime AttackProcessInitialTimeC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessInitialTime>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> AttackProcessInitialTime =>  AttackProcessInitialTimeC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackProcessInitialTime()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessInitialTime() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackProcessInitialTime(_Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessInitialTime() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessCurrentTime AttackProcessCurrentTimeC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessCurrentTime>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> AttackProcessCurrentTime =>  AttackProcessCurrentTimeC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackProcessCurrentTime()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessCurrentTime() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackProcessCurrentTime(_Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessCurrentTime() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.InAttackProcess InAttackProcessC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.InAttackProcess>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> InAttackProcess =>  InAttackProcessC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddInAttackProcess()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.InAttackProcess() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddInAttackProcess(_Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.InAttackProcess() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessTimerSystem AttackProcessTimerSystemC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessTimerSystem>();
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackProcessTimerSystem()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessTimerSystem() ); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.EndAttackSystem EndAttackSystemC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.EndAttackSystem>();
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddEndAttackSystem()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.EndAttackSystem() ); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackSystem StartAttackSystemC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackSystem>();
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddStartAttackSystem()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackSystem() ); 
 		}
 
 		public _Project.Develop.Runtime.Gameplay.Features.ApplayDamage.TakeDamageRequest TakeDamageRequestC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.ApplayDamage.TakeDamageRequest>();

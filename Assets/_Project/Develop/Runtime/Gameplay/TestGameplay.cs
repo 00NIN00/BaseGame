@@ -21,7 +21,7 @@ namespace _Project.Develop.Runtime.Gameplay
 
         public void Run()
         {
-            _entity = _entitiesFactory.CreateGhost(Vector3.zero);
+            _entity = _entitiesFactory.CreateHero(Vector3.zero);
             _entitiesFactory.CreateGhost(Vector3.zero + Vector3.forward * 5);
             // _entity = _entitiesFactory.CreateTestPlayerEntity(Vector3.zero);
             
@@ -35,6 +35,9 @@ namespace _Project.Develop.Runtime.Gameplay
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
                 _entity.TakeDamageRequest.Invoke(50);
+            
+            if (UnityEngine.Input.GetKeyDown(KeyCode.R))
+                _entity.StartAttackRequest.Invoke();
             
             Vector3 inputDirection = new Vector3(UnityEngine.Input.GetAxisRaw("Horizontal"), 0, UnityEngine.Input.GetAxisRaw("Vertical"));
             

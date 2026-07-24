@@ -19,4 +19,9 @@ namespace _Project.Develop.Runtime.Gameplay.Features.MovementFeature
     {
         public ICompositeCondition Value;
     }
+
+    public class IsMoving : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value;
+    }
 }
