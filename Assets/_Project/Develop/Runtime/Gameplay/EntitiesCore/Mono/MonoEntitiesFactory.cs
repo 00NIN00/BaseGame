@@ -13,12 +13,15 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore.Mono
 
         private readonly EntitiesLiveContext _entityToLiveContext;
         
+        private readonly CollidersRegistryService _collidersRegistryService;
+        
         private readonly Dictionary<Entity, MonoEntity> _entityToMono = new();
         
-        public MonoEntitiesFactory(ResourcesAssetsLouder resources, EntitiesLiveContext entityToLiveContext)
+        public MonoEntitiesFactory(ResourcesAssetsLouder resources, EntitiesLiveContext entityToLiveContext, CollidersRegistryService collidersRegistryService)
         {
             _resources = resources;
             _entityToLiveContext = entityToLiveContext;
+            _collidersRegistryService = collidersRegistryService;
         }
 
         public MonoEntity Create(Entity entity, Vector3 position, string path)
@@ -27,7 +30,9 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore.Mono
             
             MonoEntity viewInstance = Object.Instantiate(prefab, position, Quaternion.identity, null);
             
-            viewInstance.Setup(entity);
+            viewInstance.Initialize(_collidersRegistryService);
+            
+            viewInstance.Link(entity);
             
             _entityToMono.Add(entity, viewInstance);
             

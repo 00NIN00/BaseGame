@@ -20,6 +20,7 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateEntitiesFactory);
             container.RegisterAsSingle(CreateEntitiesLiveContext);
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
+            container.RegisterAsSingle(CreateCollidersRegistryService);
         }
 
 
@@ -94,7 +95,13 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
         {
             return new MonoEntitiesFactory(
                 c.Resolve<ResourcesAssetsLouder>(),
-                c.Resolve<EntitiesLiveContext>());
+                c.Resolve<EntitiesLiveContext>(),
+                c.Resolve<CollidersRegistryService>());
+        }
+
+        private static CollidersRegistryService CreateCollidersRegistryService(DIContainer c)
+        {
+            return new CollidersRegistryService();
         }
         
         /*
