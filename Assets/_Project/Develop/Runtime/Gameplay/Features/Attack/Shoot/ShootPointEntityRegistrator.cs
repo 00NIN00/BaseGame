@@ -14,6 +14,4 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Attack.Shoot
             entity.AddShootPoint(_shootPoint);
         }
     }
-    
-    
 }

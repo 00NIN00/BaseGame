@@ -60,4 +60,14 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Attack
     {
         public Transform Value;
     }
+    
+    public class MustCancelAttack : IEntityComponent
+    {
+        public ICompositeCondition Value;
+    }
+    
+    public class AttackCancelEvent : IEntityComponent
+    {
+        public ReactiveEvent Value;
+    }
 }

@@ -414,6 +414,29 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.ShootPoint() {Value = value}); 
 		}
 
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.MustCancelAttack MustCancelAttackC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.MustCancelAttack>();
+
+		public _Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition MustCancelAttack =>  MustCancelAttackC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddMustCancelAttack(_Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.MustCancelAttack() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.AttackCancelEvent AttackCancelEventC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.AttackCancelEvent>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent AttackCancelEvent =>  AttackCancelEventC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackCancelEvent()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackCancelEvent() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackCancelEvent(_Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackCancelEvent() {Value = value}); 
+		}
+
 		public _Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndTriggerSystem AttackDelayEndTriggerSystemC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndTriggerSystem>();
 
 		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackDelayEndTriggerSystem()
