@@ -391,6 +391,29 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndEvent() {Value = value}); 
 		}
 
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.InstantAttackDamage InstantAttackDamageC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.InstantAttackDamage>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> InstantAttackDamage =>  InstantAttackDamageC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddInstantAttackDamage()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.InstantAttackDamage() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddInstantAttackDamage(_Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.InstantAttackDamage() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.ShootPoint ShootPointC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.ShootPoint>();
+
+		public UnityEngine.Transform ShootPoint =>  ShootPointC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddShootPoint(UnityEngine.Transform value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.ShootPoint() {Value = value}); 
+		}
+
 		public _Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndTriggerSystem AttackDelayEndTriggerSystemC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndTriggerSystem>();
 
 		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackDelayEndTriggerSystem()
@@ -417,6 +440,13 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddStartAttackSystem()
 		{
 		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.StartAttackSystem() ); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.Shoot.InstantShootSystem InstantShootSystemC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.Shoot.InstantShootSystem>();
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddInstantShootSystem()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.Shoot.InstantShootSystem() ); 
 		}
 
 		public _Project.Develop.Runtime.Gameplay.Features.ApplayDamage.TakeDamageRequest TakeDamageRequestC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.ApplayDamage.TakeDamageRequest>();

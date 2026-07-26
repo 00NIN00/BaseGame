@@ -1,6 +1,7 @@
 using _Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using _Project.Develop.Runtime.Gameplay.Features.ApplayDamage;
 using _Project.Develop.Runtime.Gameplay.Features.Attack;
+using _Project.Develop.Runtime.Gameplay.Features.Attack.Shoot;
 using _Project.Develop.Runtime.Gameplay.Features.ContactTakeDamage;
 using _Project.Develop.Runtime.Gameplay.Features.LifeCycle;
 using _Project.Develop.Runtime.Gameplay.Features.MovementFeature;
@@ -56,6 +57,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddEndAttackEvent()
                 .AddAttackDelayTime(new ReactiveVariable<float>(1))
                 .AddAttackDelayEndEvent()
+                .AddInstantAttackDamage(new ReactiveVariable<float>(50))
                 ;
 
             ICompositeCondition canMove = new CompositeCondition()
@@ -95,6 +97,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new StartAttackSystem())
                 .AddSystem(new AttackProcessTimerSystem())
                 .AddSystem(new AttackDelayEndTriggerSystem())
+                .AddSystem(new InstantShootSystem())
                 .AddSystem(new EndAttackSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
