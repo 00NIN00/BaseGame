@@ -50,8 +50,5 @@ namespace _Project.Develop.Runtime.Gameplay.Features.LifeCycle
         }
 
         private bool CooldownIsOver() => _currentTime.Value <= 0;
-
-
-
     }
 }

@@ -1,6 +1,6 @@
 namespace _Project.Develop.Runtime.Gameplay.EntitiesCore.Systems
 {
-    public interface IDisposableSystem : IEntityComponent
+    public interface IDisposableSystem : IEntitySystem
     {
         void OnDispose();
     }

@@ -31,12 +31,14 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Sensors
                 QueryTriggerInteraction.Ignore);
             
             RemoveSelfFromContacts();
+            
+            Debug.Log("Контакты: " + _contacts.Count);
         }
         
         private void RemoveSelfFromContacts()
         {
             int indexToRemove = -1;
-    
+
             for (int i = 0; i < _contacts.Count; i++)
             {
                 if (_contacts.Items[i] == _body)
@@ -45,15 +47,16 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Sensors
                     break;
                 }
             }
-    
+
             if (indexToRemove >= 0)
             {
                 for (int i = indexToRemove; i < _contacts.Count - 1; i++)
                 {
                     _contacts.Items[i] = _contacts.Items[i + 1];
                 }
+
+                _contacts.Count--;
             }
-            _contacts.Count--;
         }
     }
 }
