@@ -59,6 +59,9 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddAttackDelayEndEvent()
                 .AddInstantAttackDamage(new ReactiveVariable<float>(50))
                 .AddAttackCancelEvent()
+                .AddAttackCooldownInitialTime(new ReactiveVariable<float>(2))
+                .AddAttackCooldownCurrentTime()
+                .AddInAttackCooldown()
                 ;
 
             ICompositeCondition canMove = new CompositeCondition()
@@ -80,7 +83,8 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
             ICompositeCondition canCanStartAttack = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false))
                 .Add(new FuncCondition(() => entity.InAttackProcess.Value == false))
-                .Add(new FuncCondition(() => entity.IsMoving.Value == false));
+                .Add(new FuncCondition(() => entity.IsMoving.Value == false))
+                .Add(new FuncCondition(() => entity.InAttackCooldown.Value == false));
                 
             ICompositeCondition mustCancelAttack = new CompositeCondition(LogicOperations.Or)
                 .Add(new FuncCondition(() => entity.IsDead.Value == true))
@@ -105,6 +109,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new AttackDelayEndTriggerSystem())
                 .AddSystem(new InstantShootSystem())
                 .AddSystem(new EndAttackSystem())
+                .AddSystem(new AttackCooldownTimerSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())

@@ -70,4 +70,20 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Attack
     {
         public ReactiveEvent Value;
     }
+    
+    public class AttackCooldownInitialTime : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
+
+    public class AttackCooldownCurrentTime : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
+
+    public class InAttackCooldown : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value;
+    }
+
 }
