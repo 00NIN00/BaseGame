@@ -363,6 +363,41 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.InAttackProcess() {Value = value}); 
 		}
 
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayTime AttackDelayTimeC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayTime>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> AttackDelayTime =>  AttackDelayTimeC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackDelayTime()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayTime() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackDelayTime(_Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayTime() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndEvent AttackDelayEndEventC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndEvent>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent AttackDelayEndEvent =>  AttackDelayEndEventC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackDelayEndEvent()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndEvent() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackDelayEndEvent(_Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndEvent() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndTriggerSystem AttackDelayEndTriggerSystemC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndTriggerSystem>();
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackDelayEndTriggerSystem()
+		{
+		return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndTriggerSystem() ); 
+		}
+
 		public _Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessTimerSystem AttackProcessTimerSystemC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Attack.AttackProcessTimerSystem>();
 
 		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackProcessTimerSystem()

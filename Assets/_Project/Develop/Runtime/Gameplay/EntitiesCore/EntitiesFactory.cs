@@ -54,6 +54,8 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddStartAttackRequest()
                 .AddStartAttackEvent()
                 .AddEndAttackEvent()
+                .AddAttackDelayTime(new ReactiveVariable<float>(1))
+                .AddAttackDelayEndEvent()
                 ;
 
             ICompositeCondition canMove = new CompositeCondition()
@@ -92,6 +94,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new RigidbodyRotationSystem())
                 .AddSystem(new StartAttackSystem())
                 .AddSystem(new AttackProcessTimerSystem())
+                .AddSystem(new AttackDelayEndTriggerSystem())
                 .AddSystem(new EndAttackSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())

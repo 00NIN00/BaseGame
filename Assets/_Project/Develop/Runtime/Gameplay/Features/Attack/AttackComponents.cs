@@ -39,4 +39,14 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Attack
     {
         public ReactiveVariable<bool> Value;
     }
+    
+    public class AttackDelayTime : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
+    
+    public class AttackDelayEndEvent : IEntityComponent
+    {
+        public ReactiveEvent Value;
+    }
 }
