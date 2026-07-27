@@ -207,6 +207,8 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddContactCollidersBuffer(new Buffer<Collider>(64))
                 .AddContactEntitiesBuffer(new Buffer<Entity>(64))
                 .AddBodyContactDamage(new ReactiveVariable<float>(damage))
+                .AddDeathMask(1 << LayerMask.NameToLayer("Characters"))
+                .AddIsTouchDeathMask()
                 ;
 
             ICompositeCondition canMove = new CompositeCondition()
@@ -216,7 +218,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
             ICompositeCondition mustDie = new CompositeCondition()
-                .Add(new FuncCondition(() => false));
+                .Add(new FuncCondition(() => entity.IsTouchDeathMask.Value));
             
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
@@ -235,6 +237,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new BodyContactDetectionSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new DealDamageOnContactSystem())
+                .AddSystem(new DeathMaskTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLiveContext))
