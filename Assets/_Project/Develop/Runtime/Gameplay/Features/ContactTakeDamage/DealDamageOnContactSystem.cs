@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using _Project.Develop.Runtime.Gameplay.EntitiesCore;
 using _Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
-using _Project.Develop.Runtime.Gameplay.Features.ApplayDamage;
+using _Project.Develop.Runtime.Gameplay.Features.ApplyDamage;
 using _Project.Develop.Runtime.Utilities;
 using _Project.Develop.Runtime.Utilities.Reactive;
 

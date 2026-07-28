@@ -1,12 +1,11 @@
 using System;
 using _Project.Develop.Runtime.Gameplay.EntitiesCore;
 using _Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
-using _Project.Develop.Runtime.Gameplay.Features.LifeCycle;
 using _Project.Develop.Runtime.Utilities.Conditions;
 using _Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
-namespace _Project.Develop.Runtime.Gameplay.Features.ApplayDamage
+namespace _Project.Develop.Runtime.Gameplay.Features.ApplyDamage
 {
     public class ApplyDamageSystem : IInitializableSystem, IDisposableSystem
     {
