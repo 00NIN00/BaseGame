@@ -10,6 +10,7 @@ namespace _Project.Develop.Runtime.Gameplay
         private EntitiesFactory _entitiesFactory;
 
         private Entity _entity;
+        private Entity _entity2;
         
         private bool _isRunning;
         
@@ -23,6 +24,7 @@ namespace _Project.Develop.Runtime.Gameplay
         {
             _entity = _entitiesFactory.CreateHero(Vector3.zero);
             _entitiesFactory.CreateGhost(Vector3.zero + Vector3.forward * 5);
+            _entity2 = _entitiesFactory.CreateNewCharacter(Vector3.zero + Vector3.back * 5);
             // _entity = _entitiesFactory.CreateTestPlayerEntity(Vector3.zero);
             
             _isRunning = true;
@@ -38,6 +40,9 @@ namespace _Project.Develop.Runtime.Gameplay
             
             if (UnityEngine.Input.GetKeyDown(KeyCode.R))
                 _entity.StartAttackRequest.Invoke();
+            
+            if (UnityEngine.Input.GetKeyDown(KeyCode.S))
+                _entity2.SpendEnergyRequest.Invoke(10);
             
             Vector3 inputDirection = new Vector3(UnityEngine.Input.GetAxisRaw("Horizontal"), 0, UnityEngine.Input.GetAxisRaw("Vertical"));
             

@@ -3,6 +3,7 @@ using _Project.Develop.Runtime.Gameplay.Features.ApplyDamage;
 using _Project.Develop.Runtime.Gameplay.Features.Attack;
 using _Project.Develop.Runtime.Gameplay.Features.Attack.Shoot;
 using _Project.Develop.Runtime.Gameplay.Features.ContactTakeDamage;
+using _Project.Develop.Runtime.Gameplay.Features.Energy;
 using _Project.Develop.Runtime.Gameplay.Features.LifeCycle;
 using _Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using _Project.Develop.Runtime.Gameplay.Features.Sensors;
@@ -267,6 +268,10 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddContactCollidersBuffer(new Buffer<Collider>(64))
                 .AddContactEntitiesBuffer(new Buffer<Entity>(64))
                 .AddBodyContactDamage(new ReactiveVariable<float>(50))
+                .AddMaxEnergy(new ReactiveVariable<float>(100))
+                .AddCurrentEnergy(new ReactiveVariable<float>(100))
+                .AddSpendEnergyRequest()
+                .AddSpendEnergyEvent()
                 ;
 
             ICompositeCondition canMove = new CompositeCondition()
@@ -284,6 +289,10 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
             
             ICompositeCondition canApplyDamage = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
+            
+            ICompositeCondition canSpendEnergy = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false))
+                .Add(new FuncCondition(() => entity.CurrentEnergy.Value > 0));//TODO:где лучше проверять чтобы нельзя было вычесть из нуля энергию, здесь или в методе SpendEnergySystem, думаю лучше в SpendEnergySystem потому что можно будет чекнуть чтобы в минус не ушло (current = 10, а spend = 20 => -10 получится) 
 
             entity
                 .AddCanMove(canMove)
@@ -291,12 +300,14 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease)
                 .AddCanApplyDamage(canApplyDamage)
+                .AddCanSpendEnergy(canSpendEnergy)
                 ;
             
             entity
                 .AddSystem(new BodyContactDetectionSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new ApplyDamageSystem())
+                .AddSystem(new SpendEnergySystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new DeathProcessTimerSystem())
