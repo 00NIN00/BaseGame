@@ -10,6 +10,7 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy
     {
         private ReactiveVariable<float> _currentTime;
         private ReactiveVariable<float> _initialTime;
+        private ReactiveVariable<bool> _inRegenCooldown;
         private ReactiveEvent _energyRegenEvent;
         
         private IDisposable _energyRegenEventDisposable;
@@ -19,18 +20,20 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy
             _currentTime = entity.EnergyRegenIntervalCurrentTime;
             _initialTime = entity.EnergyRegenIntervalInitialTime;
             _energyRegenEvent = entity.RegenEnergyEvent;
+            _inRegenCooldown = entity.InEnergyRegenCooldown;
             
             _currentTime.Value = _initialTime.Value;
         }
 
         public void OnUpdate(float deltaTime)
         {
+            _inRegenCooldown.Value = true;
             _currentTime.Value -= deltaTime;
             
             if (TimerIsOver())
             {
                 _currentTime.Value = _initialTime.Value;
-                
+                _inRegenCooldown.Value = false;
                 _energyRegenEvent.Invoke();
             }
         }
