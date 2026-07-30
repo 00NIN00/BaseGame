@@ -44,6 +44,11 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy
       public ICompositeCondition Value;
    }
    
+   public class CanAddEnergy : IEntityComponent
+   {
+      public ICompositeCondition Value;
+   }
+   
    public class RegenEnergyRequest : IEntityComponent
    {
       public ReactiveEvent<float> Value;
@@ -60,6 +65,16 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy
    }
 
    public class SpendEnergyEvent : IEntityComponent
+   {
+      public ReactiveEvent<float> Value;
+   }
+   
+   public class AddEnergyRequest : IEntityComponent
+   {
+      public ReactiveEvent<float> Value;
+   }
+
+   public class AddEnergyEvent : IEntityComponent
    {
       public ReactiveEvent<float> Value;
    }

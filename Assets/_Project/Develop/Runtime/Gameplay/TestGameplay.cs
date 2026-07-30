@@ -44,6 +44,9 @@ namespace _Project.Develop.Runtime.Gameplay
             if (UnityEngine.Input.GetKeyDown(KeyCode.S))
                 _entity2.SpendEnergyRequest.Invoke(10);
             
+            if (UnityEngine.Input.GetKeyDown(KeyCode.A))
+                _entity2.AddEnergyRequest.Invoke(10);
+            
             Vector3 inputDirection = new Vector3(UnityEngine.Input.GetAxisRaw("Horizontal"), 0, UnityEngine.Input.GetAxisRaw("Vertical"));
             
             _entity.MoveDirection.Value = inputDirection.normalized;

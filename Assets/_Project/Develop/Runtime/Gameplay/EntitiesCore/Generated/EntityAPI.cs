@@ -367,6 +367,15 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Energy.CanSpendEnergy() {Value = value}); 
 		}
 
+		public _Project.Develop.Runtime.Gameplay.Features.Energy.CanAddEnergy CanAddEnergyC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Energy.CanAddEnergy>();
+
+		public _Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition CanAddEnergy => CanAddEnergyC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanAddEnergy(_Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Energy.CanAddEnergy() {Value = value}); 
+		}
+
 		public _Project.Develop.Runtime.Gameplay.Features.Energy.RegenEnergyRequest RegenEnergyRequestC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Energy.RegenEnergyRequest>();
 
 		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> RegenEnergyRequest => RegenEnergyRequestC.Value;
@@ -421,6 +430,34 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddSpendEnergyEvent(_Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> value)
 		{
 			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Energy.SpendEnergyEvent() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Energy.AddEnergyRequest AddEnergyRequestC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Energy.AddEnergyRequest>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> AddEnergyRequest => AddEnergyRequestC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAddEnergyRequest()
+		{
+			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Energy.AddEnergyRequest() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single>() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAddEnergyRequest(_Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> value)
+		{
+			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Energy.AddEnergyRequest() {Value = value}); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.Features.Energy.AddEnergyEvent AddEnergyEventC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Energy.AddEnergyEvent>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> AddEnergyEvent => AddEnergyEventC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAddEnergyEvent()
+		{
+			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Energy.AddEnergyEvent() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single>() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAddEnergyEvent(_Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> value)
+		{
+			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Energy.AddEnergyEvent() {Value = value}); 
 		}
 
 		public _Project.Develop.Runtime.Gameplay.Features.ContactTakeDamage.BodyContactDamage BodyContactDamageC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.ContactTakeDamage.BodyContactDamage>();
