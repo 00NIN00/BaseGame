@@ -392,14 +392,14 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 
 		public _Project.Develop.Runtime.Gameplay.Features.Energy.RegenEnergyEvent RegenEnergyEventC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Energy.RegenEnergyEvent>();
 
-		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> RegenEnergyEvent => RegenEnergyEventC.Value;
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent RegenEnergyEvent => RegenEnergyEventC.Value;
 
 		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddRegenEnergyEvent()
 		{
-			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Energy.RegenEnergyEvent() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single>() }); 
+			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Energy.RegenEnergyEvent() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
 		}
 
-		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddRegenEnergyEvent(_Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> value)
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddRegenEnergyEvent(_Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
 		{
 			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Energy.RegenEnergyEvent() {Value = value}); 
 		}

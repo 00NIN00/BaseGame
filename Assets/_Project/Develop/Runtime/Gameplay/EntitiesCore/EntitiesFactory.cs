@@ -270,6 +270,11 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddBodyContactDamage(new ReactiveVariable<float>(50))
                 .AddMaxEnergy(new ReactiveVariable<float>(100))
                 .AddCurrentEnergy(new ReactiveVariable<float>(100))
+                .AddEnergyRegenIntervalInitialTime(new ReactiveVariable<float>(4))
+                .AddEnergyRegenIntervalCurrentTime()
+                .AddEnergyRegenPercentage(new ReactiveVariable<float>(10))
+                .AddRegenEnergyRequest()
+                .AddRegenEnergyEvent()
                 .AddSpendEnergyRequest()
                 .AddSpendEnergyEvent()
                 .AddAddEnergyRequest()
@@ -300,6 +305,9 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .Add(new FuncCondition(() => entity.IsDead.Value == false))
                 .Add(new FuncCondition(() => entity.CurrentEnergy.Value < entity.MaxEnergy.Value));//TODO:где лучше проверять чтобы нельзя было вычесть из нуля энергию, здесь или в методе SpendEnergySystem, думаю лучше в SpendEnergySystem потому что можно будет чекнуть чтобы в минус не ушло (current = 10, а spend = 20 => -10 получится) 
 
+            ICompositeCondition canRegenEnergy = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+            
             entity
                 .AddCanMove(canMove)
                 .AddCanRotation(canRotate)
@@ -307,6 +315,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddMustSelfRelease(mustSelfRelease)
                 .AddCanApplyDamage(canApplyDamage)
                 .AddCanSpendEnergy(canSpendEnergy)
+                .AddCanRegenEnergy(canRegenEnergy)
                 .AddCanAddEnergy(canAddEnergy)
                 ;
             
@@ -315,6 +324,8 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new SpendEnergySystem())
+                .AddSystem(new RegenEnergySystem())
+                .AddSystem(new EnergyRegenCooldownTimerSystem())
                 .AddSystem(new AddEnergySystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
