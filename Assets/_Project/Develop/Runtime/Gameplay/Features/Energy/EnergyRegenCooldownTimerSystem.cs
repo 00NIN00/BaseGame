@@ -6,13 +6,12 @@ using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay.Features.Energy
 {
-    public class EnergyRegenCooldownTimerSystem: IInitializableSystem, IUpdatableSystem
+    public class EnergyRegenCooldownTimerSystem: IInitializableSystem, IUpdatableSystem//TODO:что-то в этом скрипте не так проверить и дописать
     {
         private ReactiveVariable<float> _currentTime;
         private ReactiveVariable<float> _initialTime;
         private ReactiveVariable<bool> _inRegenCooldown;
         private ReactiveEvent _energyRegenEvent;
-        
         private IDisposable _energyRegenEventDisposable;
 
         public void OnInit(Entity entity)
@@ -20,20 +19,21 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy
             _currentTime = entity.EnergyRegenIntervalCurrentTime;
             _initialTime = entity.EnergyRegenIntervalInitialTime;
             _energyRegenEvent = entity.RegenEnergyEvent;
-            _inRegenCooldown = entity.InEnergyRegenCooldown;
-            
+            // _inRegenCooldown = entity.InEnergyRegenCooldown;
             _currentTime.Value = _initialTime.Value;
         }
 
         public void OnUpdate(float deltaTime)
         {
-            _inRegenCooldown.Value = true;
+            //if (_inRegenCooldown.Value == false)
+            //  return;
+            
             _currentTime.Value -= deltaTime;
             
             if (TimerIsOver())
             {
                 _currentTime.Value = _initialTime.Value;
-                _inRegenCooldown.Value = false;
+                // _inRegenCooldown.Value = false;
                 _energyRegenEvent.Invoke();
             }
         }

@@ -7,6 +7,7 @@ using _Project.Develop.Runtime.Gameplay.Features.Energy;
 using _Project.Develop.Runtime.Gameplay.Features.LifeCycle;
 using _Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using _Project.Develop.Runtime.Gameplay.Features.Sensors;
+using _Project.Develop.Runtime.Gameplay.Features.Teleport;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Utilities;
 using _Project.Develop.Runtime.Utilities.Conditions;
@@ -279,13 +280,18 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSpendEnergyEvent()
                 .AddAddEnergyRequest()
                 .AddAddEnergyEvent()
+                .AddTeleportRadius(new ReactiveVariable<float>(8))
+                .AddDamageOnTeleport(new ReactiveVariable<float>(5))
+                .AddDamageRadiusOnTeleport(new ReactiveVariable<float>(3))
+                .AddTeleportEnergyCost(new ReactiveVariable<float>(100))
+                .AddTeleportCooldownInitialTime(new ReactiveVariable<float>(4))
+                .AddTeleportCooldownCurrentTime(new ReactiveVariable<float>(4))
+                .AddInTeleportCooldown()
+                .AddSelectedTeleportPoint()
+                .AddTeleportRequest()
+                .AddTeleportPointSelectedEvent()
+                .AddTeleportExecutedEvent()
                 ;
-
-            ICompositeCondition canMove = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.IsDead.Value == false));
-            
-            ICompositeCondition canRotate = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
             ICompositeCondition mustDie = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
@@ -308,9 +314,13 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
             ICompositeCondition canRegenEnergy = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
             
+            ICompositeCondition canTeleport = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false))
+                .Add(new FuncCondition(() => entity.CurrentEnergy.Value >= entity.TeleportEnergyCost.Value))
+                ;
+            
             entity
-                .AddCanMove(canMove)
-                .AddCanRotation(canRotate)
+                .AddCanTeleport(canTeleport)
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease)
                 .AddCanApplyDamage(canApplyDamage)
@@ -327,6 +337,10 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new RegenEnergySystem())
                 .AddSystem(new EnergyRegenCooldownTimerSystem())
                 .AddSystem(new AddEnergySystem())
+                .AddSystem(new TeleportPointSelectionSystem())
+                .AddSystem(new TeleportExecuteSystem())
+                .AddSystem(new TeleportCooldownSystem())
+                .AddSystem(new TeleportProvokeSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new DeathProcessTimerSystem())
