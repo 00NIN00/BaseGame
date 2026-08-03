@@ -51,7 +51,7 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy
    
    public class RegenEnergyRequest : IEntityComponent
    {
-      public ReactiveEvent<float> Value;
+      public ReactiveEvent Value;
    }
 
    public class RegenEnergyEvent : IEntityComponent

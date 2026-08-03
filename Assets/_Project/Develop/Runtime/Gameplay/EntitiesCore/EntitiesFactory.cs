@@ -276,6 +276,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddEnergyRegenPercentage(new ReactiveVariable<float>(10))
                 .AddRegenEnergyRequest()
                 .AddRegenEnergyEvent()
+                .AddInEnergyRegenCooldown()
                 .AddSpendEnergyRequest()
                 .AddSpendEnergyEvent()
                 .AddAddEnergyRequest()
@@ -312,7 +313,8 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .Add(new FuncCondition(() => entity.CurrentEnergy.Value < entity.MaxEnergy.Value));//TODO:где лучше проверять чтобы нельзя было вычесть из нуля энергию, здесь или в методе SpendEnergySystem, думаю лучше в SpendEnergySystem потому что можно будет чекнуть чтобы в минус не ушло (current = 10, а spend = 20 => -10 получится) 
 
             ICompositeCondition canRegenEnergy = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+                .Add(new FuncCondition(() => entity.IsDead.Value == false))
+                .Add(new FuncCondition(() => entity.InEnergyRegenCooldown.Value == false));
             
             ICompositeCondition canTeleport = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false))
@@ -334,6 +336,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new SpendEnergySystem())
+                .AddSystem(new RegenEnergyProvokeSystem())
                 .AddSystem(new RegenEnergySystem())
                 .AddSystem(new EnergyRegenCooldownTimerSystem())
                 .AddSystem(new AddEnergySystem())

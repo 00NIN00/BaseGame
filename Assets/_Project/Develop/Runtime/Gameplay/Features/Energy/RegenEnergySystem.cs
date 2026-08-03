@@ -11,18 +11,20 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy
         private ReactiveVariable<float> _maxEnergy;
         private ReactiveVariable<float> _regenPercentage;
         private ReactiveEvent _energyRegenEvent;
+        private ReactiveEvent _energyRegenRequest;
         private ReactiveEvent<float> _addEnergyRequest;
 
-        private IDisposable _energyRegenEventDisposable;
+        private IDisposable _energyRegenRequestDisposable;
 
         public void OnInit(Entity entity)
         {
             _maxEnergy = entity.MaxEnergy;
             _regenPercentage = entity.EnergyRegenPercentage;
+            _energyRegenRequest = entity.RegenEnergyRequest;
             _energyRegenEvent = entity.RegenEnergyEvent;
             _addEnergyRequest = entity.AddEnergyRequest;
 
-            _energyRegenEventDisposable = _energyRegenEvent.Subscribe(OnEnergyRegenTriggered);
+            _energyRegenRequestDisposable = _energyRegenRequest.Subscribe(OnEnergyRegenTriggered);
         }
 
         private void OnEnergyRegenTriggered()
@@ -32,12 +34,14 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy
             Debug.Log("Regen amount is " + regenAmount);
             
             _addEnergyRequest.Invoke(regenAmount);
+            
+            _energyRegenEvent.Invoke();
         }
 
 
         public void OnDispose()
         {
-            _energyRegenEventDisposable.Dispose();
+            _energyRegenRequestDisposable.Dispose();
         }
     }
 }
