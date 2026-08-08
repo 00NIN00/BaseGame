@@ -44,7 +44,7 @@ namespace _Project.Develop.Runtime.Gameplay.Features.ApplyDamage
             
             _health.Value = MathF.Max(_health.Value - damage, 0);
             _damageEvent.Invoke(damage);
-            Debug.Log("я получил урон");
+            Debug.Log($"я получил урон({damage})");
         }
 
     }

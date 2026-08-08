@@ -1,5 +1,6 @@
 using _Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using _Project.Develop.Runtime.Gameplay.Features.ApplyDamage;
+using _Project.Develop.Runtime.Gameplay.Features.AreaTakeDamage;
 using _Project.Develop.Runtime.Gameplay.Features.Attack;
 using _Project.Develop.Runtime.Gameplay.Features.Attack.Shoot;
 using _Project.Develop.Runtime.Gameplay.Features.ContactTakeDamage;
@@ -7,6 +8,7 @@ using _Project.Develop.Runtime.Gameplay.Features.Energy;
 using _Project.Develop.Runtime.Gameplay.Features.LifeCycle;
 using _Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using _Project.Develop.Runtime.Gameplay.Features.Sensors;
+using _Project.Develop.Runtime.Gameplay.Features.Sensors.AreaDamage;
 using _Project.Develop.Runtime.Gameplay.Features.Teleport;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.Utilities;
@@ -268,7 +270,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddContactsDetectingMask(1 << LayerMask.NameToLayer("Characters"))
                 .AddContactCollidersBuffer(new Buffer<Collider>(64))
                 .AddContactEntitiesBuffer(new Buffer<Entity>(64))
-                .AddBodyContactDamage(new ReactiveVariable<float>(50))
+                .AddBodyContactDamage(new ReactiveVariable<float>(10))
                 .AddMaxEnergy(new ReactiveVariable<float>(100))
                 .AddCurrentEnergy(new ReactiveVariable<float>(100))
                 .AddEnergyRegenIntervalInitialTime(new ReactiveVariable<float>(4))
@@ -281,10 +283,10 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSpendEnergyEvent()
                 .AddAddEnergyRequest()
                 .AddAddEnergyEvent()
-                .AddTeleportRadius(new ReactiveVariable<float>(8))
-                .AddDamageOnTeleport(new ReactiveVariable<float>(5))
-                .AddDamageRadiusOnTeleport(new ReactiveVariable<float>(3))
-                .AddTeleportEnergyCost(new ReactiveVariable<float>(100))
+                .AddTeleportRadius(new ReactiveVariable<float>(1))
+                //.AddDamageOnTeleport(new ReactiveVariable<float>(5))
+                //.AddDamageRadiusOnTeleport(new ReactiveVariable<float>(3))
+                .AddTeleportEnergyCost(new ReactiveVariable<float>(1))
                 .AddTeleportCooldownInitialTime(new ReactiveVariable<float>(4))
                 .AddTeleportCooldownCurrentTime(new ReactiveVariable<float>(4))
                 .AddInTeleportCooldown()
@@ -292,6 +294,11 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddTeleportRequest()
                 .AddTeleportPointSelectedEvent()
                 .AddTeleportExecutedEvent()
+                .AddAreaDamageAmount(new ReactiveVariable<float>(50))
+                .AddAreaDamageRadius(new ReactiveVariable<float>(10))
+                .AddAreaDamageMask(1 << LayerMask.NameToLayer("Characters"))
+                .AddAreaDamageContactsBuffer(new Buffer<Collider>(64))
+                .AddAreaDamageTargetsBuffer(new Buffer<Entity>(64))
                 ;
 
             ICompositeCondition mustDie = new CompositeCondition()
@@ -321,6 +328,10 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .Add(new FuncCondition(() => entity.CurrentEnergy.Value >= entity.TeleportEnergyCost.Value))
                 ;
             
+            ICompositeCondition canAreaDamage = new CompositeCondition()
+                    .Add(new FuncCondition(() => entity.IsDead.Value == false))
+                ;
+            
             entity
                 .AddCanTeleport(canTeleport)
                 .AddMustDie(mustDie)
@@ -329,6 +340,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddCanSpendEnergy(canSpendEnergy)
                 .AddCanRegenEnergy(canRegenEnergy)
                 .AddCanAddEnergy(canAddEnergy)
+                .AddCanAreaDamage(canAreaDamage)
                 ;
             
             entity
@@ -344,6 +356,9 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new TeleportExecuteSystem())
                 .AddSystem(new TeleportCooldownSystem())
                 .AddSystem(new TeleportProvokeSystem())
+                .AddSystem(new AreaDamageDetectionSystem())
+                .AddSystem(new AreaDamageEntitiesFilterSystem(_collidersRegistryService))
+                .AddSystem(new DealAreaDamageSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new DeathProcessTimerSystem())

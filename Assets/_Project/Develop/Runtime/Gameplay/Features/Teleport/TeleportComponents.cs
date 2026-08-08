@@ -5,26 +5,24 @@ using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay.Features.Teleport
 {
-    // Параметры способности 
-    //TODO:добавить условия лоя телепортации
     public class TeleportRadius : IEntityComponent
     {
-        public ReactiveVariable<float> Value; // N - радиус телепортации
+        public ReactiveVariable<float> Value;
     }
     
     public class DamageOnTeleport : IEntityComponent
     {
-        public ReactiveVariable<float> Value; // D - урон при телепорте
+        public ReactiveVariable<float> Value;
     }
     
     public class DamageRadiusOnTeleport : IEntityComponent
     {
-        public ReactiveVariable<float> Value; // M - радиус урона после телепорта
+        public ReactiveVariable<float> Value;
     }
     
     public class TeleportEnergyCost : IEntityComponent
     {
-        public ReactiveVariable<float> Value; // X - стоимость энергии
+        public ReactiveVariable<float> Value;
     }
     
     // Кулдаун телепортации

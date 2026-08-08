@@ -5,7 +5,7 @@ using _Project.Develop.Runtime.Utilities.Reactive;
 
 namespace _Project.Develop.Runtime.Gameplay.Features.Energy
 {
-    public class EnergyRegenCooldownTimerSystem: IInitializableSystem, IUpdatableSystem, IDisposableSystem//TODO:что-то в этом скрипте не так проверить и дописать
+    public class EnergyRegenCooldownTimerSystem: IInitializableSystem, IUpdatableSystem, IDisposableSystem
     {
         private ReactiveVariable<float> _currentTime;
         private ReactiveVariable<float> _initialTime;

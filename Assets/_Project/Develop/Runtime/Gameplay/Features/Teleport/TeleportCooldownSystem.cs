@@ -27,7 +27,6 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Teleport
             
             _currentTime.Value = _initialTime.Value;
             
-            // _teleportRequestDisposable = _teleportRequest.Subscribe(OnTeleportRequested);
             _teleportExecutedEventDisposable = _teleportExecutedEvent.Subscribe(OnTeleportExecuted);
         }
 
@@ -37,7 +36,7 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Teleport
             if (_inTeleportCooldown.Value == false)
                 return;
             
-            Debug.Log(_currentTime.Value);
+//            Debug.Log(_currentTime.Value);
             
             _currentTime.Value -= deltaTime;
 

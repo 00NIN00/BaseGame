@@ -33,7 +33,7 @@ namespace _Project.Develop.Runtime.Meta.Features.OutcomesGame
         public void AddOutcome(OutcomesType type)
         {
             _counter[type].Value++;
-            Save();//TODO: было бы хорошо, один раз сохранятся  там например после игры и тогда разом и деньги буду сохранятся и очки
+            Save();
         }
 
         public void Reset()
