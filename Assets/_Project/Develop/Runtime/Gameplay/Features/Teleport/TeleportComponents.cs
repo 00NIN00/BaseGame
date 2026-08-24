@@ -10,16 +10,6 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Teleport
         public ReactiveVariable<float> Value;
     }
     
-    public class DamageOnTeleport : IEntityComponent
-    {
-        public ReactiveVariable<float> Value;
-    }
-    
-    public class DamageRadiusOnTeleport : IEntityComponent
-    {
-        public ReactiveVariable<float> Value;
-    }
-    
     public class TeleportEnergyCost : IEntityComponent
     {
         public ReactiveVariable<float> Value;

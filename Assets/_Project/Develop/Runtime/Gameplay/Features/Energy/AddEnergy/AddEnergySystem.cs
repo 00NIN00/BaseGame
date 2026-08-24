@@ -5,27 +5,29 @@ using _Project.Develop.Runtime.Utilities.Conditions;
 using _Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
-namespace _Project.Develop.Runtime.Gameplay.Features.Energy
+namespace _Project.Develop.Runtime.Gameplay.Features.Energy.AddEnergy
 {
-    public class SpendEnergySystem : IInitializableSystem, IDisposableSystem
+    public class AddEnergySystem : IInitializableSystem, IDisposableSystem
     {
         private ReactiveEvent<float> _energyRequest;
         private ReactiveEvent<float> _energyEvent;
 
         private ReactiveVariable<float> _energy;
+        private ReactiveVariable<float> _energyMax;
 
-        private ICompositeCondition _canSpendEnergy;
+        private ICompositeCondition _canAddEnergy;
         
         private IDisposable _requestDisposable;
         
         public void OnInit(Entity entity)
         {
-            _energyEvent = entity.SpendEnergyEvent;
-            _energyRequest = entity.SpendEnergyRequest;
+            _energyEvent = entity.AddEnergyEvent;
+            _energyRequest = entity.AddEnergyRequest;
 
             _energy = entity.CurrentEnergy;
+            _energyMax = entity.MaxEnergy;
             
-            _canSpendEnergy = entity.CanSpendEnergy;
+            _canAddEnergy = entity.CanAddEnergy;
 
             _requestDisposable = _energyRequest.Subscribe(OnSpendEnergy);
         }
@@ -40,12 +42,12 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy
             if (value < 0)
                 throw new ArgumentOutOfRangeException(nameof(value));
             
-            if(_canSpendEnergy.Evaluate() == false)
+            if(_canAddEnergy.Evaluate() == false)
                 return;
             
-            _energy.Value = MathF.Max(_energy.Value - value, 0);
+            _energy.Value = MathF.Min(_energy.Value + value, _energyMax.Value);
             _energyEvent.Invoke(value);
-            Debug.Log($"потратил энергию, {_energy.Value}");
+            Debug.Log($"получил энергию, {_energy.Value}/{_energyMax.Value}");
         }
     }
 }

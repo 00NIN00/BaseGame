@@ -3,7 +3,7 @@ using _Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using _Project.Develop.Runtime.Utilities.Conditions;
 using _Project.Develop.Runtime.Utilities.Reactive;
 
-namespace _Project.Develop.Runtime.Gameplay.Features.Energy
+namespace _Project.Develop.Runtime.Gameplay.Features.Energy.RegenEnergy
 {
     public class RegenEnergyProvokeSystem : IInitializableSystem, IUpdatableSystem
     {

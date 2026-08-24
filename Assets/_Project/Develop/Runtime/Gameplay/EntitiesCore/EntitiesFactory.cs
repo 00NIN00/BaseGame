@@ -5,6 +5,9 @@ using _Project.Develop.Runtime.Gameplay.Features.Attack;
 using _Project.Develop.Runtime.Gameplay.Features.Attack.Shoot;
 using _Project.Develop.Runtime.Gameplay.Features.ContactTakeDamage;
 using _Project.Develop.Runtime.Gameplay.Features.Energy;
+using _Project.Develop.Runtime.Gameplay.Features.Energy.AddEnergy;
+using _Project.Develop.Runtime.Gameplay.Features.Energy.RegenEnergy;
+using _Project.Develop.Runtime.Gameplay.Features.Energy.SpendEnergy;
 using _Project.Develop.Runtime.Gameplay.Features.LifeCycle;
 using _Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using _Project.Develop.Runtime.Gameplay.Features.Sensors;
@@ -284,8 +287,6 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddAddEnergyRequest()
                 .AddAddEnergyEvent()
                 .AddTeleportRadius(new ReactiveVariable<float>(1))
-                //.AddDamageOnTeleport(new ReactiveVariable<float>(5))
-                //.AddDamageRadiusOnTeleport(new ReactiveVariable<float>(3))
                 .AddTeleportEnergyCost(new ReactiveVariable<float>(1))
                 .AddTeleportCooldownInitialTime(new ReactiveVariable<float>(4))
                 .AddTeleportCooldownCurrentTime(new ReactiveVariable<float>(4))
@@ -314,11 +315,11 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
             
             ICompositeCondition canSpendEnergy = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false))
-                .Add(new FuncCondition(() => entity.CurrentEnergy.Value > 0));//TODO:где лучше проверять чтобы нельзя было вычесть из нуля энергию, здесь или в методе SpendEnergySystem, думаю лучше в SpendEnergySystem потому что можно будет чекнуть чтобы в минус не ушло (current = 10, а spend = 20 => -10 получится) 
-
+                .Add(new FuncCondition(() => entity.CurrentEnergy.Value > 0));
+            
             ICompositeCondition canAddEnergy = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false))
-                .Add(new FuncCondition(() => entity.CurrentEnergy.Value < entity.MaxEnergy.Value));//TODO:где лучше проверять чтобы нельзя было вычесть из нуля энергию, здесь или в методе SpendEnergySystem, думаю лучше в SpendEnergySystem потому что можно будет чекнуть чтобы в минус не ушло (current = 10, а spend = 20 => -10 получится) 
+                .Add(new FuncCondition(() => entity.CurrentEnergy.Value < entity.MaxEnergy.Value));
 
             ICompositeCondition canRegenEnergy = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false))
