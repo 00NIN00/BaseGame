@@ -18,23 +18,23 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Sensors.AreaDamage
         private ReactiveVariable<float> _radius;
         private LayerMask _mask;
         
-        private ReactiveEvent<Vector3> _teleportEvent;
+        private ReactiveEvent<Vector3> _areaDamageRequest;
         
-        private IDisposable _teleportEventDisposable;
+        private IDisposable _areaDamageRequestDisposable;
 
         public void OnInit(Entity entity)
         {
             _contacts = entity.AreaDamageContactsBuffer;
             _radius = entity.AreaDamageRadius;
             _mask = entity.AreaDamageMask;
-            _teleportEvent = entity.TeleportExecutedEvent;
+            _areaDamageRequest = entity.AreaDamageRequest;
 
-            _teleportEventDisposable = _teleportEvent.Subscribe(OnTriggered);
+            _areaDamageRequestDisposable = _areaDamageRequest.Subscribe(OnTriggered);
         }
 
         public void OnDispose()
         {
-            _teleportEventDisposable.Dispose();
+            _areaDamageRequestDisposable.Dispose();
         }
         
         private void OnTriggered(Vector3 position)

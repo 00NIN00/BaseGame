@@ -24,4 +24,9 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Sensors.AreaDamage
     {
         public Buffer<Entity> Value;
     }
+
+    public class AreaDamageRequest : IEntityComponent
+    {
+        public ReactiveEvent<Vector3> Value;
+    }
 }

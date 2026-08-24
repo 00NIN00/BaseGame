@@ -265,6 +265,20 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Sensors.AreaDamage.AreaDamageTargetsBuffer() {Value = value}); 
 		}
 
+		public _Project.Develop.Runtime.Gameplay.Features.Sensors.AreaDamage.AreaDamageRequest AreaDamageRequestC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Sensors.AreaDamage.AreaDamageRequest>();
+
+		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<UnityEngine.Vector3> AreaDamageRequest => AreaDamageRequestC.Value;
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAreaDamageRequest()
+		{
+			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Sensors.AreaDamage.AreaDamageRequest() { Value = new _Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<UnityEngine.Vector3>() }); 
+		}
+
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAreaDamageRequest(_Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<UnityEngine.Vector3> value)
+		{
+			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Sensors.AreaDamage.AreaDamageRequest() {Value = value}); 
+		}
+
 		public _Project.Develop.Runtime.Gameplay.Features.MovementFeature.MoveDirection MoveDirectionC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.MovementFeature.MoveDirection>();
 
 		public _Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Vector3> MoveDirection => MoveDirectionC.Value;
