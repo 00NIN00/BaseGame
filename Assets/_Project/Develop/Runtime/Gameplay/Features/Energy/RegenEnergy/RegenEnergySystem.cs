@@ -31,8 +31,6 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy.RegenEnergy
         {
             float regenAmount = _maxEnergy.Value * (_regenPercentage.Value / 100f);
             
-            Debug.Log("Regen amount is " + regenAmount);
-            
             _addEnergyRequest.Invoke(regenAmount);
             
             _energyRegenEvent.Invoke();
