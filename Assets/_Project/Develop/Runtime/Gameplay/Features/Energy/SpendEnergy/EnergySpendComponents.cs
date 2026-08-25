@@ -6,7 +6,7 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy.SpendEnergy
 {
     public class CanSpendEnergy : IEntityComponent
     {
-        public ICompositeCondition Value;
+        public ICompositeCondition<float> Value;
     }
     
     public class SpendEnergyRequest : IEntityComponent

@@ -4,4 +4,9 @@ namespace _Project.Develop.Runtime.Utilities.Conditions
     {
         bool Evaluate();
     }
+    
+    public interface ICondition<T>
+    {
+        bool Evaluate(T context);
+    }
 }

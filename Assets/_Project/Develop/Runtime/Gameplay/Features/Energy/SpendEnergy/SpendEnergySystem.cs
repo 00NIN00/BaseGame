@@ -14,7 +14,7 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy.SpendEnergy
 
         private ReactiveVariable<float> _energy;
 
-        private ICompositeCondition _canSpendEnergy;
+        private ICompositeCondition<float> _canSpendEnergy;
         
         private IDisposable _requestDisposable;
         
@@ -39,11 +39,8 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Energy.SpendEnergy
         {
             if (value < 0)
                 throw new ArgumentOutOfRangeException(nameof(value));
-
-            if (_energy.Value - value < 0)
-                return;
             
-            if(_canSpendEnergy.Evaluate() == false)
+            if(_canSpendEnergy.Evaluate(value) == false)
                 return;
             
             _energy.Value = MathF.Max(_energy.Value - value, 0);

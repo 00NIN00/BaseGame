@@ -485,9 +485,9 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
 
 		public _Project.Develop.Runtime.Gameplay.Features.Energy.SpendEnergy.CanSpendEnergy CanSpendEnergyC => GetComponent<_Project.Develop.Runtime.Gameplay.Features.Energy.SpendEnergy.CanSpendEnergy>();
 
-		public _Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition CanSpendEnergy => CanSpendEnergyC.Value;
+		public _Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition<System.Single> CanSpendEnergy => CanSpendEnergyC.Value;
 
-		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanSpendEnergy(_Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		public _Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanSpendEnergy(_Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition<System.Single> value)
 		{
 			return AddComponent(new _Project.Develop.Runtime.Gameplay.Features.Energy.SpendEnergy.CanSpendEnergy() {Value = value}); 
 		}

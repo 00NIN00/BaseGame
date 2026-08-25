@@ -48,4 +48,52 @@ namespace _Project.Develop.Runtime.Utilities.Conditions
             return this;
         }
     }
+    
+    public class CompositeCondition<T> : ICompositeCondition<T>
+    {
+        private List<ICondition<T>> _conditions = new();
+        private Func<bool, bool, bool> _standardLogicOperation;
+
+        public CompositeCondition(Func<bool, bool, bool> standardLogicOperation)
+        {
+            _standardLogicOperation = standardLogicOperation;
+        }
+
+        public CompositeCondition() : this(LogicOperations.And) { }
+
+        public bool Evaluate(T context)
+        {
+            if (_conditions.Count == 0)
+                return false;
+
+            bool result = _conditions[0].Evaluate(context);
+
+            for (int i = 1; i < _conditions.Count; i++)
+            {
+                result = _standardLogicOperation(result, _conditions[i].Evaluate(context));
+            }
+
+            return result;
+        }
+
+        public ICompositeCondition<T> Add(ICondition<T> condition)
+        {
+            _conditions.Add(condition);
+            return this;
+        }
+
+        public ICompositeCondition<T> Remove(ICondition<T> condition)
+        {
+            _conditions.Remove(condition);
+            return this;
+        }
+    }
+    
+    public static class CompositeConditionExtensions
+    {
+        public static ICompositeCondition<T> Add<T>(this ICompositeCondition<T> composite, ICondition condition)
+        {
+            return composite.Add(new ParameterlessAdapter<T>(condition));
+        }
+    }
 }

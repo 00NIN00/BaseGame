@@ -313,9 +313,11 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
             ICompositeCondition canApplyDamage = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
             
-            ICompositeCondition canSpendEnergy = new CompositeCondition()
+            ICompositeCondition<float> canSpendEnergy = new CompositeCondition<float>()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false))
-                .Add(new FuncCondition(() => entity.CurrentEnergy.Value > 0));
+                .Add(new FuncCondition(() => entity.CurrentEnergy.Value > 0))
+                .Add(new FuncCondition<float>(amount => entity.CurrentEnergy.Value >= amount))
+                ;
             
             ICompositeCondition canAddEnergy = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false))
