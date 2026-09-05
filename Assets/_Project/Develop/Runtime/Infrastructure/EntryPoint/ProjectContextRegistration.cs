@@ -20,6 +20,7 @@ using _Project.Develop.Runtime.Utilities.DataManagement.Serializers;
 using _Project.Develop.Runtime.Utilities.LoadingScreen;
 using _Project.Develop.Runtime.Utilities.Reactive;
 using _Project.Develop.Runtime.Utilities.SceneManagement;
+using _Project.Develop.Runtime.Utilities.Timer;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -43,7 +44,15 @@ namespace _Project.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle<IInput>(CreateUserKeyBoardInput);
             container.RegisterAsSingle(CreateProjectPresentsFactory);
             container.RegisterAsSingle(CreateViewsFactory);
+            
+            container.RegisterAsSingle(CreateTimerService);
+            
             container.RegisterAsSingle(CreateLevelsProgressionService).NonLazy();
+        }
+
+        private static TimerServiceFactory CreateTimerService(DIContainer c)
+        {
+            return new TimerServiceFactory(c);
         }
 
         private static LevelsProgressionService CreateLevelsProgressionService(DIContainer c)

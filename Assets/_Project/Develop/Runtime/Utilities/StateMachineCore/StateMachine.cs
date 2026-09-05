@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Project.Develop.Runtime.Utilities.Conditions;
+using UnityEditor.Rendering;
 
 namespace _Project.Develop.Runtime.Utilities.StateMachineCore
 {
@@ -12,6 +13,13 @@ namespace _Project.Develop.Runtime.Utilities.StateMachineCore
         private StateNode<TState> _currentState;
 
         private bool _isRunning;
+        
+        private List<IDisposable> _disposables;
+
+        protected StateMachine(List<IDisposable> disposables)
+        {
+            _disposables = new List<IDisposable>(disposables);
+        }
         
         protected TState CurrentState => _currentState.State;
         
@@ -25,7 +33,7 @@ namespace _Project.Develop.Runtime.Utilities.StateMachineCore
             from.AddTransition(new StateTransition<TState>(to, condition));
         }
 
-        public void Update()
+        public void Update(float deltaTime)
         {
             if (_isRunning == false)
                 return;
@@ -38,7 +46,11 @@ namespace _Project.Develop.Runtime.Utilities.StateMachineCore
                     break;
                 }
             }
+            
+            UpdateLogic(deltaTime);
         }
+        
+        protected virtual void UpdateLogic(float deltaTime) {}
         
         public void Dispose()
         {
@@ -49,6 +61,11 @@ namespace _Project.Develop.Runtime.Utilities.StateMachineCore
                     disposableState.Dispose();
             
             _states.Clear();
+
+            foreach (IDisposable disposable in _disposables)
+                disposable.Dispose();
+            
+            _disposables.Clear();
         }
 
         public void Enter()

@@ -1,4 +1,5 @@
 using _Project.Develop.Runtime.Gameplay.EntitiesCore;
+using _Project.Develop.Runtime.Gameplay.Features.AI;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using UnityEngine;
 
@@ -8,8 +9,10 @@ namespace _Project.Develop.Runtime.Gameplay
     {
         private DIContainer _container;
         private EntitiesFactory _entitiesFactory;
-
+        private BrainsFactory _brainsFactory;
+        
         private Entity _entity;
+        private Entity _ghost;
         private Entity _entity2;
         
         private bool _isRunning;
@@ -18,13 +21,14 @@ namespace _Project.Develop.Runtime.Gameplay
         {
             _container = container;
             _entitiesFactory = _container.Resolve<EntitiesFactory>();
+            _brainsFactory = _container.Resolve<BrainsFactory>();
         }
 
         public void Run()
         {
             _entity = _entitiesFactory.CreateHero(Vector3.zero);
-            _entitiesFactory.CreateGhost(Vector3.zero + Vector3.forward * 5);
-            _entity2 = _entitiesFactory.CreateNewCharacter(Vector3.zero + Vector3.back * 5);
+            _ghost = _entitiesFactory.CreateGhost(Vector3.zero + Vector3.forward * 5);
+           // _entity2 = _entitiesFactory.CreateNewCharacter(Vector3.zero + Vector3.back * 5);
             // _entity = _entitiesFactory.CreateTestPlayerEntity(Vector3.zero);
             
             _isRunning = true;
@@ -49,6 +53,9 @@ namespace _Project.Develop.Runtime.Gameplay
                 Debug.Log("🔄 Запрос телепортации отправлен");
                 _entity2.TeleportRequest.Invoke();
             }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.I))
+                _brainsFactory.CreateGhostBrain(_ghost);
             
             Vector3 inputDirection = new Vector3(UnityEngine.Input.GetAxisRaw("Horizontal"), 0, UnityEngine.Input.GetAxisRaw("Vertical"));
             

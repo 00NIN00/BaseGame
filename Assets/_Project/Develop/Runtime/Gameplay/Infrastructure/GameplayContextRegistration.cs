@@ -1,6 +1,7 @@
 using _Project.Develop.Runtime.Utilities.AssetsManagement;
 using _Project.Develop.Runtime.Gameplay.EntitiesCore;
 using _Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using _Project.Develop.Runtime.Gameplay.Features.AI;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using _Project.Develop.Runtime.UI.Gameplay;
 using _Project.Develop.Runtime.UI.Core;
@@ -20,10 +21,20 @@ namespace _Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateEntitiesFactory);
             container.RegisterAsSingle(CreateEntitiesLiveContext);
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
+            container.RegisterAsSingle(CreateBrainsFactory);
+            container.RegisterAsSingle(CreateAIBrainsContext);
             container.RegisterAsSingle(CreateCollidersRegistryService);
         }
 
+        private static AIBrainsContext CreateAIBrainsContext(DIContainer c)
+        {
+            return new AIBrainsContext();
+        }
 
+        private static BrainsFactory CreateBrainsFactory(DIContainer c)
+        {
+            return new BrainsFactory(c);
+        }
         // private static InitializationViewService CreateInitializationViewService(DIContainer c)
         // {
         //     ResourcesAssetsLouder resourcesAssetsLouder = c.Resolve<ResourcesAssetsLouder>();
