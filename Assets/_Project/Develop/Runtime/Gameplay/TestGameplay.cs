@@ -1,5 +1,6 @@
 using _Project.Develop.Runtime.Gameplay.EntitiesCore;
 using _Project.Develop.Runtime.Gameplay.Features.AI;
+using _Project.Develop.Runtime.Gameplay.Features.AI.States;
 using _Project.Develop.Runtime.Infrastructure.DI;
 using UnityEngine;
 
@@ -27,6 +28,9 @@ namespace _Project.Develop.Runtime.Gameplay
         public void Run()
         {
             _entity = _entitiesFactory.CreateHero(Vector3.zero);
+            _entity.AddCurrentTarget();
+            _brainsFactory.CreateMainHeroBrain(_entity, new NearestDamageableTargetSelector(_entity));
+            
             _ghost = _entitiesFactory.CreateGhost(Vector3.zero + Vector3.forward * 5);
            // _entity2 = _entitiesFactory.CreateNewCharacter(Vector3.zero + Vector3.back * 5);
             // _entity = _entitiesFactory.CreateTestPlayerEntity(Vector3.zero);
@@ -39,28 +43,23 @@ namespace _Project.Develop.Runtime.Gameplay
             if (_isRunning== false)
                 return;
 
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
-                _entity.TakeDamageRequest.Invoke(50);
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            //     _entity.TakeDamageRequest.Invoke(50);
+            //
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.R))
+            //     _entity.StartAttackRequest.Invoke();
             
-            if (UnityEngine.Input.GetKeyDown(KeyCode.R))
-                _entity.StartAttackRequest.Invoke();
-            
-            if (UnityEngine.Input.GetKeyDown(KeyCode.S))
-                _entity2.SpendEnergyRequest.Invoke(10);
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.A))
-            {
-                Debug.Log("🔄 Запрос телепортации отправлен");
-                _entity2.TeleportRequest.Invoke();
-            }
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.S))
+            //     _entity2.SpendEnergyRequest.Invoke(10);
+            //
+            // if (UnityEngine.Input.GetKeyDown(KeyCode.A))
+            // {
+            //     Debug.Log("🔄 Запрос телепортации отправлен");
+            //     _entity2.TeleportRequest.Invoke();
+            // }
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.I))
                 _brainsFactory.CreateGhostBrain(_ghost);
-            
-            Vector3 inputDirection = new Vector3(UnityEngine.Input.GetAxisRaw("Horizontal"), 0, UnityEngine.Input.GetAxisRaw("Vertical"));
-            
-            _entity.MoveDirection.Value = inputDirection.normalized;
-            _entity.RotationDirection.Value = inputDirection;
         }
     }
 }
