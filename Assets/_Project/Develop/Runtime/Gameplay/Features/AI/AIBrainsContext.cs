@@ -15,7 +15,7 @@ namespace _Project.Develop.Runtime.Gameplay.Features.AI
                 if (item.Entity == entity)
                 {
                     item.Brain.Disable();
-                    item.Brain.Disable();
+                    item.Brain.Dispose();
                     item.Brain = brain;
                     item.Brain.Enable();
                     return;
