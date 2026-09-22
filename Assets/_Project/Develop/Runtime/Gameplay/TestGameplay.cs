@@ -16,6 +16,8 @@ namespace _Project.Develop.Runtime.Gameplay
         private Entity _ghost;
         private Entity _entity2;
         
+        private Entity _teleportingCharacter;
+        
         private bool _isRunning;
         
         public void Initialize(DIContainer container)
@@ -32,6 +34,9 @@ namespace _Project.Develop.Runtime.Gameplay
             _brainsFactory.CreateMainHeroBrain(_entity, new NearestDamageableTargetSelector(_entity));
             
             _ghost = _entitiesFactory.CreateGhost(Vector3.zero + Vector3.forward * 5);
+
+            _teleportingCharacter = _entitiesFactory.CreateTeleportingCharacter(Vector3.zero + Vector3.forward * 10);
+            _brainsFactory.CreateTeleportingCharacterBrain(_teleportingCharacter);
            // _entity2 = _entitiesFactory.CreateNewCharacter(Vector3.zero + Vector3.back * 5);
             // _entity = _entitiesFactory.CreateTestPlayerEntity(Vector3.zero);
             

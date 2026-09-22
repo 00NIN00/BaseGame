@@ -255,7 +255,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
             return entity;
         }
         
-        public Entity CreateNewCharacter(Vector3 position)
+        public Entity CreateTeleportingCharacter(Vector3 position)
         {
             Entity entity = CreateEntity();
             
@@ -286,11 +286,11 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSpendEnergyEvent()
                 .AddAddEnergyRequest()
                 .AddAddEnergyEvent()
-                .AddTeleportRadius(new ReactiveVariable<float>(1))
+                .AddTeleportRadius(new ReactiveVariable<float>(4))
                 .AddTeleportEnergyCost(new ReactiveVariable<float>(1))
                 .AddTeleportCooldownInitialTime(new ReactiveVariable<float>(4))
-                .AddTeleportCooldownCurrentTime(new ReactiveVariable<float>(4))
-                .AddInTeleportCooldown()
+                // .AddTeleportCooldownCurrentTime(new ReactiveVariable<float>(4))
+                // .AddInTeleportCooldown()
                 .AddSelectedTeleportPoint()
                 .AddTeleportRequest()
                 .AddTeleportPointSelectedEvent()
@@ -358,9 +358,9 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new AddEnergySystem())
                 .AddSystem(new TeleportPointSelectionSystem())
                 .AddSystem(new TeleportExecuteSystem())
-                .AddSystem(new TeleportCooldownSystem())
-                .AddSystem(new TeleportProvokeSystem())
-                .AddSystem(new TeleportAreaDamageRequestSystem())
+                // .AddSystem(new TeleportCooldownSystem())
+                // .AddSystem(new TeleportProvokeSystem())
+                // .AddSystem(new TeleportAreaDamageRequestSystem())
                 .AddSystem(new AreaDamageDetectionSystem())
                 .AddSystem(new AreaDamageEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new DealAreaDamageSystem())

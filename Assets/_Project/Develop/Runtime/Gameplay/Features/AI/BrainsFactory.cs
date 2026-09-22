@@ -73,6 +73,43 @@ namespace _Project.Develop.Runtime.Gameplay.Features.AI
             
             return brain;
         }
+
+        public StateMachineBrain CreateTeleportingCharacterBrain(Entity entity)
+        {
+            List<IDisposable> disposables = new List<IDisposable>();
+            
+            EmptyState waitState = new EmptyState();
+            TeleportState teleportState = new TeleportState(entity);
+            AttackAfterTeleportState attackState = new AttackAfterTeleportState(entity);
+
+            TimerService teleportTimer = _timerServiceFactory.Create(entity.TeleportCooldownInitialTime.Value);
+            disposables.Add(teleportTimer);
+            disposables.Add(waitState.Entered.Subscribe(teleportTimer.Restart));
+
+            
+            EventLatchCondition<Vector3> teleportExecutedCondition = new EventLatchCondition<Vector3>(entity.TeleportExecutedEvent);
+            disposables.Add(teleportExecutedCondition);
+            
+            ICompositeCondition canStartTeleport = new CompositeCondition()
+                .Add(new FuncCondition(() => teleportTimer.IsOver))
+                .Add(entity.CanTeleport);
+            
+            AIStateMachine behavior = new AIStateMachine(disposables);
+            
+            behavior.AddState(waitState);
+            behavior.AddState(teleportState);
+            behavior.AddState(attackState);
+
+            behavior.AddTransition(waitState, teleportState, canStartTeleport);
+            behavior.AddTransition(teleportState, attackState, teleportExecutedCondition);
+            behavior.AddTransition(attackState, waitState, new FuncCondition(() => true));
+
+            StateMachineBrain brain = new StateMachineBrain(behavior);
+
+            _brainsContext.SetFor(entity, brain);
+
+            return brain;
+        }
         
         public AIStateMachine CrateRandomMovementStateMachine(Entity entity)
         {
