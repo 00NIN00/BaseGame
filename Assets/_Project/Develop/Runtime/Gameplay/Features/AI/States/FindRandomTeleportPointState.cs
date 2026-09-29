@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay.Features.AI.States
 {
-    public class FindRandomTeleportPointState : State, IUpdatableState
+    public class FindRandomTeleportPointState : State, IFindTeleportPoint
     {
         private readonly Transform _transform;
         private readonly ReactiveVariable<float> _teleportRadius;

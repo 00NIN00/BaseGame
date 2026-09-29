@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay.Features.AI.States
 {
-    public class FindLowestHpTeleportPoint : State, IUpdatableState
+    public class FindLowestHpTeleportPoint : State, IFindTeleportPoint
     {
         private readonly Entity _entity;
         private readonly Transform _transform;

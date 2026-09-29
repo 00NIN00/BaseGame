@@ -74,12 +74,12 @@ namespace _Project.Develop.Runtime.Gameplay.Features.AI
             return brain;
         }
 
-        public StateMachineBrain CreateTeleportingCharacterBrain(Entity entity)
+        public StateMachineBrain CreateTeleportingCharacterBrain(Entity entity, IFindTeleportPoint findTeleportPoint)
         {
             List<IDisposable> disposables = new List<IDisposable>();
             
             EmptyState waitState = new EmptyState();
-            FindRandomTeleportPointState findPointState = new FindRandomTeleportPointState(entity);//вынести это в параметры метода, интерфейс
+            IFindTeleportPoint findPointState = findTeleportPoint;
             TeleportState teleportState = new TeleportState(entity);
             AttackAfterTeleportState attackState = new AttackAfterTeleportState(entity);
 

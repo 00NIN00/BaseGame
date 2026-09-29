@@ -11,6 +11,8 @@ namespace _Project.Develop.Runtime.Gameplay
         private DIContainer _container;
         private EntitiesFactory _entitiesFactory;
         private BrainsFactory _brainsFactory;
+
+        private EntitiesLiveContext _entitiesLiveContext;
         
         private Entity _entity;
         private Entity _ghost;
@@ -25,6 +27,7 @@ namespace _Project.Develop.Runtime.Gameplay
             _container = container;
             _entitiesFactory = _container.Resolve<EntitiesFactory>();
             _brainsFactory = _container.Resolve<BrainsFactory>();
+            _entitiesLiveContext = _container.Resolve<EntitiesLiveContext>();
         }
 
         public void Run()
@@ -36,8 +39,8 @@ namespace _Project.Develop.Runtime.Gameplay
             _ghost = _entitiesFactory.CreateGhost(Vector3.zero + Vector3.forward * 5);
 
             _teleportingCharacter = _entitiesFactory.CreateTeleportingCharacter(Vector3.zero + Vector3.forward * 10);
-            _brainsFactory.CreateTeleportingCharacterBrain(_teleportingCharacter);
-           // _entity2 = _entitiesFactory.CreateNewCharacter(Vector3.zero + Vector3.back * 5);
+            _brainsFactory.CreateTeleportingCharacterBrain(_teleportingCharacter, new FindLowestHpTeleportPoint(_teleportingCharacter, _entitiesLiveContext));
+            // _entity2 = _entitiesFactory.CreateNewCharacter(Vector3.zero + Vector3.back * 5);
             // _entity = _entitiesFactory.CreateTestPlayerEntity(Vector3.zero);
             
             _isRunning = true;
