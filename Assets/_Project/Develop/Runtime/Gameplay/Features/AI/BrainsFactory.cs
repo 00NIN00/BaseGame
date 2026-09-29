@@ -79,28 +79,36 @@ namespace _Project.Develop.Runtime.Gameplay.Features.AI
             List<IDisposable> disposables = new List<IDisposable>();
             
             EmptyState waitState = new EmptyState();
+            FindRandomTeleportPointState findPointState = new FindRandomTeleportPointState(entity);//вынести это в параметры метода, интерфейс
             TeleportState teleportState = new TeleportState(entity);
             AttackAfterTeleportState attackState = new AttackAfterTeleportState(entity);
 
             TimerService teleportTimer = _timerServiceFactory.Create(entity.TeleportCooldownInitialTime.Value);
             disposables.Add(teleportTimer);
             disposables.Add(waitState.Entered.Subscribe(teleportTimer.Restart));
-
             
             EventLatchCondition<Vector3> teleportExecutedCondition = new EventLatchCondition<Vector3>(entity.TeleportExecutedEvent);
             disposables.Add(teleportExecutedCondition);
             
-            ICompositeCondition canStartTeleport = new CompositeCondition()
+            ICompositeCondition canStartTeleport1 = new CompositeCondition()//доп ICompositeCondition
+                .Add(null);
+            
+            ICompositeCondition canStartTeleport = new CompositeCondition()//добавить тут ещё одно условие на 40% от энергии, сделать это через доп ICompositeCondition 
                 .Add(new FuncCondition(() => teleportTimer.IsOver))
-                .Add(entity.CanTeleport);
+                .Add(entity.CanTeleport)
+                // .Add(canStartTeleport1)
+                ; //доп условия
+
             
             AIStateMachine behavior = new AIStateMachine(disposables);
             
             behavior.AddState(waitState);
+            behavior.AddState(findPointState);
             behavior.AddState(teleportState);
             behavior.AddState(attackState);
 
-            behavior.AddTransition(waitState, teleportState, canStartTeleport);
+            behavior.AddTransition(waitState, findPointState, canStartTeleport);
+            behavior.AddTransition(findPointState, teleportState, new FuncCondition(() => true));
             behavior.AddTransition(teleportState, attackState, teleportExecutedCondition);
             behavior.AddTransition(attackState, waitState, new FuncCondition(() => true));
 

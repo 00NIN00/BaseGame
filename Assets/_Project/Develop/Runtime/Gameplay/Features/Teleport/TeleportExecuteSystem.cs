@@ -9,9 +9,10 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Teleport
 {
     public class TeleportExecuteSystem : IInitializableSystem, IDisposableSystem
     {
-        private ReactiveEvent<Vector3> _teleportPointSelectedEvent;
+        private ReactiveEvent _teleportRequest;
+        private ReactiveVariable<Vector3>  _selectedTeleportPoint;
         private ReactiveEvent<Vector3> _teleportExecutedEvent;
-
+        
         private ICompositeCondition _canTeleport;
 
         private ReactiveVariable<float> _teleportEnergyCost;
@@ -24,9 +25,12 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Teleport
 
         public void OnInit(Entity entity)
         {
-            _teleportPointSelectedEvent = entity.TeleportPointSelectedEvent;
-            _teleportExecutedEvent = entity.TeleportExecutedEvent;
+            _teleportRequest = entity.TeleportRequest;
 
+            _selectedTeleportPoint = entity.SelectedTeleportPoint;
+            
+            _teleportExecutedEvent = entity.TeleportExecutedEvent;
+        
             _canTeleport = entity.CanTeleport;
 
             _teleportEnergyCost = entity.TeleportEnergyCost;
@@ -35,7 +39,7 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Teleport
 
             _transform = entity.Transform;
 
-            _teleportPointSelectedDisposable = _teleportPointSelectedEvent.Subscribe(OnTeleportPointSelected);
+            _teleportPointSelectedDisposable = _teleportRequest.Subscribe(OnTeleportPointSelected);
         }
 
         public void OnDispose()
@@ -43,15 +47,15 @@ namespace _Project.Develop.Runtime.Gameplay.Features.Teleport
             _teleportPointSelectedDisposable.Dispose();
         }
 
-        private void OnTeleportPointSelected(Vector3 targetPoint)
+        private void OnTeleportPointSelected()
         {
             if (_canTeleport.Evaluate())
             {
-                _transform.position = targetPoint;
+                _transform.position = _selectedTeleportPoint.Value;
 
                 _spendEnergyRequest.Invoke(_teleportEnergyCost.Value);
                 
-                _teleportExecutedEvent.Invoke(targetPoint);
+                _teleportExecutedEvent.Invoke(_selectedTeleportPoint.Value);
             }
         }
     }

@@ -356,7 +356,7 @@ namespace _Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new RegenEnergySystem())
                 .AddSystem(new EnergyRegenCooldownTimerSystem())
                 .AddSystem(new AddEnergySystem())
-                .AddSystem(new TeleportPointSelectionSystem())
+                // .AddSystem(new TeleportPointSelectionSystem())
                 .AddSystem(new TeleportExecuteSystem())
                 // .AddSystem(new TeleportCooldownSystem())
                 // .AddSystem(new TeleportProvokeSystem())
