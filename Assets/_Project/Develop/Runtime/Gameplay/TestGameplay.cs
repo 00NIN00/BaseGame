@@ -2,6 +2,7 @@ using _Project.Develop.Runtime.Gameplay.EntitiesCore;
 using _Project.Develop.Runtime.Gameplay.Features.AI;
 using _Project.Develop.Runtime.Gameplay.Features.AI.States;
 using _Project.Develop.Runtime.Infrastructure.DI;
+using _Project.Develop.Runtime.Utilities.Conditions;
 using UnityEngine;
 
 namespace _Project.Develop.Runtime.Gameplay
@@ -39,7 +40,9 @@ namespace _Project.Develop.Runtime.Gameplay
             _ghost = _entitiesFactory.CreateGhost(Vector3.zero + Vector3.forward * 5);
 
             _teleportingCharacter = _entitiesFactory.CreateTeleportingCharacter(Vector3.zero + Vector3.forward * 10);
-            _brainsFactory.CreateTeleportingCharacterBrain(_teleportingCharacter, new FindLowestHpTeleportPoint(_teleportingCharacter, _entitiesLiveContext));
+            var a = new CompositeCondition()
+                .Add(new FuncCondition(() => true));
+            _brainsFactory.CreateTeleportingCharacterBrain(_teleportingCharacter, new FindLowestHpTeleportPoint(_teleportingCharacter, _entitiesLiveContext), true);
             // _entity2 = _entitiesFactory.CreateNewCharacter(Vector3.zero + Vector3.back * 5);
             // _entity = _entitiesFactory.CreateTestPlayerEntity(Vector3.zero);
             

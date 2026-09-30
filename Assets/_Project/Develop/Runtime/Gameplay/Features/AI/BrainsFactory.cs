@@ -74,7 +74,7 @@ namespace _Project.Develop.Runtime.Gameplay.Features.AI
             return brain;
         }
 
-        public StateMachineBrain CreateTeleportingCharacterBrain(Entity entity, IFindTeleportPoint findTeleportPoint)
+        public StateMachineBrain CreateTeleportingCharacterBrain(Entity entity, IFindTeleportPoint findTeleportPoint, bool saveEnergy = false)
         {
             List<IDisposable> disposables = new List<IDisposable>();
             
@@ -90,14 +90,13 @@ namespace _Project.Develop.Runtime.Gameplay.Features.AI
             EventLatchCondition<Vector3> teleportExecutedCondition = new EventLatchCondition<Vector3>(entity.TeleportExecutedEvent);
             disposables.Add(teleportExecutedCondition);
             
-            ICompositeCondition canStartTeleport1 = new CompositeCondition()//доп ICompositeCondition
-                .Add(null);
-            
-            ICompositeCondition canStartTeleport = new CompositeCondition()//добавить тут ещё одно условие на 40% от энергии, сделать это через доп ICompositeCondition 
+            ICompositeCondition canStartTeleport = new CompositeCondition()
                 .Add(new FuncCondition(() => teleportTimer.IsOver))
                 .Add(entity.CanTeleport)
-                // .Add(canStartTeleport1)
-                ; //доп условия
+                .Add(new FuncCondition(() =>
+                    !saveEnergy ||
+                    entity.CurrentEnergy.Value >= entity.MaxEnergy.Value * 0.4f))
+                ; 
 
             
             AIStateMachine behavior = new AIStateMachine(disposables);
