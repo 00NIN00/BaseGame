@@ -7,5 +7,9 @@ namespace _Project.Develop.Runtime.Gameplay.Features.InputFeature
         bool IsEnabled { get; set; }
         
         Vector3 Direction { get; }
+        
+        float RotationDelta { get; }
+
+        bool IsAttackPressed { get; }
     }
 }
