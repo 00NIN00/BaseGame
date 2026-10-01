@@ -64,6 +64,62 @@ namespace _Project.Develop.Runtime.Gameplay.Features.AI
             return brain;
         }
         
+        public StateMachineBrain CreateManualHeroBrain(
+            Entity entity,
+            float mouseSensitivity = 10f)
+        {
+            PlayerInputMovementState movementState =
+                new PlayerInputMovementState(entity, _inputService);
+
+            PlayerInputRotationState rotationState =
+                new PlayerInputRotationState(
+                    entity,
+                    _inputService,
+                    mouseSensitivity);
+
+            AttackTriggerState attackState = new AttackTriggerState(entity);
+
+            ICondition hasMovementInput = new FuncCondition(
+                () => _inputService.Direction != Vector3.zero);
+
+            ICondition hasNoMovementInput = new FuncCondition(
+                () => _inputService.Direction == Vector3.zero);
+
+            ICompositeCondition canStartAttack = new CompositeCondition()
+                .Add(new FuncCondition(() => _inputService.IsAttackPressed))
+                .Add(entity.CanStartAttack);
+
+            ICondition attackFinished = new FuncCondition(
+                () => entity.InAttackProcess.Value == false);
+
+            AIStateMachine stateMachine = new AIStateMachine();
+
+            stateMachine.AddState(movementState);
+            stateMachine.AddState(rotationState);
+            stateMachine.AddState(attackState);
+
+            stateMachine.AddTransition(
+                movementState, rotationState, hasNoMovementInput);
+            
+            stateMachine.AddTransition(
+                rotationState, movementState, hasMovementInput);
+
+            stateMachine.AddTransition(
+                rotationState, attackState, canStartAttack);
+
+            stateMachine.AddTransition(
+                attackState, movementState, hasMovementInput);
+
+            stateMachine.AddTransition(
+                attackState, rotationState, attackFinished);
+
+            StateMachineBrain brain = new StateMachineBrain(stateMachine);
+
+            _brainsContext.SetFor(entity, brain);
+
+            return brain;
+        }
+        
         public StateMachineBrain CreateGhostBrain(Entity entity)
         {
             AIStateMachine stateMachine = CrateRandomMovementStateMachine(entity);

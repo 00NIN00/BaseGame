@@ -35,7 +35,8 @@ namespace _Project.Develop.Runtime.Gameplay
         {
             _entity = _entitiesFactory.CreateHero(Vector3.zero);
             _entity.AddCurrentTarget();
-            _brainsFactory.CreateMainHeroBrain(_entity, new NearestDamageableTargetSelector(_entity));
+            // _brainsFactory.CreateMainHeroBrain(_entity, new NearestDamageableTargetSelector(_entity));
+            _brainsFactory.CreateManualHeroBrain(_entity);
             
             _ghost = _entitiesFactory.CreateGhost(Vector3.zero + Vector3.forward * 5);
 
