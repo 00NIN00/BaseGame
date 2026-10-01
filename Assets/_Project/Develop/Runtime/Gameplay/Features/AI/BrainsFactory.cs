@@ -64,33 +64,28 @@ namespace _Project.Develop.Runtime.Gameplay.Features.AI
             return brain;
         }
         
-        public StateMachineBrain CreateManualHeroBrain(
-            Entity entity,
-            float mouseSensitivity = 10f)
+        public StateMachineBrain CreateManualHeroBrain(Entity entity,
+            float mouseSensitivity = 10f,bool invertRotation = false)
         {
-            PlayerInputMovementState movementState =
-                new PlayerInputMovementState(entity, _inputService);
+            PlayerInputMovementState movementState = new PlayerInputMovementState(entity, _inputService);
 
-            PlayerInputRotationState rotationState =
-                new PlayerInputRotationState(
+            PlayerInputRotationState rotationState = new PlayerInputRotationState(
                     entity,
                     _inputService,
-                    mouseSensitivity);
+                    mouseSensitivity,
+                    invertRotation);
 
             AttackTriggerState attackState = new AttackTriggerState(entity);
 
-            ICondition hasMovementInput = new FuncCondition(
-                () => _inputService.Direction != Vector3.zero);
+            ICondition hasMovementInput = new FuncCondition(() => _inputService.Direction != Vector3.zero);
 
-            ICondition hasNoMovementInput = new FuncCondition(
-                () => _inputService.Direction == Vector3.zero);
+            ICondition hasNoMovementInput = new FuncCondition(() => _inputService.Direction == Vector3.zero);
 
             ICompositeCondition canStartAttack = new CompositeCondition()
                 .Add(new FuncCondition(() => _inputService.IsAttackPressed))
                 .Add(entity.CanStartAttack);
 
-            ICondition attackFinished = new FuncCondition(
-                () => entity.InAttackProcess.Value == false);
+            ICondition attackFinished = new FuncCondition(() => entity.InAttackProcess.Value == false);
 
             AIStateMachine stateMachine = new AIStateMachine();
 

@@ -43,7 +43,7 @@ namespace _Project.Develop.Runtime.Gameplay
             _teleportingCharacter = _entitiesFactory.CreateTeleportingCharacter(Vector3.zero + Vector3.forward * 10);
             var a = new CompositeCondition()
                 .Add(new FuncCondition(() => true));
-            _brainsFactory.CreateTeleportingCharacterBrain(_teleportingCharacter, new FindLowestHpTeleportPoint(_teleportingCharacter, _entitiesLiveContext), true);
+            // _brainsFactory.CreateTeleportingCharacterBrain(_teleportingCharacter, new FindLowestHpTeleportPoint(_teleportingCharacter, _entitiesLiveContext), true);
             // _entity2 = _entitiesFactory.CreateNewCharacter(Vector3.zero + Vector3.back * 5);
             // _entity = _entitiesFactory.CreateTestPlayerEntity(Vector3.zero);
             
