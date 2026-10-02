@@ -82,6 +82,7 @@ namespace _Project.Develop.Runtime.Gameplay
                 _brainsFactory.CreateTeleportingCharacterBrain(_teleportingCharacter, new FindRandomTeleportPointState(_teleportingCharacter));
             
             if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha5))
+                _brainsFactory.CreateTeleportingCharacterBrain(_teleportingCharacter, new FindLowestHpTeleportPoint(_teleportingCharacter, _entitiesLiveContext), true);
         }
     }
 }
