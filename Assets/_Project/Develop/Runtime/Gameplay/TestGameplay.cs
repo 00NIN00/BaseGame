@@ -41,9 +41,8 @@ namespace _Project.Develop.Runtime.Gameplay
             _ghost = _entitiesFactory.CreateGhost(Vector3.zero + Vector3.forward * 5);
 
             _teleportingCharacter = _entitiesFactory.CreateTeleportingCharacter(Vector3.zero + Vector3.forward * 10);
-            var a = new CompositeCondition()
-                .Add(new FuncCondition(() => true));
-            // _brainsFactory.CreateTeleportingCharacterBrain(_teleportingCharacter, new FindLowestHpTeleportPoint(_teleportingCharacter, _entitiesLiveContext), true);
+          
+            
             // _entity2 = _entitiesFactory.CreateNewCharacter(Vector3.zero + Vector3.back * 5);
             // _entity = _entitiesFactory.CreateTestPlayerEntity(Vector3.zero);
             
@@ -72,6 +71,17 @@ namespace _Project.Develop.Runtime.Gameplay
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.I))
                 _brainsFactory.CreateGhostBrain(_ghost);
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha8))
+                _brainsFactory.CreateMainHeroBrain(_entity, new NearestDamageableTargetSelector(_entity));
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha7))
+                _brainsFactory.CreateManualHeroBrain(_entity);
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha4))
+                _brainsFactory.CreateTeleportingCharacterBrain(_teleportingCharacter, new FindRandomTeleportPointState(_teleportingCharacter));
+            
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha5))
         }
     }
 }
